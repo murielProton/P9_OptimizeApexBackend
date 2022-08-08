@@ -1,18 +1,27 @@
-# Salesforce DX Project: Next Steps
+# Short commings of the repository Git OpenClassrooms https://github.com/OpenClassroomsSFDEV/P9_OptimizeApexBackend.git
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+- No -meta.xml files
+- No inventory of all the manual actions to set up a reliable instances of organisation to test the code into
+- The Api names of the fields are in french
 
-## How Do You Plan to Deploy Your Changes?
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+# initial 9 erros and problems preventing the first deployment to Org
 
-## Configure Your Salesforce DX Project
+1 - force-app\main\default\classes\MyTeamOrdersController.cls  File name mismatch with class name: VFC01_Team                                                                     
+2 - force-app\main\default\classes\testUpdateAccountCA.cls     Invalid type: OrderItemItem (24:25)                                                                                       
+3 - force-app\main\default\classes\testUpdateAccountCA.cls     Invalid type: OrderItemItem (22:25)                                                                                       
+4 - force-app\main\default\classes\UpdateAccounts.cls          Variable does not exist: Chiffre_d_affaire__c (17:63)                                                                      
+5 - force-app\main\default\classes\UpdateAccounts.cls          Variable does not exist: Chiffre_d_affaire__c (14:14)                                                                     
+6 - force-app\main\default\classes\UpdateAccounts.cls          Variable does not exist: Chiffre_d_affaire__c (17:30)                                                                     
+7 - force-app\main\default\classes\UpdateAllAccounts.cls       Type name already in use: Batch01AccountChiffreAffaire (1:14)                                                             
+force-app\main\default\triggers\CalculMontant.trigger      Variable does not exist: ShipmentCost__c (4:58)                                                                          
+8 - force-app\main\default\triggers\UpdateAccountCA.trigger    SELECT Id, Chiffre_d_affaire__c FROM Account                                                                              
+9 - ERROR at Row:1:Column:12                                   
+    No such column 'Chiffre_d_affaire__c' on entity 'Account'. If you are attempting to use a custom field, be sure to append the '__c' after the custom field name. Please reference your WSDL or the describe call for the appropriate names. (8:23)
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
 
-## Read All About It
+# Renaming Classes folowing the naming conventions :
+https://github.com/cfpb/salesforce-docs/blob/master/_pages/Salesforce-Naming-Conventions.md
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+# Manual Actions before deployement
+See file : Tasks-prior&after-deployment.csv
