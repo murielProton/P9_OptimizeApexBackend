@@ -25,3 +25,6 @@ https://github.com/cfpb/salesforce-docs/blob/master/_pages/Salesforce-Naming-Con
 
 # Manual Actions before deployement
 See file : Tasks-prior&after-deployment.csv
+
+# Testing Fasha code
+- the batch that updatest 
