@@ -32,5 +32,6 @@ See file : Tasks-prior&after-deployment.csv
 - the trigger en Ammount 
 
 # Changes made in order for the app to work
-- adding exceptions to the OrderNetAmountTrigger
-- adding exceptions to the AccountRevenueTrigger
+- adding exceptions and conditions to the OrderNetAmountTrigger
+- adding two required fields to Order : champs NetAmount__c et ShipmentCost__c
+- adding exceptions and conditions to the AccountRevenueTrigger
