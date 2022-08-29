@@ -27,9 +27,10 @@ https://github.com/cfpb/salesforce-docs/blob/master/_pages/Salesforce-Naming-Con
 See file : Tasks-prior&after-deployment.csv
 
 # Testing Fasha code
-- the batch that updates
-- the trigger on revenues
-- the trigger en Ammount 
+- the batch that updates all Accounts
+- the batch that updates an Account
+- the trigger on Order to calculate TotalAmount
+- the trigger en Order to calculate Account.AccountRevenue__c
 
 # Changes made in order for the app to work
 - adding exceptions and conditions to the OrderNetAmountTrigger
