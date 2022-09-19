@@ -1,4 +1,11 @@
-trigger AccountRevenueTrigger on Order (after update) {
+/**
+ * @description       : 
+ * @author            : Muriel Proton
+ * @group             : 
+ * @last modified on  : 09-19-2022
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
+trigger AccountUpdateTrigger on Order (after update) {
 	
     set<Id> setAccountIds = new set<Id>();
     
