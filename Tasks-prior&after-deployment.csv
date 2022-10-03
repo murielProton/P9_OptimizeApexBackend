@@ -1,5 +1,0 @@
-;;;;;Realized by;;;
-componant API name;Type of componant;Concerned sObject;Type of actions;Comments;Test;INT;UAT;PROD
-Chiffre_d_affaire__c;Custom Field;Account;Prior-deployment;Rename/Creating this field to AccountRevenue__c;Muriel Proton;;;
-ShipmentCost__c ;Custom Field;Order;Prior-deployment;Creating this field ShipmentCost__c;Muriel Proton;;;
-NetAmount__c ;Custom Field;Order;Prior-deployment;Creating this Field NetAmount__c;Muriel Proton;;;
