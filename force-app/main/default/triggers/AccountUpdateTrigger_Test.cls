@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Muriel Proton
  * @group             : 
- * @last modified on  : 10-03-2022
+ * @last modified on  : 10-05-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 /* Some informations on the correct way to juggle between Product2, Pricebook2 and PricebookEntry
@@ -17,7 +17,9 @@ A custom price book is a separate list of products with custom prices, called li
 prices to different market segments, regions, or other subsets of your customers. Create a separate price book for each set of customers that you want to 
 address. For example, if you have one set of prices for domestic customers and another for international customers, create a domestic price book and an 
 international one.
-
+Pricebook standard == true, not updatable. We can work only with the ID of the standard price book. Use Id pricebookId = Test.getStandardPricebookId(); 
+from https://salesforce.stackexchange.com/questions/115098/standard-price-not-defined-no-standard-price-defined-for-this-product
+SOAP **sObject** on google opens directly the documentation of this sObject.
 */
 @isTest
 public with sharing class AccountUpdateTrigger_Test {
@@ -97,12 +99,18 @@ public with sharing class AccountUpdateTrigger_Test {
         return pricebook2;
     }
     static Pricebook2 getPriceBook2Standard(){
+        System.debug('Toto --> ' + Test.getStandardPricebookId());
+        System.debug([
+            Select Id
+            from pricebook2
+            where id =: Test.getStandardPricebookId()
+        ]);
         Pricebook2 pricebook2ToReturn = [SELECT Id,
                                                 Name,
                                                 IsActive,
                                                 IsStandard
                                          FROM PriceBook2
-                                         WHERE isStandard = true
+                                         WHERE Id =: Test.getStandardPricebookId()
                                          LIMIT 1];
         return pricebook2ToReturn;
     }
@@ -116,6 +124,7 @@ public with sharing class AccountUpdateTrigger_Test {
         ));
         insert pricebook2ToInsertForTest;
     }
+    //TODO: To Depreciate
     static void updatePricebook2(String pricebook2Name){
         PriceBook2 pricebook2ToUpdate = getPriceBook2Standard();
         // if the price book in question is not null nore empty
@@ -141,10 +150,9 @@ public with sharing class AccountUpdateTrigger_Test {
     //TODO Unbug this methode
     static void createPriceBookEntry(PriceBook2 pricebookForThisTest, Product2 product2ForThisTest){
         PricebookEntry priceBookEntryToInsert = new PricebookEntry(
-            Pricebook2Id = pricebookForThisTest.Id,
+            Pricebook2Id = Test.getStandardPricebookId(),
             Product2Id = product2ForThisTest.Id,
             UnitPrice = 100.00,
-            UseStandardPrice = true,
             IsActive = true
         );
         insert priceBookEntryToInsert;
