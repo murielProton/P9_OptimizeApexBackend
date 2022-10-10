@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Muriel Proton
  * @group             : 
- * @last modified on  : 10-05-2022
+ * @last modified on  : 10-10-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 /* Some informations on the correct way to juggle between Product2, Pricebook2 and PricebookEntry
@@ -38,7 +38,8 @@ public with sharing class AccountUpdateTrigger_Test {
                                     FROM Account
                                     WHERE Name= :accountID 
                                     LIMIT 1];
-        return accountToReturn.AccountRevenue__c;
+                                    Decimal accountRevenueToReturn = accountToReturn.AccountRevenue__c;
+        return accountRevenueToReturn;
     }
     static void createAccount(String accountName){
         List<Account> accountsToInsertForTest = new List<Account>();
@@ -99,18 +100,20 @@ public with sharing class AccountUpdateTrigger_Test {
         return pricebook2;
     }
     static Pricebook2 getPriceBook2Standard(){
-        System.debug('Toto --> ' + Test.getStandardPricebookId());
+        // this doese not work. We can only get the ID of the PriceBook2 Standard == true
+        System.debug('Id of standard Pricebook --> ' + Test.getStandardPricebookId());
         System.debug([
             Select Id
             from pricebook2
             where id =: Test.getStandardPricebookId()
         ]);
+        Id priceBook2StandardId = Test.getStandardPricebookId();
         Pricebook2 pricebook2ToReturn = [SELECT Id,
                                                 Name,
                                                 IsActive,
                                                 IsStandard
                                          FROM PriceBook2
-                                         WHERE Id =: Test.getStandardPricebookId()
+                                         WHERE Id = :priceBook2StandardId
                                          LIMIT 1];
         return pricebook2ToReturn;
     }
@@ -148,12 +151,22 @@ public with sharing class AccountUpdateTrigger_Test {
         return pricebookEntryToReturn;
     }
     //TODO Unbug this methode
-    static void createPriceBookEntry(PriceBook2 pricebookForThisTest, Product2 product2ForThisTest){
+    static void createPriceBookEntryForPricebookStandard(Product2 product2ForThisTest){
         PricebookEntry priceBookEntryToInsert = new PricebookEntry(
             Pricebook2Id = Test.getStandardPricebookId(),
             Product2Id = product2ForThisTest.Id,
             UnitPrice = 100.00,
             IsActive = true
+        );
+        insert priceBookEntryToInsert;
+    }
+    static void createPriceBookEntry(PriceBook2 pricebookForThisTest, Product2 product2ForThisTest){
+        PricebookEntry priceBookEntryToInsert = new PricebookEntry(
+            Pricebook2Id = pricebookForThisTest.Id,
+            Product2Id = product2ForThisTest.Id,
+            UnitPrice = 100.00,
+            IsActive = true,
+            UseStandardPrice = false
         );
         insert priceBookEntryToInsert;
     }
@@ -172,23 +185,19 @@ public with sharing class AccountUpdateTrigger_Test {
                                             ];
         return listOfOrdersToReturn;
     }
-    public static void createListOfOrders(Account accountForThisTest, Contract contractForThisTest, PriceBook2 pricebookForThisTest){
-        List<Order> ordersToInsertForTest = new List<Order>();
-        //put it into a for i loop
-        for(Integer i=0 ; i<500 ; i++){
-            Double shipmentCost = i*2;
-            ordersToInsertForTest.add(new Order(
-                AccountId = accountForThisTest.Id,
-                ContractId = contractForThisTest.Id,
-                Status = 'Draft',
-                EffectiveDate = Date.today(),
-                ShipmentCost__c = shipmentCost,
-                // essential for the creation of OrderItem
-                Pricebook2Id =  pricebookForThisTest.Id
-                //TotalAmount = not writable This is Why Order links to a Product2 with OrderItem
-            ));
-        }
-        insert ordersToInsertForTest;
+    public static Order constructOneOrder(String orderName, Account accountForThisTest, Contract contractForThisTest, PriceBook2 pricebookForThisTest){
+        Order orderConstructed = new Order(
+            Name = orderName,
+            AccountId = accountForThisTest.Id,
+            ContractId = contractForThisTest.Id,
+            Status = 'Draft',
+            EffectiveDate = Date.today(),
+            ShipmentCost__c = 10,
+            // essential for the creation of OrderItem
+            Pricebook2Id =  pricebookForThisTest.Id
+            //TotalAmount = not writable This is Why Order links to a Product2 with OrderItem
+        );
+        return orderConstructed;
     }
     // TODO get Account.AccountRevenue__c in a Map<Order.ID, AccountRevenue> from list of orders
     /*public static Map<Id, Decimal> getAccountRevenuesForEachOrders(List<Order> listOfOrdersToLink){
@@ -201,9 +210,10 @@ public with sharing class AccountUpdateTrigger_Test {
         return mapOfOrdersIDAndAccountRevenues;
     }*/
     // TODO
-    /*public static void updateOrder(){
-        //TODO foreach loop
-    }*/
+    public static void updateOrder(Order orderToUpdate){
+        orderToUpdate.ShipmentCost__c = 20;
+        update orderToUpdate;
+    }
     public static List<OrderItem> getOrderItemList(Product2 product2ForThisTest, PricebookEntry pricebookEntryForThisTest){
         List<OrderItem> listOfOrderItemsToReturn = [SELECT Id
                                                     FROM OrderItem
@@ -211,7 +221,7 @@ public with sharing class AccountUpdateTrigger_Test {
                                                    ];
         return listOfOrderItemsToReturn;
     }
-    public static void constructOneOrderItem(Order orderForThisTest, Product2 product2ForThisTest, PricebookEntry pricebookEntryForThisTest){
+    public static OrderItem constructOneOrderItem(Order orderForThisTest, Product2 product2ForThisTest, PricebookEntry pricebookEntryForThisTest){
         OrderItem orderItemToInsert = new OrderItem(
             OrderId = orderForThisTest.id,
             Quantity = 24,
@@ -219,7 +229,7 @@ public with sharing class AccountUpdateTrigger_Test {
             Product2Id = product2ForThisTest.id,
             PricebookEntryId = pricebookEntryForThisTest.id
         );
-        
+        return orderItemToInsert;
     }
     
     static void createOrderItemList(Product2 product2ForThisTest, PricebookEntry pricebookEntryForThisTest, List<Order> listOfOrdersToLink){
@@ -243,6 +253,7 @@ public with sharing class AccountUpdateTrigger_Test {
         String accountName = 'Yukako';
         String productName = 'Kinu';
         String pricebook2Name = 'Yukako\'s Price Book';
+        String orderName = 'Yukako\'s Order';
         createAccount(accountName);
         Account accountForThisTest = getAccount(accountName);
         //create a Contract for this Account
@@ -253,36 +264,46 @@ public with sharing class AccountUpdateTrigger_Test {
         createPricebook2(pricebook2Name);
         System.debug('Step Three' );
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
-        // Create Product2 that is linked to PricebookEntry
+        // Create Product2
         createProduct2(productName);
         System.debug('Step Four' );
         // Now make sure the Salesforce process doese create a standard Pricebook2
-        Pricebook2 pricebookByName = getPriceBook2ByName(pricebook2Name);
-        System.debug('Step Five' );
+        Pricebook2 pricebookForThisTest = getPriceBook2ByName(pricebook2Name);
+        System.debug('Step Five ->' + pricebookForThisTest);
         Product2 product2ForThisTest = getProduct2(productName);
-        System.debug('Step Six' ); // doese not work passt here
-        // update the related list of the product record until a standard Pricebook appears !
-        createPriceBookEntry(pricebookByName, product2ForThisTest);
-        System.debug('Step Seven' );
-        List<Pricebook2> pricebookListAll = getPriceBook2List();
-        System.debug('Step eight' );
-        System.debug('list of price ' + pricebookListAll );
-        // TODO Create PricebookEntry and link it to PriceBook2 and Product2 within a standard Pricebook2
-        Pricebook2 pricebookStandard = getPriceBook2Standard();
-        // TODO activate standard Pricebook2
-        System.debug('pricebookStandard ' + pricebookStandard );
-        updatePricebook2(pricebookStandard.Name);
-        System.debug('pricebookStandard ' + pricebookStandard );
-        createPriceBookEntry(pricebookStandard, product2ForThisTest);
-        PricebookEntry pricebookEntryForThisTest = getPricebookEntry(pricebookStandard,product2ForThisTest);
-        System.debug('PricebookEntry ' + pricebookEntryForThisTest );
-        //PriceBook2 pricebookForThisTest = getPriceBook2Standard();
-        
-        /*
+        System.debug('Step Six' ); 
+        // Process needs an entry in th Pricebook2 Standard = true, first ;
+        createPriceBookEntryForPricebookStandard(product2ForThisTest);
+        // then PricebookEntry for normal Pricebook2 can be inserted.
         createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
-        PricebookEntry pricebookEntryForThisTest = getPricebookEntry(pricebookForThisTest,product2ForThisTest);
-        
+        System.debug('Step Seven' );
+        // get contract
         Contract contractForThisTest = getContract(accountForThisTest.Id);
+        System.debug('Step eight ' +contractForThisTest);//<-
+        Account accountForThisTest1 = getAccount(accountName);
+        System.debug('Before insert Account revenue ' + accountForThisTest1.AccountRevenue__c);
+
+        //Create Order
+        Order orderForThisTest = constructOneOrder(orderName, accountForThisTest1, contractForThisTest, pricebookForThisTest);
+        insert orderForThisTest;
+        // Create OrderItem
+        PricebookEntry pricebookEntryForThisTest = getPricebookEntry(pricebookForThisTest, product2ForThisTest);
+        OrderItem constructedOrderItem = constructOneOrderItem(orderForThisTest, product2ForThisTest, pricebookEntryForThisTest);
+        insert constructedOrderItem;
+        Order orderStep8 = getOrder(accountForThisTest, contractForThisTest);
+        System.debug('orderStep8 ' + orderStep8);
+        Account accountForThisTest2 = getAccount(accountName);
+        System.debug('after insert Account ' + accountForThisTest2);
+        System.debug('after insert Account.accountRevenue ' + accountForThisTest2.AccountRevenue__c);
+        System.debug('Step ten');
+
+        // TODO Update Order
+        updateOrder(orderStep8);
+
+        System.debug('after update Order' + getOrder(accountForThisTest, contractForThisTest));
+        System.debug('account after Update Order' + getAccount(accountName));
+        /*
+        TODO
         //Create a bunch of Orders on this Account
         createListOfOrders(accountForThisTest, contractForThisTest, pricebookForThisTest);
         // get the list of Orders to Link to a Price with OrderItem
@@ -299,7 +320,7 @@ public with sharing class AccountUpdateTrigger_Test {
         String productName = 'Kinu';
         String accountName = 'Yukako';
         Account accountForThisTest = getAccount(accountName);
-        System.debug('account');
+        /*System.debug('account');
         System.debug('Account ID  '+accountForThisTest.Id);
         Product2 product2ForThisTest = getProduct2(productName);
         Pricebook2 pricebookForThisTest = getPriceBook2Standard();
@@ -322,7 +343,7 @@ public with sharing class AccountUpdateTrigger_Test {
         System.debug('Account');
         System.debug('accountToReturn Id  '+accountForThisTest.Id);
         System.debug('account Revenue  '+accountForThisTest.AccountRevenue__c);
-        System.debug('Account Name  '+accountForThisTest.Name);
+        System.debug('Account Name  '+accountForThisTest.Name);*/
         System.assertEquals(0 , 0, 'this is fake' );
     }
 }
