@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Muriel Proton
  * @group             : 
- * @last modified on  : 09-19-2022
+ * @last modified on  : 10-10-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 trigger AccountUpdateTrigger on Order (after update) {
@@ -13,7 +13,12 @@ trigger AccountUpdateTrigger on Order (after update) {
         Order newOrder= trigger.new[i];
        
         Account acc = [SELECT Id, AccountRevenue__c FROM Account WHERE Id =:newOrder.AccountId ];
-        acc.AccountRevenue__c = acc.AccountRevenue__c + newOrder.TotalAmount;
+        System.debug('TRIGGER account debug '+acc);
+        if(acc.AccountRevenue__c == null){
+            acc.AccountRevenue__c = newOrder.TotalAmount;
+        }else{
+            acc.AccountRevenue__c = acc.AccountRevenue__c + newOrder.TotalAmount;
+        }
         update acc;
     }
 }
