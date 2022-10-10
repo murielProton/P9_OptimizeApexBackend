@@ -247,42 +247,33 @@ public with sharing class AccountUpdateTrigger_Test {
         }
         insert listOfOrderItems;
     }
+    // init class variables
+    private static String accountName = 'Yukako';
+    private static String productName = 'Kinu';
+    private static String pricebook2Name = 'Yukako\'s Price Book';
+    private static String orderName = 'Yukako\'s Order';
     @TestSetup
     static void setupForTestAccountUpdateTrigger(){
         //Ceate an Account
-        String accountName = 'Yukako';
-        String productName = 'Kinu';
-        String pricebook2Name = 'Yukako\'s Price Book';
-        String orderName = 'Yukako\'s Order';
         createAccount(accountName);
         Account accountForThisTest = getAccount(accountName);
         //create a Contract for this Account
-        System.debug('Step one' );
         createContract(accountForThisTest);
-        System.debug('Step Two' );
         // Make sure the Pricebook2 entry is active and standard
         createPricebook2(pricebook2Name);
-        System.debug('Step Three' );
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
         // Create Product2
         createProduct2(productName);
-        System.debug('Step Four' );
         // Now make sure the Salesforce process doese create a standard Pricebook2
         Pricebook2 pricebookForThisTest = getPriceBook2ByName(pricebook2Name);
-        System.debug('Step Five ->' + pricebookForThisTest);
         Product2 product2ForThisTest = getProduct2(productName);
-        System.debug('Step Six' ); 
         // Process needs an entry in th Pricebook2 Standard = true, first ;
         createPriceBookEntryForPricebookStandard(product2ForThisTest);
         // then PricebookEntry for normal Pricebook2 can be inserted.
         createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
-        System.debug('Step Seven' );
         // get contract
         Contract contractForThisTest = getContract(accountForThisTest.Id);
-        System.debug('Step eight ' +contractForThisTest);//<-
         Account accountForThisTest1 = getAccount(accountName);
-        System.debug('Before insert Account revenue ' + accountForThisTest1.AccountRevenue__c);
-
         //Create Order
         Order orderForThisTest = constructOneOrder(orderName, accountForThisTest1, contractForThisTest, pricebookForThisTest);
         insert orderForThisTest;
@@ -290,60 +281,29 @@ public with sharing class AccountUpdateTrigger_Test {
         PricebookEntry pricebookEntryForThisTest = getPricebookEntry(pricebookForThisTest, product2ForThisTest);
         OrderItem constructedOrderItem = constructOneOrderItem(orderForThisTest, product2ForThisTest, pricebookEntryForThisTest);
         insert constructedOrderItem;
-        Order orderStep8 = getOrder(accountForThisTest, contractForThisTest);
-        System.debug('orderStep8 ' + orderStep8);
-        Account accountForThisTest2 = getAccount(accountName);
-        System.debug('after insert Account ' + accountForThisTest2);
-        System.debug('after insert Account.accountRevenue ' + accountForThisTest2.AccountRevenue__c);
-        System.debug('Step ten');
-
-        // TODO Update Order
-        updateOrder(orderStep8);
-
-        System.debug('after update Order' + getOrder(accountForThisTest, contractForThisTest));
-        System.debug('account after Update Order' + getAccount(accountName));
-        /*
-        TODO
-        //Create a bunch of Orders on this Account
-        createListOfOrders(accountForThisTest, contractForThisTest, pricebookForThisTest);
-        // get the list of Orders to Link to a Price with OrderItem
-        List<Order> listOfOrdersToLink = getOrdersListToLinkWithOrderItem(accountForThisTest, contractForThisTest, pricebookForThisTest );
-        // link the list of Orders with OrderItem to a Price
-        createOrderItemList(product2ForThisTest, pricebookEntryForThisTest, listOfOrdersToLink);
-        //TODO for each orders of the listOfOrdersToLink get Account.AccountRevenue__c in a Map before update
-        //TODO Update the bunch of Orders
-        //TODO for each orders of the listOfOrdersToLink get Account.AccountRevenue__c in a Map after update
-        //TODO Check tha the old Account.AccountRevenue__c is different from the new one*/
+        
     }
     @isTest
     static void testAccountUpdateTrigger(){
-        String productName = 'Kinu';
-        String accountName = 'Yukako';
+        //init Test
         Account accountForThisTest = getAccount(accountName);
-        /*System.debug('account');
-        System.debug('Account ID  '+accountForThisTest.Id);
-        Product2 product2ForThisTest = getProduct2(productName);
-        Pricebook2 pricebookForThisTest = getPriceBook2Standard();
-        PricebookEntry pricebookEntryForThisTest = getPricebookEntry(pricebookForThisTest, product2ForThisTest);
-        
-
         Contract contractForThisTest = getContract(accountForThisTest.Id);
+        // get the field to test before update
+        Decimal accountRevenueBeforeUpdate = accountForThisTest.AccountRevenue__c;
 
-        List<Order> listOfOrdersToLink = getOrdersListToLinkWithOrderItem(accountForThisTest, contractForThisTest, pricebookForThisTest );
-        List<OrderItem> listOfOrderItems = getOrderItemList(product2ForThisTest, pricebookEntryForThisTest);
-        System.debug('Order Item');
-        System.debug('Order Item ID  '+listOfOrderItems[0].Id);
-        System.debug('Order Item this order  '+listOfOrderItems[0].OrderId);
-        System.debug('Order Item Unit price  '+listOfOrderItems[0].UnitPrice);
-        System.debug('Order Item quantity  '+listOfOrderItems[0].Quantity);
-        System.debug('Order');
-        System.debug('Order ID  '+listOfOrdersToLink[0].Id);
-        System.debug('account of this order  '+listOfOrdersToLink[0].AccountId);
-        System.debug('Order Total Amount  '+listOfOrdersToLink[0].TotalAmount);
-        System.debug('Account');
-        System.debug('accountToReturn Id  '+accountForThisTest.Id);
-        System.debug('account Revenue  '+accountForThisTest.AccountRevenue__c);
-        System.debug('Account Name  '+accountForThisTest.Name);*/
-        System.assertEquals(0 , 0, 'this is fake' );
+        //get the order for the test
+        Order orderForTheTest = getOrder(accountForThisTest, contractForThisTest);
+
+        // Update Order
+        Test.startTest();
+        updateOrder(orderForTheTest);
+        Test.stopTest();
+
+        // get the field to test aftier update
+        Decimal accountRevenueAfterUpdate = getAccount(accountName).AccountRevenue__c;
+
+        // test if the two values are different
+        Boolean isAccountRevenueChanged = accountRevenueBeforeUpdate != accountRevenueAfterUpdate;     
+        System.assertEquals(isAccountRevenueChanged, true, 'After updating Order, the field AccountRevenue on Account should Change.');
     }
 }
