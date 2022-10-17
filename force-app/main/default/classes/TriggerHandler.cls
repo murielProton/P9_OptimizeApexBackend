@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-10-2022
+ * @last modified on  : 10-17-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public abstract class TriggerHandler{
@@ -46,7 +46,7 @@ public abstract class TriggerHandler{
      * @Returns : the context of the trigger.
      */
     public void run() {
-  
+  System.debug('Run in Trigger handler');
       if(!validateRun()) {
         return;
       }
@@ -68,6 +68,7 @@ public abstract class TriggerHandler{
           this.afterInsert();
         }
         when AFTER_UPDATE {
+          System.debug('Run in Trigger handler After update');
           this.afterUpdate();
         }
         when AFTER_DELETE {

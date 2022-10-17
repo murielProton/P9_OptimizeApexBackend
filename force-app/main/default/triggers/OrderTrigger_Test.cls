@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Muriel Proton
  * @group             : 
- * @last modified on  : 10-10-2022
+ * @last modified on  : 10-17-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 /* Some informations on the correct way to juggle between Product2, Pricebook2 and PricebookEntry
@@ -30,8 +30,10 @@ public with sharing class OrderTrigger_Test {
 
     @TestSetup
     static void setupForTestAccountUpdateTrigger(){
-        //Ceate an Account
+        //Create an Account
         Account_DataFactory.createAccount(accountName);
+        //Create 5 Accounts
+        Account_DataFactory.createAccountsList();
         Account accountForThisTest = Account_DataFactory.getAccount(accountName);
         //create a Contract for this Account
         Contract_DataFactory.createContract(accountForThisTest);
