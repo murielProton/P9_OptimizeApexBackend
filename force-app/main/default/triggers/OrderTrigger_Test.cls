@@ -31,54 +31,52 @@ public with sharing class OrderTrigger_Test {
     @TestSetup
     static void setupForTestAccountUpdateTrigger(){
         //Create an Account
-        Account_DataFactory.createAccount(accountName);
-        //Create 5 Accounts
-        Account_DataFactory.createAccountsList();
-        Account accountForThisTest = Account_DataFactory.getAccount(accountName);
+        Account_TestDataFactory.createAccount(accountName);
+        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
         //create a Contract for this Account
-        Contract_DataFactory.createContract(accountForThisTest);
+        Contract_TestDataFactory.createContract(accountForThisTest);
         // Make sure the Pricebook2 entry is active and standard
-        Pricebook2_DataFactory.createPricebook2(pricebook2Name);
+        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
         // Create Product2
-        Product2_DataFactory.createProduct2(productName);
+        Product2_TestDataFactory.createProduct2(productName);
         // Now make sure the Salesforce process doese create a standard Pricebook2
-        Pricebook2 pricebookForThisTest = Pricebook2_DataFactory.getPriceBook2ByName(pricebook2Name);
-        Product2 product2ForThisTest = Product2_DataFactory.getProduct2(productName);
+        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
         // Process needs an entry in th Pricebook2 Standard = true, first ;
-        PricebookEntry_DataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
+        PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
         // then PricebookEntry for normal Pricebook2 can be inserted.
-        PricebookEntry_DataFactory.createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
+        PricebookEntry_TestDataFactory.createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
         // get contract
-        Contract contractForThisTest = Contract_DataFactory.getContract(accountForThisTest.Id);
-        Account accountForThisTest1 = Account_DataFactory.getAccount(accountName);
+        Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
+        Account accountForThisTest1 = Account_TestDataFactory.getAccount(accountName);
         //Create Order
-        Order orderForThisTest = Order_DataFactory.constructOneOrder( accountForThisTest1, contractForThisTest, pricebookForThisTest);
+        Order orderForThisTest = Order_TestDataFactory.constructOneOrder( accountForThisTest1, contractForThisTest, pricebookForThisTest);
         insert orderForThisTest;
         // Create OrderItem
-        PricebookEntry pricebookEntryForThisTest = PricebookEntry_DataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
-        OrderItem constructedOrderItem = OrderItem_DataFactory.constructOneOrderItem(orderForThisTest, product2ForThisTest, pricebookEntryForThisTest);
+        PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
+        OrderItem constructedOrderItem = OrderItem_TestDataFactory.constructOneOrderItem(orderForThisTest, product2ForThisTest, pricebookEntryForThisTest);
         insert constructedOrderItem;
         
     }
     @isTest
     static void testAccountUpdateTrigger(){
         //init Test
-        Account accountForThisTest = Account_DataFactory.getAccount(accountName);
-        Contract contractForThisTest = Contract_DataFactory.getContract(accountForThisTest.Id);
+        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
         // get the field to test before update
         Decimal accountRevenueBeforeUpdate = accountForThisTest.AccountRevenue__c;
 
         //get the order for the test
-        Order orderForTheTest = Order_DataFactory.getOrder(accountForThisTest, contractForThisTest);
+        Order orderForTheTest = Order_TestDataFactory.getOrder(accountForThisTest, contractForThisTest);
 
         // Update Order
         Test.startTest();
-        Order_DataFactory.updateOrder(orderForTheTest);
+        Order_TestDataFactory.updateOrder(orderForTheTest);
         Test.stopTest();
 
         // get the field to test aftier update
-        Decimal accountRevenueAfterUpdate = Account_DataFactory.getAccount(accountName).AccountRevenue__c;
+        Decimal accountRevenueAfterUpdate = Account_TestDataFactory.getAccount(accountName).AccountRevenue__c;
 
         // test if the two values are different
         Boolean isAccountRevenueChanged = accountRevenueBeforeUpdate != accountRevenueAfterUpdate;     

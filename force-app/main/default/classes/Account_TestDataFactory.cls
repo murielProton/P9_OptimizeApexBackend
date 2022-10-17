@@ -5,7 +5,7 @@
  * @last modified on  : 10-17-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-public with sharing class Account_DataFactory {
+public with sharing class Account_TestDataFactory {
     public static Account getAccount(String accountName){
         Account accountToReturn = [SELECT Id,
                                           AccountRevenue__c,

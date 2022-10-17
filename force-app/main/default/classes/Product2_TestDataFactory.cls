@@ -2,10 +2,10 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-10-2022
+ * @last modified on  : 10-17-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-public with sharing class Product2_DataFactory {
+public with sharing class Product2_TestDataFactory {
     public static Product2 getProduct2(String productName){
         Product2 product2toReturn = [SELECT Id,
                                             Name,

@@ -2,10 +2,10 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-10-2022
+ * @last modified on  : 10-17-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-public with sharing class Pricebook2_DataFactory {
+public with sharing class Pricebook2_TestDataFactory {
 
     public static Pricebook2 getPriceBook2ByName(String pricebookName){
         Pricebook2 pricebook2 = [SELECT Id,

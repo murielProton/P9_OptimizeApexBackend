@@ -2,10 +2,10 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-10-2022
+ * @last modified on  : 10-17-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-public with sharing class Order_DataFactory {
+public with sharing class Order_TestDataFactory {
     public static String orderName = 'Yukako\'s Order';
     public static Order getOrder(Account accountForThisTest, Contract contractForThisTest){
         Order orderToReturn = [SELECT Id, AccountId, TotalAmount
