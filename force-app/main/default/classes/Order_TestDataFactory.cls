@@ -8,7 +8,7 @@
 public with sharing class Order_TestDataFactory {
     public static String orderName = 'Yukako\'s Order';
     public static Order getOrder(Account accountForThisTest, Contract contractForThisTest){
-        Order orderToReturn = [SELECT Id, AccountId, TotalAmount
+        Order orderToReturn = [SELECT Id, AccountId, TotalAmount, ShipmentCost__c
                                FROM Order
                                WHERE AccountId = :accountForThisTest.Id AND ContractId = :contractForThisTest.Id
                                LIMIT 1];
@@ -30,7 +30,7 @@ public with sharing class Order_TestDataFactory {
         return orderConstructed;
     }
 
-    public static void updateOrder(Order orderToUpdate){
+    public static void updateOrderShipmentCost(Order orderToUpdate){
         orderToUpdate.ShipmentCost__c = 20;
         update orderToUpdate;
     }

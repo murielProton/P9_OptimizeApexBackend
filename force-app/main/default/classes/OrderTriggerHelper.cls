@@ -6,7 +6,7 @@
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class OrderTriggerHelper{
-    // Todo ??? get this methode forem Account_DataFactory
+    // Todo ??? get this methode forem Account_TestDataFactory
     public static List<Account> getAccountListAll(){
         
         List<Account> accountList = [SELECT Id, 
@@ -49,8 +49,17 @@ public with sharing class OrderTriggerHelper{
         }
         return accountsListToUpdate;
     }
-    
-    public static void setAccountRevenue(List<Order> orderListNew, List<Order> orderListOld){
+    // Used in Trigger OrderTrigger before Update
+    public static List<Order> getOrdersListWithUpdatedNetAmounts(List<Order> orderListNew){
+        List<Order> ordersListToUpdate = new List<Order>();
+        for(Order orderCurrent : orderListNew){
+            orderCurrent.NetAmount__c = orderCurrent.TotalAmount - orderCurrent.ShipmentCost__c;
+            ordersListToUpdate.add(orderCurrent);
+        }
+    return ordersListToUpdate;
+    }
+    // Used in Trigger OrderTrigger after Update
+    public static void updateListOfAccountsRevenue(List<Order> orderListNew, List<Order> orderListOld){
         
         List<Account> accountsListAll = getAccountListAll();
         Set<Account> accountsSetAll = convertAccountListIntoSet(accountsListAll);
@@ -72,5 +81,10 @@ public with sharing class OrderTriggerHelper{
             update acc;
         }*/
         update accountsListToUpdate;
+    }
+    // Todo methode used in Trigger OrderTrigger before update
+    public static void updateListOfOrdersNetAmounts(List<Order> orderListNew, List<Order> orderListOld){
+        List<Order> ordersListToUpdate = getOrdersListWithUpdatedNetAmounts(orderListNew);
+        update ordersListToUpdate;
     }
 }

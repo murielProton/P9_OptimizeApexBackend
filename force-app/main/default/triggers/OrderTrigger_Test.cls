@@ -72,7 +72,7 @@ public with sharing class OrderTrigger_Test {
 
         // Update Order
         Test.startTest();
-        Order_TestDataFactory.updateOrder(orderForTheTest);
+        Order_TestDataFactory.updateOrderShipmentCost(orderForTheTest);
         Test.stopTest();
 
         // get the field to test aftier update
@@ -81,5 +81,26 @@ public with sharing class OrderTrigger_Test {
         // test if the two values are different
         Boolean isAccountRevenueChanged = accountRevenueBeforeUpdate != accountRevenueAfterUpdate;     
         System.assertEquals(isAccountRevenueChanged, true, 'After updating Order, the field AccountRevenue on Account should Change.');
+    }
+    @isTest
+    static void testOrderBeforeUpdateTrigger(){
+        //init Test
+        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
+        //get the Order's ShipmentCost__c beforre test
+        Order orderForTheTest = Order_TestDataFactory.getOrder(accountForThisTest, contractForThisTest);
+        Decimal orderShipmentCostBeforeUpdate = orderForTheTest.ShipmentCost__c;
+
+        // Update Order
+        Test.startTest();
+        Order_TestDataFactory.updateOrderShipmentCost(orderForTheTest);
+        Test.stopTest();
+
+        //get the Order's ShipmentCost__c after test
+        Decimal orderShipmentCostAfterUpdate = orderForTheTest.ShipmentCost__c;
+
+        // test if the two values are different
+        Boolean isOrderShipmentCostChanged = orderShipmentCostBeforeUpdate != orderShipmentCostAfterUpdate;     
+        System.assertEquals(isOrderShipmentCostChanged, true, 'After updating Order, the field ShipmentCost__c on Order should Change.');
     }
 }
