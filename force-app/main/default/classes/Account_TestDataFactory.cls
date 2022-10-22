@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-17-2022
+ * @last modified on  : 10-22-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class Account_TestDataFactory {
@@ -20,9 +20,9 @@ public with sharing class Account_TestDataFactory {
         accountsToInsertForTest.add(new Account(Name = accountName));
         insert accountsToInsertForTest;
     }
-    public static void createAccountsList(){
+    public static void createAccountsList(Integer numberOfAccounts){
         List<Account> accountsToInsertForTest = new List<Account>();
-        for(Integer i = 0 ; i < 5 ; i++){
+        for(Integer i = 0 ; i < numberOfAccounts ; i++){
             accountsToInsertForTest.add(new Account(Name = 'accountName-'+i));
         }
         insert accountsToInsertForTest;
