@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-17-2022
+ * @last modified on  : 10-22-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -41,7 +41,7 @@ public with sharing class Account_TestDataFactory_Test {
     public static void testingCreateAccountsList(){
         String nameLike = 'accountName-%';
         Test.startTest();
-        Account_TestDataFactory.createAccountsList();
+        Account_TestDataFactory.createAccountsList(5);
         Test.stopTest();
         List<Account> accountsListToTest = [SELECT Id,
                                                     AccountRevenue__c,
@@ -50,6 +50,6 @@ public with sharing class Account_TestDataFactory_Test {
                                             WHERE Name LIKE :nameLike
                                            ];
 
-        System.assertEquals(accountsListToTest.size(), 5, 'createAccountsList() from Account_TestDataFactory should create more than one records.');
+        System.assertEquals(accountsListToTest.size(), 5, 'createAccountsList(List size) from Account_TestDataFactory should create more than one records.');
     }
 }
