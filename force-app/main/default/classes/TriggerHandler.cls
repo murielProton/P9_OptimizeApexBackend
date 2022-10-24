@@ -46,7 +46,6 @@ public virtual class TriggerHandler{
      * @Returns : the context of the trigger.
      */
     public void run() {
-  System.debug('Run in Trigger handler');
       if(!validateRun()) {
         return;
       }
@@ -68,7 +67,6 @@ public virtual class TriggerHandler{
           this.afterInsert();
         }
         when AFTER_UPDATE {
-          System.debug('Run in Trigger handler After update');
           this.afterUpdate();
         }
         when AFTER_DELETE {
