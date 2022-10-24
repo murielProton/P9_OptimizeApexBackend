@@ -14,7 +14,14 @@ public with sharing class Order_TestDataFactory {
                                LIMIT 1];
         return orderToReturn;
     }
-
+    public static List<Order> getOrdersAll(){
+        List<Order> orderList = [SELECT Id, 
+                                        AccountId, 
+                                        TotalAmount, 
+                                        ShipmentCost__c 
+                                  FROM Order];
+        return orderList;
+    }
     public static Order constructOneOrder(Id accountID, Id contractID , PriceBook2 pricebookForThisTest){
         Order orderConstructed = new Order(
             Name = orderName,
