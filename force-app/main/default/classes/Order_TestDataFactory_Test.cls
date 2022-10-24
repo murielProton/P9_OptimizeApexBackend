@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-22-2022
+ * @last modified on  : 10-24-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -55,7 +55,7 @@ public with sharing class Order_TestDataFactory_Test {
         Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
 
         Test.startTest();
-        Order orderForThisTest = Order_TestDataFactory.constructOneOrder( accountForThisTest, contractForThisTest, pricebookForThisTest);
+        Order orderForThisTest = Order_TestDataFactory.constructOneOrder( accountForThisTest.ID, contractForThisTest.ID, pricebookForThisTest);
         Test.stopTest();
 
         System.assertEquals(orderForThisTest.Status, 'Draft', 'Order_TestDataFactory.constructOneOrder should create one order.');

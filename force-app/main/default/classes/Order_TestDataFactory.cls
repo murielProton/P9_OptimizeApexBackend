@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-17-2022
+ * @last modified on  : 10-24-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class Order_TestDataFactory {
@@ -15,11 +15,11 @@ public with sharing class Order_TestDataFactory {
         return orderToReturn;
     }
 
-    public static Order constructOneOrder(Account accountForThisTest, Contract contractForThisTest, PriceBook2 pricebookForThisTest){
+    public static Order constructOneOrder(Id accountID, Id contractID , PriceBook2 pricebookForThisTest){
         Order orderConstructed = new Order(
             Name = orderName,
-            AccountId = accountForThisTest.Id,
-            ContractId = contractForThisTest.Id,
+            AccountId = accountID,
+            ContractId = contractID,
             Status = 'Draft',
             EffectiveDate = Date.today(),
             ShipmentCost__c = 10,

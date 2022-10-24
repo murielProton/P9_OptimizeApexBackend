@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Muriel Proton
  * @group             : 
- * @last modified on  : 10-17-2022
+ * @last modified on  : 10-24-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 /* Some informations on the correct way to juggle between Product2, Pricebook2 and PricebookEntry
@@ -51,7 +51,7 @@ public with sharing class OrderTrigger_Test {
         Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
         Account accountForThisTest1 = Account_TestDataFactory.getAccount(accountName);
         //Create Order
-        Order orderForThisTest = Order_TestDataFactory.constructOneOrder( accountForThisTest1, contractForThisTest, pricebookForThisTest);
+        Order orderForThisTest = Order_TestDataFactory.constructOneOrder( accountForThisTest1.Id, contractForThisTest.Id, pricebookForThisTest);
         insert orderForThisTest;
         // Create OrderItem
         PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
