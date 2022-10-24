@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-17-2022
+ * @last modified on  : 10-24-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class PricebookEntry_TestDataFactory {
@@ -20,7 +20,7 @@ public with sharing class PricebookEntry_TestDataFactory {
                                                 LIMIT 1];
         return pricebookEntryToReturn;
     }
-    //Unbug this methode
+    
     public static void createPriceBookEntryForPricebookStandard(Product2 product2ForThisTest){
         PricebookEntry priceBookEntryToInsert = new PricebookEntry(
             Pricebook2Id = Test.getStandardPricebookId(),
