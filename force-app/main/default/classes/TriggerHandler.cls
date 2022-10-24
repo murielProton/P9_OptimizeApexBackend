@@ -2,10 +2,10 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-17-2022
+ * @last modified on  : 10-24-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-public abstract class TriggerHandler{
+public virtual class TriggerHandler{
 
     // static map of handlername, times run() was invoked
     private static Map<String, LoopCount> loopCountMap;
