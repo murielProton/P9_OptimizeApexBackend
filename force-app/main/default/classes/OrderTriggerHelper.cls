@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-17-2022
+ * @last modified on  : 10-24-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class OrderTriggerHelper{
@@ -53,6 +53,15 @@ public with sharing class OrderTriggerHelper{
     public static List<Order> getOrdersListWithUpdatedNetAmounts(List<Order> orderListNew){
         List<Order> ordersListToUpdate = new List<Order>();
         for(Order orderCurrent : orderListNew){
+            if(orderCurrent.ShipmentCost__c == Null){
+                orderCurrent.ShipmentCost__c = 0;
+            }
+            if(orderCurrent.TotalAmount == Null){
+                // field NetAmount__c not wrightable
+                orderCurrent.NetAmount__c = 0 - orderCurrent.ShipmentCost__c;
+                ordersListToUpdate.add(orderCurrent);
+                continue;
+            }
             orderCurrent.NetAmount__c = orderCurrent.TotalAmount - orderCurrent.ShipmentCost__c;
             ordersListToUpdate.add(orderCurrent);
         }
