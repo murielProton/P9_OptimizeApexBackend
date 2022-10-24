@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-22-2022
+ * @last modified on  : 10-24-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -24,6 +24,13 @@ public with sharing class Contract_TestDataFactory_Test {
         Contract contractToTest = Contract_TestDataFactory.getContract(accountToTest.Id);
         Test.stopTest();
         System.assertEquals(contractToTest.AccountId, accountToTest.Id, 'Order_TestDataFactory.getContract(accountToTest.Id) should return a least one Contract.');
+    }
+    @isTest
+    static void testGetContractsAll(){
+        Test.startTest();
+        List<Contract> contractList = Contract_TestDataFactory.getContractsAll();
+        Test.stopTest();
+        System.assertEquals(contractList.size(), 1, 'Order_TestDataFactory.getContractsAll should get a least one Contract.');
     }
     @isTest
     static void testCreateContractWithAccount(){
