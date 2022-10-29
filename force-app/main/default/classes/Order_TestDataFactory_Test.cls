@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-24-2022
+ * @last modified on  : 10-29-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -81,10 +81,24 @@ public with sharing class Order_TestDataFactory_Test {
         Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
 
         Test.startTest();
-        Order orderForThisTest = Order_TestDataFactory.constructOneOrder( accountForThisTest.ID, contractForThisTest.ID, pricebookForThisTest);
+        Order orderForThisTest = Order_TestDataFactory.constructOneOrder( orderName, accountForThisTest.ID, contractForThisTest.ID, pricebookForThisTest);
         Test.stopTest();
 
         System.assertEquals(orderForThisTest.Status, 'Draft', 'Order_TestDataFactory.constructOneOrder should create one order.');
+    }
+    @isTest
+    static void testCreateOrdersList(){
+        // get sObjects for Test
+        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
+
+        Test.startTest();
+        Order_TestDataFactory.createOrdersList(100, accountForThisTest.Id, contractForThisTest.Id , pricebookForThisTest);
+        Test.stopTest();
+
+        List<Order> ordersListToTest = Order_TestDataFactory.getOrdersAll();
+        System.assertEquals(ordersListToTest.size(), 100, 'Order_TestDataFactory.createOrdersList should create 100 records of Orders.');
     }
     @isTest
     static void testUpdateOrderShipmentCost(){

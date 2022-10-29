@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-24-2022
+ * @last modified on  : 10-29-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 
@@ -35,7 +35,7 @@ public with sharing class OrderItem_TestDataFactory_Test {
         Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
         Account accountForThisTest1 = Account_TestDataFactory.getAccount(accountName);
         //Create Order
-        Order orderForThisTest = Order_TestDataFactory.constructOneOrder( accountForThisTest1.Id, contractForThisTest.Id, pricebookForThisTest);
+        Order orderForThisTest = Order_TestDataFactory.constructOneOrder( orderName, accountForThisTest1.Id, contractForThisTest.Id, pricebookForThisTest);
         insert orderForThisTest;
 
     }

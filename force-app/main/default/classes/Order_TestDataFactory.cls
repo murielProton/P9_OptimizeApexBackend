@@ -2,11 +2,10 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-24-2022
+ * @last modified on  : 10-29-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class Order_TestDataFactory {
-    public static String orderName = 'Yukako\'s Order';
     public static Order getOrder(Account accountForThisTest, Contract contractForThisTest){
         Order orderToReturn = [SELECT Id, AccountId, TotalAmount, ShipmentCost__c
                                FROM Order
@@ -22,7 +21,7 @@ public with sharing class Order_TestDataFactory {
                                   FROM Order];
         return orderList;
     }
-    public static Order constructOneOrder(Id accountID, Id contractID , PriceBook2 pricebookForThisTest){
+    public static Order constructOneOrder(String orderName, Id accountID, Id contractID , PriceBook2 pricebookForThisTest){
         Order orderConstructed = new Order(
             Name = orderName,
             AccountId = accountID,
@@ -36,6 +35,14 @@ public with sharing class Order_TestDataFactory {
         );
         return orderConstructed;
     }
+    public static void createOrdersList(Integer numberOfOrdersToCreate, Id accountID, Id contractID , PriceBook2 pricebookForThisTest){
+        List<Order> ordersList = new List<Order>();
+        String orderName = 'Order-';
+        for(Integer i=0 ; i<numberOfOrdersToCreate ; i++){
+            ordersList.add(constructOneOrder(orderName+i, accountID, contractID , pricebookForThisTest));
+        }
+        insert ordersList;
+    } 
 
     public static void updateOrderShipmentCost(Order orderToUpdate){
         orderToUpdate.ShipmentCost__c = 20;

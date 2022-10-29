@@ -2,12 +2,13 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-24-2022
+ * @last modified on  : 10-29-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 
 @isTest
 public with sharing class OrderTriggerHelper_Test {
+    private static String orderName = 'Yukako\'s Order';
     @TestSetup
     static void setupOrderTriggerHelper_Test(){
         Account_TestDataFactory.createAccountsList(5);
@@ -42,7 +43,7 @@ public with sharing class OrderTriggerHelper_Test {
         //Create Orders
         List<Order> ordersList = new List<Order>();
         for (Account currentAccount : accountsListForThisTest){
-            Order orderForThisTest = Order_TestDataFactory.constructOneOrder( currentAccount.Id, contractForThisTest.Id, pricebookForThisTest);
+            Order orderForThisTest = Order_TestDataFactory.constructOneOrder(orderName, currentAccount.Id, contractForThisTest.Id, pricebookForThisTest);
             ordersList.add(orderForThisTest);
         }
 
@@ -83,7 +84,7 @@ public with sharing class OrderTriggerHelper_Test {
         //Create Orders
         List<Order> ordersList = new List<Order>();
         for(Contract contractCurrent : contractsListForThisTest){
-            Order orderForThisTest = Order_TestDataFactory.constructOneOrder( contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
+            Order orderForThisTest = Order_TestDataFactory.constructOneOrder( orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
             ordersList.add(orderForThisTest);
         }
         insert(ordersList);
@@ -114,7 +115,7 @@ public with sharing class OrderTriggerHelper_Test {
         //Create Orders
         List<Order> ordersList = new List<Order>();
         for(Contract contractCurrent : contractsListForThisTest){
-            Order orderForThisTest = Order_TestDataFactory.constructOneOrder( contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
+            Order orderForThisTest = Order_TestDataFactory.constructOneOrder(orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
             ordersList.add(orderForThisTest);
         }
         insert(ordersList);
@@ -143,7 +144,7 @@ public with sharing class OrderTriggerHelper_Test {
         //Create Orders
         List<Order> orderListOld = new List<Order>();
         for(Contract contractCurrent : contractsListForThisTest){
-            Order orderForThisTest = Order_TestDataFactory.constructOneOrder( contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
+            Order orderForThisTest = Order_TestDataFactory.constructOneOrder(orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
             orderListOld.add(orderForThisTest);
         }
         insert(orderListOld);
@@ -174,7 +175,7 @@ public with sharing class OrderTriggerHelper_Test {
         //Create Orders
         List<Order> orderListOld = new List<Order>();
         for(Contract contractCurrent : contractsListForThisTest){
-            Order orderForThisTest = Order_TestDataFactory.constructOneOrder( contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
+            Order orderForThisTest = Order_TestDataFactory.constructOneOrder(orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
             orderListOld.add(orderForThisTest);
         }
         insert(orderListOld);
