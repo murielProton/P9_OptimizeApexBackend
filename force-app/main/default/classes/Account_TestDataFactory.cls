@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-22-2022
+ * @last modified on  : 10-29-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class Account_TestDataFactory {
@@ -15,16 +15,31 @@ public with sharing class Account_TestDataFactory {
                                     LIMIT 1];
         return accountToReturn;
     }
+    public static List<Account> getAccountsAll(){
+        List<Account> accontsList = [SELECT Id,
+                                          AccountRevenue__c,
+                                          Name
+                                     FROM Account
+                                    ];
+        return accontsList;
+    }
     public static void createAccount(String accountName){
         List<Account> accountsToInsertForTest = new List<Account>();
         accountsToInsertForTest.add(new Account(Name = accountName));
         insert accountsToInsertForTest;
     }
     public static void createAccountsList(Integer numberOfAccounts){
-        List<Account> accountsToInsertForTest = new List<Account>();
+        List<Account> accountsListToInsertForTest = new List<Account>();
         for(Integer i = 0 ; i < numberOfAccounts ; i++){
-            accountsToInsertForTest.add(new Account(Name = 'accountName-'+i));
+            accountsListToInsertForTest.add(new Account(Name = 'accountName-'+i));
         }
-        insert accountsToInsertForTest;
+        insert accountsListToInsertForTest;
+    }
+    public static Map<Id,Decimal> convertAccountsListIntoMapOfIdsAndRevenues(List<Account> accountsList){
+        Map<Id,Decimal> accountsMapIdAndRevenue = new  Map<Id,Decimal>();
+        for(Account accountCurent: accountsList){
+            accountsMapIdAndRevenue.put(accountCurent.Id,accountCurent.AccountRevenue__c);
+        }
+        return accountsMapIdAndRevenue;
     }
 }

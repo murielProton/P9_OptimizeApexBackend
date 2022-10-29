@@ -28,7 +28,7 @@ public with sharing class OrderTrigger_Test {
     private static String productName = 'Kinu';
     private static String pricebook2Name = 'Yukako\'s Price Book';
     private static String orderName = 'Yukako\'s Order';
-
+    
     @TestSetup
     static void setupForTestAccountUpdateTrigger(){
         //Create an Account

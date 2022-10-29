@@ -43,7 +43,14 @@ public with sharing class Order_TestDataFactory {
         }
         insert ordersList;
     } 
-
+    public static void createOrdersListForEachContract(List<Contract> contractListToCreateOrders, PriceBook2 pricebookForThisTest){
+        List<Order> ordersList = new List<Order>();
+        String orderName = 'Order-';
+        for(Contract contractCurent : contractListToCreateOrders){
+            ordersList.add(constructOneOrder(orderName+contractCurent.Name, contractCurent.AccountId, contractCurent.Id , pricebookForThisTest));
+        }
+        insert ordersList;
+    } 
     public static void updateOrderShipmentCost(Order orderToUpdate){
         orderToUpdate.ShipmentCost__c = 20;
         update orderToUpdate;

@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-24-2022
+ * @last modified on  : 10-29-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -53,6 +53,32 @@ public with sharing class PricebookEntry_TestDataFactory_Test {
         PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
         Test.stopTest();
         System.assertEquals(pricebookEntryForThisTest.UnitPrice, 100.00, 'PricebookEntry_TestDataFactory.getPricebookEntry should return a PricebookEntry.');
+
+    }
+    @isTest
+    static void testGetPricebookEntryAll(){
+        //gest sObjects for the Test
+        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
+        PricebookEntry priceBookEntryToInsert1 = new PricebookEntry(
+            Pricebook2Id = Test.getStandardPricebookId(),
+            Product2Id = product2ForThisTest.Id,
+            UnitPrice = 100.00,
+            IsActive = true
+        );
+        insert priceBookEntryToInsert1;
+        PricebookEntry priceBookEntryToInsert2 = new PricebookEntry(
+            Pricebook2Id = pricebookForThisTest.Id,
+            Product2Id = product2ForThisTest.Id,
+            UnitPrice = 100.00,
+            IsActive = true,
+            UseStandardPrice = false
+        );
+        insert priceBookEntryToInsert2;
+        Test.startTest();
+        List<PricebookEntry> pricebookEntryListForThisTest = PricebookEntry_TestDataFactory.getPricebookEntryAll();
+        Test.stopTest();
+        System.assertEquals(pricebookEntryListForThisTest.size(), 2, 'PricebookEntry_TestDataFactory.getPricebookEntryAll should return 2 records of PricebookEntry.');
 
     }
 
@@ -111,6 +137,36 @@ public with sharing class PricebookEntry_TestDataFactory_Test {
                                                 LIMIT 1];
 
         System.assertEquals(pricebookEntryForThisTest.UnitPrice, 100.00, 'PricebookEntry_TestDataFactory.createPriceBookEntry should insert a PricebookEntry.');
+
+    }
+    @isTest
+    static void testUpdatePriceBookEntryList(){
+        //gest sObjects for the Test
+        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
+        PricebookEntry priceBookEntryToInsert1 = new PricebookEntry(
+            Pricebook2Id = Test.getStandardPricebookId(),
+            Product2Id = product2ForThisTest.Id,
+            UnitPrice = 100.00,
+            IsActive = true
+        );
+        insert priceBookEntryToInsert1;
+        PricebookEntry priceBookEntryToInsert2 = new PricebookEntry(
+            Pricebook2Id = pricebookForThisTest.Id,
+            Product2Id = product2ForThisTest.Id,
+            UnitPrice = 100.00,
+            IsActive = true,
+            UseStandardPrice = false
+        );
+        insert priceBookEntryToInsert2;
+        List<PricebookEntry> pricebookEntryListBeforeUpdate = PricebookEntry_TestDataFactory.getPricebookEntryAll();
+        Test.startTest();
+        PricebookEntry_TestDataFactory.updadePriceBookEntryList(pricebookEntryListBeforeUpdate);
+        Test.stopTest();
+
+        List<PricebookEntry> pricebookEntryListForThisTest = PricebookEntry_TestDataFactory.getPricebookEntryAll();
+
+        System.assertEquals(pricebookEntryListForThisTest[0].UnitPrice, 300, 'PricebookEntry_TestDataFactory.updadePriceBookEntryList should update a List of PricebookEntries.');
 
     }
 }

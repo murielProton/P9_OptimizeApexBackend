@@ -11,6 +11,8 @@ public with sharing class Order_TestDataFactory_Test {
     private static String productName = 'Kinu';
     private static String pricebook2Name = 'Yukako\'s Price Book';
     private static String orderName = 'Yukako\'s Order';
+    private static String nameLike = 'accountName-%';
+
     @TestSetup
     static void setupForOrder_TestDataFactory_Test(){
         //Create an Account
@@ -138,5 +140,33 @@ public with sharing class Order_TestDataFactory_Test {
 
         System.assertEquals(orderForThisTest.ShipmentCost__c, 20, 'Order_TestDataFactory.updateOrderShipmentCost should force ShipmentCost field to 20.');
     }
-
+    @isTest
+    static void testCreateOrdersListForEachContract(){
+        // create some Accounts
+        Account_TestDataFactory.createAccountsList(5);
+        List<Account> accountsListToTest = [SELECT Id,
+                                                    AccountRevenue__c,
+                                                    Name
+                                            FROM Account
+                                            WHERE Name LIKE :nameLike
+                                            ];
+        // for each accounts create a contract 
+        Contract_TestDataFactory.createContractsList(accountsListToTest);
+        // Create Product2
+        Product2_TestDataFactory.createProduct2(productName);
+        // Now make sure the Salesforce process doese create a standard Pricebook2
+        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
+        // Process needs an entry in th Pricebook2 Standard = true, first ;
+        PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
+        // then PricebookEntry for normal Pricebook2 can be inserted.
+        PricebookEntry_TestDataFactory.createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
+        // get contracts List we just inserted
+        List<Contract> contractListToCreateOrders = Contract_TestDataFactory.getContractsAll();
+        Test.startTest();
+        Order_TestDataFactory.createOrdersListForEachContract(contractListToCreateOrders, pricebookForThisTest);
+        Test.stopTest();
+        List<Order> orderListToTest = Order_TestDataFactory.getOrdersAll();
+        System.assertEquals(orderListToTest.size(), 6, 'Order_TestDataFactory.createOrdersListForEachContract should isert 5 records on Order.');
+    }
 }

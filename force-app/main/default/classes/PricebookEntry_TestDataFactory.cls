@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-24-2022
+ * @last modified on  : 10-29-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class PricebookEntry_TestDataFactory {
@@ -21,6 +21,18 @@ public with sharing class PricebookEntry_TestDataFactory {
         return pricebookEntryToReturn;
     }
     
+    public static List<PricebookEntry> getPricebookEntryAll(){
+        List<PricebookEntry> pricebookEntryListToReturn = [SELECT Id,
+                                                                  Name,
+                                                                  Pricebook2Id,
+                                                                  Product2Id,
+                                                                  UnitPrice,
+                                                                  UseStandardPrice,
+                                                                  IsActive
+                                                            FROM PricebookEntry
+                                                            ];
+        return pricebookEntryListToReturn;
+    }
     public static void createPriceBookEntryForPricebookStandard(Product2 product2ForThisTest){
         PricebookEntry priceBookEntryToInsert = new PricebookEntry(
             Pricebook2Id = Test.getStandardPricebookId(),
@@ -39,5 +51,13 @@ public with sharing class PricebookEntry_TestDataFactory {
             UseStandardPrice = false
         );
         insert priceBookEntryToInsert;
+    }
+    public static void updadePriceBookEntryList(List<PriceBookEntry> pricebookEntryList){
+        List<PriceBookEntry> pricebookEntryListToUpdate = new List<PriceBookEntry>();
+        for(PriceBookEntry pricebookEntryCurent : pricebookEntryList){
+            pricebookEntryCurent.UnitPrice = 300;
+            pricebookEntryListToUpdate.add(pricebookEntryCurent);
+        }
+        update pricebookEntryListToUpdate;
     }
 }

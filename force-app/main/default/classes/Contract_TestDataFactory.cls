@@ -2,13 +2,14 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-24-2022
+ * @last modified on  : 10-29-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class Contract_TestDataFactory {
     public static Contract getContract(ID accountId){
         Contract contractToReturn = [SELECT Id,
-                                            AccountId
+                                            AccountId,
+                                            Name
                                      FROM Contract 
                                      WHERE AccountId= :accountId 
                                      LIMIT 1];
@@ -16,7 +17,8 @@ public with sharing class Contract_TestDataFactory {
     }
     public static List<Contract> getContractsAll(){
         List<Contract> contractList = [SELECT Id,
-                                            AccountId
+                                            AccountId,
+                                            Name
                                      FROM Contract 
                                     ];
         return contractList;
