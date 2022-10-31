@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-29-2022
+ * @last modified on  : 10-31-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class Account_TestDataFactory {
@@ -42,4 +42,13 @@ public with sharing class Account_TestDataFactory {
         }
         return accountsMapIdAndRevenue;
     }
+    public static Set<Account> convertAccountListIntoSet(List<Account> accountsList){
+        Set<Account> accountsSet = new Set<Account>();
+            for(Account accountCurrent : accountsList){
+                accountsSet.add(accountCurrent);    
+            }
+        return accountsSet;
+    }
+    
+    
 }

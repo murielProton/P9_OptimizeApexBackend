@@ -273,4 +273,34 @@ public with sharing class Order_TestDataFactory_Test {
         List<Order> orderListForThisTest = Order_TestDataFactory.getOrdersStatusOrdered();
         System.assertEquals(orderListForThisTest[0].Status, 'Ordered', 'Order_TestDataFactory.updateOrdersListStatusToOrdered should update Status to Ordered.');
     }
+    @isTest
+    static void testConvertOrderListIntoSet(){
+        String pricebook2Name ='Ruby Shoo\'s priceboock';
+        List<Account> accountsListForThisTest = [SELECT Id,
+                                                        AccountRevenue__c,
+                                                        Name
+                                                 FROM Account
+                                                 WHERE Name = :accountName ];
+        Account accountForThisTest = accountsListForThisTest[0];                                      
+        //create a Contract for this Account
+        Contract_TestDataFactory.createContract(accountForThisTest);
+        // Make sure the Pricebook2 entry is active and standard
+        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+
+        // get sObjects for Test
+        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
+        //Create Orders
+        List<Order> ordersList = new List<Order>();
+        for (Account currentAccount : accountsListForThisTest){
+            Order orderForThisTest = Order_TestDataFactory.constructOneOrder(orderName, currentAccount.Id, contractForThisTest.Id, pricebookForThisTest);
+            ordersList.add(orderForThisTest);
+        }
+
+        Test.startTest();
+        Set<Order> orderSetForTest = Order_TestDataFactory.convertOrderListIntoSet(ordersList);
+        Test.stopTest();
+
+        System.assertEquals(orderSetForTest.size(), 1, 'Order_TestDataFactory.convertOrderListIntoSet should convert a list of 5 into a set of 5.');
+    }
 }

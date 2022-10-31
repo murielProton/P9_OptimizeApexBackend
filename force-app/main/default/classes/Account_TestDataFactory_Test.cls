@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-29-2022
+ * @last modified on  : 10-31-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -79,5 +79,26 @@ public with sharing class Account_TestDataFactory_Test {
         Test.stopTest();
 
         System.assertEquals(accountsMapIdAndRevenueForTest.size(), 5, 'Account_TestDataFactory.convertAccountsListIntoMapOfIdsAndRevenues should return a Map of Account.Ids and Account.AccountRevenues__c.');
+    }
+    @isTest
+    static void testConvertAccountListIntoSet(){
+        // insert some accounts
+        List<Account> accountsListToInsertForTest = new List<Account>();
+        for(Integer i = 0 ; i < 5 ; i++){
+            accountsListToInsertForTest.add(new Account(Name = accountName + i));
+        }
+        insert accountsListToInsertForTest;
+        //get thees accounts for test
+        List<Account> accountsListForThisTest = [SELECT Id,
+                                                        AccountRevenue__c,
+                                                        Name
+                                                 FROM Account
+                                                 WHERE Name LIKE 'accountName%' ];
+
+        Test.startTest();
+        Set<Account> accountSetForTest = Account_TestDataFactory.convertAccountListIntoSet(accountsListForThisTest);
+        Test.stopTest();
+
+        System.assertEquals(accountSetForTest.size(), 5, 'Account_TestDataFactory.convertAccountListIntoSet should convert a list of 5 into a set of 5.');
     }
 }

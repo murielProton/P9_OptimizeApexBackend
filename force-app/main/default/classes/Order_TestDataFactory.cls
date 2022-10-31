@@ -68,12 +68,18 @@ public with sharing class Order_TestDataFactory {
     }
     public static void updateOrdersListStatusToOrdered(List<Order> orderList){
         List<Order> ordersListToUpdate = new List<Order>();
-        System.debug('before updateOrdersListStatusToOrdered '+orderList);
         for(Order orderCurent : orderList){
             orderCurent.Status = 'Ordered';
             ordersListToUpdate.add(orderCurent);
         }
-        System.debug('after updateOrdersListStatusToOrdered '+ordersListToUpdate);
         update ordersListToUpdate;
+    }
+    
+    public static Set<Order> convertOrderListIntoSet(List<Order> ordersList){
+        Set<Order> ordersSet = new Set<Order>();
+            for(Order orderCurrent : ordersList){
+                ordersSet.add(orderCurrent);    
+            }
+        return ordersSet;
     }
 }

@@ -16,21 +16,6 @@ public with sharing class OrderTriggerHelper{
         return accountList;
     }
 
-    public static Set<Order> convertOrderListIntoSet(List<Order> ordersList){
-        Set<Order> ordersSet = new Set<Order>();
-            for(Order orderCurrent : ordersList){
-                ordersSet.add(orderCurrent);    
-            }
-        return ordersSet;
-    }
-    public static Set<Account> convertAccountListIntoSet(List<Account> accountsList){
-        Set<Account> accountsSet = new Set<Account>();
-            for(Account accountCurrent : accountsList){
-                accountsSet.add(accountCurrent);    
-            }
-        return accountsSet;
-    }
-
     public static List<Account> getAccountsListToUpdate(Set<Order> orderSet, Set<Account> accountSet){
         List<Account> accountsListToUpdate = new List<Account>();
         //No other way than to put a for loop within a for loop
@@ -71,8 +56,8 @@ public with sharing class OrderTriggerHelper{
     public static void updateListOfAccountsRevenue(List<Order> orderListNew, List<Order> orderListOld){
         
         List<Account> accountsListAll = getAccountListAll();
-        Set<Account> accountsSetAll = convertAccountListIntoSet(accountsListAll);
-        Set<Order> orderSetNew = convertOrderListIntoSet(orderListNew);
+        Set<Account> accountsSetAll = Account_TestDataFactory.convertAccountListIntoSet(accountsListAll);
+        Set<Order> orderSetNew = Order_TestDataFactory.convertOrderListIntoSet(orderListNew);
         List<Account> accountsListToUpdate = getAccountsListToUpdate(orderSetNew, accountsSetAll);
         /*System.debug('accountsSetAll ID '+accountsSetAll[0]);*/
 
@@ -88,7 +73,7 @@ public with sharing class OrderTriggerHelper{
                 acc.AccountRevenue__c = acc.AccountRevenue__c + orderNew.TotalAmount;
             }
             update acc;
-        }*/
+        }*/ 
         update accountsListToUpdate;
     }
     // Todo methode used in Trigger OrderTrigger before update
