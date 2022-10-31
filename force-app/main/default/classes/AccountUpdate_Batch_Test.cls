@@ -24,15 +24,16 @@ public with sharing class AccountUpdate_Batch_Test {
     private static String pricebook2Name = 'pricebookName';
     private static String productName = 'Momen';
 
-    @TestSetup
-    static void setupForAccountUpdate_Batch_Test(){
+    @isTest
+    static void testBatchWhenOrderStatusChangesToOrderedTheAccountRevenueMustBeUpdated(){
         // Create a bunch of Accounts
         Account_TestDataFactory.createAccountsList(100);
-        List<Account> accountsListToTest = Account_TestDataFactory.getAccountsAll();
+        List<Account> accountList1ToCompare = Account_TestDataFactory.getAccountsAll();
+        Set<Account> accountSet1ToCompare = Account_TestDataFactory.convertAccountListIntoSet(accountList1ToCompare);
         // The Order must have at least one Product, so we can change Order.Status to Ordered
         // Link these accounts to some products = for each accounts create a contract + create pricebook custom + create pricebook standard + create products + create price book entry + create order
         // for each accounts create a contract 
-        Contract_TestDataFactory.createContractsList(accountsListToTest);
+        Contract_TestDataFactory.createContractsList(accountList1ToCompare);
         // for the test to succeed the Contract Status should be Activated, but it can't be inserted as such, so we need to update it
         List<Contract> contractsListToUpdate = Contract_TestDataFactory.getContractsAll();
         Contract_TestDataFactory.updateContractsListStatusToActivated(contractsListToUpdate);
@@ -67,20 +68,25 @@ public with sharing class AccountUpdate_Batch_Test {
         insert orderItemsList;
         List<Order> orderListForTest = Order_TestDataFactory.getOrdersAll();
 
+
         // Change half of the Orders -> Order.Status to Ordered
         Order_TestDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
-    }
-    @isTest
-    static void testBatchWhenOrderStatusChangesToOrderedTheAccountRevenueMustBeUpdated(){
 
         List<Order> orderListBeforeBatch = Order_TestDataFactory.getOrdersStatusOrdered();
         Test.startTest();
         //Trigger Batch Here ! 
         //TODO replace folowing line by a call to batch
         Test.stopTest();
+
         // Find the list of Accounts linked to the Orders that had their status changed to Ordered
-        List<Account> accountListForTest = AccountUpdate_BatchHelper.convertOrdersListIntoAccountsList(orderListBeforeBatch);
-        System.assertEquals(accountListForTest.size(), 100, 'The Batch AccountUpdate_Batch should update only the Accounts related to the liste of Orders which Status was updated to Ordered.');
+        List<Account> accountList2ToCompare = Account_TestDataFactory.getAccountsWhereOrderSatusOrdered();
+        Set<Account> accountSet2ToCompare = Account_TestDataFactory.convertAccountListIntoSet(accountList2ToCompare);
+
+        //Compare two list to see if they were changed by the batch (using set to be sure that the order of the Items are not accountable)
+        Boolean isFirstListIdenticalToSecond = accountSet1ToCompare.equals(accountSet2ToCompare);
+        System.debug(accountSet1ToCompare);
+        System.debug(accountSet2ToCompare);
+        System.assertEquals(isFirstListIdenticalToSecond, false, 'The Batch AccountUpdate_Batch should update only the Accounts related to the liste of Orders which Status was updated to Ordered.');
 
 
     }  

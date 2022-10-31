@@ -54,7 +54,7 @@ public with sharing class AccountUpdate_BatchHelper_Test {
        // Create a bunch of Accounts That will have no Orders Linked
        Account_TestDataFactory.createAccountsList(50);
     }
-    @isTest
+    /*@isTest
     static void testConvertOrdersListIntoAccountsList(){
         
         List<Order> orderListForTest = Order_TestDataFactory.getOrdersAll();
@@ -65,5 +65,5 @@ public with sharing class AccountUpdate_BatchHelper_Test {
 
         System.assertEquals(accountList.size(), 50, 'AccountUpdate_BatchHelper.convertOrdersListIntoAccountsList should return a list of Account.');
 
-    }
+    }*/
 }

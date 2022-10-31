@@ -23,6 +23,10 @@ public with sharing class Account_TestDataFactory {
                                     ];
         return accontsList;
     }
+    public static List<Account> getAccountsWhereOrderSatusOrdered(){
+        List<Account> accontsList= [SELECT Id, AccountRevenue__c,Name FROM Account WHERE Id IN (SELECT AccountId FROM Order WHERE Status = 'Ordered')];
+        return accontsList;
+    }
     public static void createAccount(String accountName){
         List<Account> accountsToInsertForTest = new List<Account>();
         accountsToInsertForTest.add(new Account(Name = accountName));
