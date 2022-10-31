@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-29-2022
+ * @last modified on  : 10-31-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class Order_TestDataFactory {
@@ -17,8 +17,19 @@ public with sharing class Order_TestDataFactory {
         List<Order> orderList = [SELECT Id, 
                                         AccountId, 
                                         TotalAmount, 
-                                        ShipmentCost__c 
+                                        ShipmentCost__c,
+                                        Status
                                   FROM Order];
+        return orderList;
+    }
+    public static List<Order> getOrdersStatusOrdered(){
+        List<Order> orderList = [SELECT Id, 
+                                        AccountId, 
+                                        TotalAmount, 
+                                        ShipmentCost__c,
+                                        Status
+                                  FROM Order
+                                  WHERE Status ='Ordered'];
         return orderList;
     }
     public static Order constructOneOrder(String orderName, Id accountID, Id contractID , PriceBook2 pricebookForThisTest){
@@ -54,5 +65,15 @@ public with sharing class Order_TestDataFactory {
     public static void updateOrderShipmentCost(Order orderToUpdate){
         orderToUpdate.ShipmentCost__c = 20;
         update orderToUpdate;
+    }
+    public static void updateOrdersListStatusToOrdered(List<Order> orderList){
+        List<Order> ordersListToUpdate = new List<Order>();
+        System.debug('before updateOrdersListStatusToOrdered '+orderList);
+        for(Order orderCurent : orderList){
+            orderCurent.Status = 'Ordered';
+            ordersListToUpdate.add(orderCurent);
+        }
+        System.debug('after updateOrdersListStatusToOrdered '+ordersListToUpdate);
+        update ordersListToUpdate;
     }
 }

@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-29-2022
+ * @last modified on  : 10-31-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 //TODO
@@ -13,13 +13,6 @@
         // Trigger batch here
         // map 2 = get AccountRevenue__c of all the created Accounts
         // compare the two maps
-        //--
-        // Second Batch
-        // List of Accounts to Update if the order attached to It, passes from state draft to state Ordered.
-        // update evry Account field Total Revenue
-        //SELECT Id FROM Account
-        // order [SELECT Id, TotalAmount, AccountId FROM Order];
-        //Create a list of Accounts
 @isTest
 public with sharing class AccountUpdate_Queueable_Test {
     //set variables for test

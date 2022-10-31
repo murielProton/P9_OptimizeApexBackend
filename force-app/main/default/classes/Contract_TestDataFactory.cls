@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-29-2022
+ * @last modified on  : 10-31-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class Contract_TestDataFactory {
@@ -18,7 +18,8 @@ public with sharing class Contract_TestDataFactory {
     public static List<Contract> getContractsAll(){
         List<Contract> contractList = [SELECT Id,
                                             AccountId,
-                                            Name
+                                            Name,
+                                            Status
                                      FROM Contract 
                                     ];
         return contractList;
@@ -38,11 +39,21 @@ public with sharing class Contract_TestDataFactory {
         for(Account accountCurrent : accountsList){
             contractsList.add(new Contract(
                 AccountId = accountCurrent.Id,
+                //can't create a contract with the Status set to Activated
                 Status = 'Draft',
                 StartDate = Date.today(),
                 ContractTerm = 6
             ));
         }
         insert contractsList;
+    }
+    public static void updateContractsListStatusToActivated(List<Contract> contractsList){
+        List<Contract> contractsListToUpdate = new List<Contract>();
+        for(Contract contractCurrent : contractsList){
+            //can't create a contract with the Status set to Activated
+            contractCurrent.Status = 'Activated';
+            contractsListToUpdate.add(contractCurrent);
+        }
+        update contractsListToUpdate;
     }
 }

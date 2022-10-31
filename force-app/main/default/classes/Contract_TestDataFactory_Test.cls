@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-24-2022
+ * @last modified on  : 10-31-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -44,5 +44,19 @@ public with sharing class Contract_TestDataFactory_Test {
                                    WHERE AccountId= :accountToTest.Id 
                                    LIMIT 1];
         System.assertEquals(contractToTest.AccountId, accountToTest.Id, 'Order_TestDataFactory.createContract(accountToTest) should create one Contract.');
+    }
+    @isTest
+    static void testUpdateContractsListStatusToActivated(){
+        Account accountToTest = Account_TestDataFactory.getAccount(accountName);
+        Contract_TestDataFactory.createContract(accountToTest);
+        List<Contract> contractsList = Contract_TestDataFactory.getContractsAll();
+        Test.startTest();
+        Contract_TestDataFactory.updateContractsListStatusToActivated(contractsList);
+        Test.stopTest();
+        Contract contractToTest = [SELECT Status
+                                   FROM Contract 
+                                   WHERE Status = 'Activated'
+                                   LIMIT 1];
+        System.assertEquals(contractToTest.Status, 'Activated', 'Order_TestDataFactory.updateContractsListStatusToActivated should create one Contracts with a Status set to Activated.');
     }
 }
