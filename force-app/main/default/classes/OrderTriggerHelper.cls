@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-24-2022
+ * @last modified on  : 10-31-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class OrderTriggerHelper{
@@ -42,10 +42,10 @@ public with sharing class OrderTriggerHelper{
                         accountCurrent.AccountRevenue__c = orderCurrent.TotalAmount;
                     }else{
                         accountCurrent.AccountRevenue__c = accountCurrent.AccountRevenue__c + orderCurrent.TotalAmount;
-                    }
-                    accountsListToUpdate.add(accountCurrent);
+                    } 
                 }
             }
+            accountsListToUpdate.add(accountCurrent);
         }
         return accountsListToUpdate;
     }
