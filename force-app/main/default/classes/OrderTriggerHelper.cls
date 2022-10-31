@@ -27,7 +27,7 @@ public with sharing class OrderTriggerHelper{
                         accountCurrent.AccountRevenue__c = orderCurrent.TotalAmount;
                     }else{
                         accountCurrent.AccountRevenue__c = accountCurrent.AccountRevenue__c + orderCurrent.TotalAmount;
-                    } 
+                    }
                 }
             }
             accountsListToUpdate.add(accountCurrent);
@@ -73,7 +73,7 @@ public with sharing class OrderTriggerHelper{
                 acc.AccountRevenue__c = acc.AccountRevenue__c + orderNew.TotalAmount;
             }
             update acc;
-        }*/ 
+        }*/
         update accountsListToUpdate;
     }
     // Todo methode used in Trigger OrderTrigger before update

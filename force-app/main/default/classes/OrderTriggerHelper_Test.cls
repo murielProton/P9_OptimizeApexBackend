@@ -23,7 +23,6 @@ public with sharing class OrderTriggerHelper_Test {
 
         System.assertEquals(accountListForTest.size(), 5, 'Order_TestDataFactory.getAccountListAll should get 5 reccords.');
     }
-
     
     @isTest
     static void testGetAccountsListToUpdate(){
