@@ -2,9 +2,11 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-29-2022
+ * @last modified on  : 11-01-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
+
+// LastModifiedDate field not writeable
 public with sharing class PricebookEntry_TestDataFactory {
     // Product must be active and added to Pricebook first
     public static PricebookEntry getPricebookEntry(PriceBook2 pricebookForThisTest,Product2 product2ForThisTest){
@@ -33,6 +35,13 @@ public with sharing class PricebookEntry_TestDataFactory {
                                                             ];
         return pricebookEntryListToReturn;
     }
+    public static List<PricebookEntry> getPricebookEntryListLastModifiedDdate(){
+        List<PricebookEntry> pricebookEntryListLastModifiedDdate = [SELECT LastModifiedDate, 
+                                                                           UnitPrice,
+                                                                           Pricebook2Id
+                                                                    FROM PricebookEntry];
+        return pricebookEntryListLastModifiedDdate;
+    }
     public static void createPriceBookEntryForPricebookStandard(Product2 product2ForThisTest){
         PricebookEntry priceBookEntryToInsert = new PricebookEntry(
             Pricebook2Id = Test.getStandardPricebookId(),
@@ -45,13 +54,14 @@ public with sharing class PricebookEntry_TestDataFactory {
     public static void createPriceBookEntry(PriceBook2 pricebookForThisTest, Product2 product2ForThisTest){
         PricebookEntry priceBookEntryToInsert = new PricebookEntry(
             Pricebook2Id = pricebookForThisTest.Id,
-            Product2Id = product2ForThisTest.Id,
+            Product2Id = product2ForThisTest.Id,//required field
             UnitPrice = 100.00,
             IsActive = true,
             UseStandardPrice = false
         );
         insert priceBookEntryToInsert;
     }
+
     public static void updadePriceBookEntryList(List<PriceBookEntry> pricebookEntryList){
         List<PriceBookEntry> pricebookEntryListToUpdate = new List<PriceBookEntry>();
         for(PriceBookEntry pricebookEntryCurent : pricebookEntryList){

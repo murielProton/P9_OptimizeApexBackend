@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-31-2022
+ * @last modified on  : 11-01-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class Order_TestDataFactory {
@@ -32,6 +32,18 @@ public with sharing class Order_TestDataFactory {
                                   WHERE Status ='Ordered'];
         return orderList;
     }
+
+    // Used in Qeueable Batch
+    // PricebookEntry modification date >= today -7 jours
+    // find list of Orders Linked to a Pricebook2 that is linked to a PricebookEntry which has been modified during this week.
+    public static List<Order> getOrdersWheregetPriceBook2ListWherePricebookEntryLastModifiedDate(){
+        DateTime dateTimeLastWeek = DateTime.now().addDays(-7);
+
+        List<Order> ordersListtoReturn=[SELECT Id, Pricebook2Id, AccountId, TotalAmount FROM Order WHERE Pricebook2Id IN (SELECT Pricebook2Id FROM PricebookEntry WHERE LastModifiedDate > :dateTimeLastWeek)];
+
+        return ordersListtoReturn;
+    }
+
     public static Order constructOneOrder(String orderName, Id accountID, Id contractID , PriceBook2 pricebookForThisTest){
         Order orderConstructed = new Order(
             Name = orderName,
