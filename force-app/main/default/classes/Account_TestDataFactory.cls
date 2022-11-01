@@ -32,6 +32,23 @@ public with sharing class Account_TestDataFactory {
         return accontsList;
     }
 
+    // Used in Qeueable Batch
+    // SOQL does not allow you to nest more than one level down in sub-selects = NOT Possible : List<Account> accountsListtoReturn = [SELECT Id FROM Account WHERE Id IN(SELECT Id FROM Order WHERE Pricebook2Id IN (SELECT Pricebook2Id FROM PricebookEntry WHERE LastModifiedDate > :dateTimeLastWeek))];
+    // PricebookEntry modification date >= today -7 jours
+    // find list of Accounts linked to Orders Linked to a Pricebook2 that is linked to a PricebookEntry which has been modified during this week.
+    public static List<Account> getAccountsListWhereEntryLastModifiedDateLessThanAWeek(){
+        List<Account> accountListAll = getAccountsAll();
+        List<Order> ordersList = Order_TestDataFactory.getOrdersWheregetPriceBook2ListWherePricebookEntryLastModifiedDate();
+        
+        //Filter duplicated records
+        Set<Order> ordersSet = Order_TestDataFactory.convertOrderListIntoSet(ordersList);
+        Set<Account> accountSet = convertAccountListIntoSet(accountListAll);
+
+        List<Account> accountsListToUpdate = OrderTriggerHelper.getAccountsListToUpdate(ordersSet, accountSet);
+
+        return accountsListToUpdate;
+    }
+
     public static void createAccount(String accountName){
         List<Account> accountsToInsertForTest = new List<Account>();
         accountsToInsertForTest.add(new Account(Name = accountName));
@@ -44,11 +61,10 @@ public with sharing class Account_TestDataFactory {
         }
         insert accountsListToInsertForTest;
     }
-        
-    // Used in Qeueable Batch
+    
     // SOQL does not allow you to nest more than one level down in sub-selects = NOT Possible : List<Account> accountsListtoReturn = [SELECT Id FROM Account WHERE Id IN(SELECT Id FROM Order WHERE Pricebook2Id IN (SELECT Pricebook2Id FROM PricebookEntry WHERE LastModifiedDate > :dateTimeLastWeek))];
     // PricebookEntry modification date >= today -7 jours
-    // find list of Accounts linked to Orders Linked to a Pricebook2 that is linked to a PricebookEntry which has been modified during this week.
+    // update list of Accounts linked to Orders Linked to a Pricebook2 that is linked to a PricebookEntry which has been modified during this week.
     public static void updateAccountsWhereEntryLastModifiedDateLessThanAWeek(){
         List<Account> accountListAll = getAccountsAll();
         List<Order> ordersList = Order_TestDataFactory.getOrdersWheregetPriceBook2ListWherePricebookEntryLastModifiedDate();

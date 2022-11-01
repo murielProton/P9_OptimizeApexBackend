@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-31-2022
+ * @last modified on  : 11-01-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 //TODO
@@ -65,8 +65,8 @@ public with sharing class AccountUpdate_Queueable_Test {
         // Update Price of the product2 price by updating Pricebook2 entries
         PricebookEntry_TestDataFactory.updadePriceBookEntryList(priceBookEntryListToUpdate);
         Test.startTest();
-        //Trigger Batch Here ! 
-        //TODO replace folowing line by a call to batch
+        AccountUpdate_Queueable accountUpdateQueueableBatch = new AccountUpdate_Queueable();
+        Id queueableBatchId = Database.executeBatch(accountUpdateQueueableBatch);
         Test.stopTest();
         // map 2 = get AccountRevenue__c of all the created Accounts
         List<Account> accountListAfterUpdate = [SELECT Id,
