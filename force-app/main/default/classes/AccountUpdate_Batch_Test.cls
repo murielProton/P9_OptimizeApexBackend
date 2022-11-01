@@ -73,6 +73,10 @@ public with sharing class AccountUpdate_Batch_Test {
         Order_TestDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
 
         List<Order> orderListBeforeBatch = Order_TestDataFactory.getOrdersStatusOrdered();
+
+        List<Account> accountList1BisToCompare = Account_TestDataFactory.getAccountsAll();
+        Set<Account> accountSet1BisToCompare = Account_TestDataFactory.convertAccountListIntoSet(accountList1BisToCompare);
+
         Test.startTest();
         //Trigger Batch Here ! 
         //TODO replace folowing line by a call to batch
@@ -83,8 +87,10 @@ public with sharing class AccountUpdate_Batch_Test {
         Set<Account> accountSet2ToCompare = Account_TestDataFactory.convertAccountListIntoSet(accountList2ToCompare);
 
         //Compare two list to see if they were changed by the batch (using set to be sure that the order of the Items are not accountable)
+        Boolean isFirstListIdenticalToFirstBis = accountSet1ToCompare.equals(accountSet1BisToCompare);
         Boolean isFirstListIdenticalToSecond = accountSet1ToCompare.equals(accountSet2ToCompare);
         System.debug(accountSet1ToCompare);
+        System.debug(accountSet1BisToCompare);
         System.debug(accountSet2ToCompare);
         System.assertEquals(isFirstListIdenticalToSecond, false, 'The Batch AccountUpdate_Batch should update only the Accounts related to the liste of Orders which Status was updated to Ordered.');
 
