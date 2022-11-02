@@ -77,6 +77,8 @@ public with sharing class AccountUpdate_Queueable_Test {
                                                 ];
         Map<Id,Decimal> accountMapIDAndAccountRevenue2 = Account_TestDataFactory.convertAccountsListIntoMapOfIdsAndRevenues(accountListAfterUpdate);
         // compare the two maps
+        System.debug(accountMapIDAndAccountRevenue1);
+        System.debug(accountMapIDAndAccountRevenue2);
         Boolean areTwoMapsIdentical = accountMapIDAndAccountRevenue1.equals(accountMapIDAndAccountRevenue2);
         System.assertEquals(areTwoMapsIdentical, false, 'The Batch AccountUpdate_Queueable should return update AccountRevenue because the price of the Product2 were updated.');
 

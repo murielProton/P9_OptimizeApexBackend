@@ -1,0 +1,4 @@
+RunAccountUpdate_Queueable oneWeek = new RunAccountUpdate_Queueable();
+//every thursday at one AM
+String schedule = '0 0 1 ? * THU *';
+system.schedule('AccountRevenueWeekleUpdate', schedule, oneWeek);
