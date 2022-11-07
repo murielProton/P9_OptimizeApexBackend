@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-31-2022
+ * @last modified on  : 11-07-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 //TODO
@@ -17,7 +17,7 @@
 // NB Account.AccountRevenue__c = Account.AccountRevenue__c + Order.TotalAmount
 // NB Order.TotalAmount not wrightable
 @isTest
-public with sharing class AccountUpdate_Batch_Test {
+public with sharing class AccountAllUpdate_Batch_Test {
 
     //set variables for test
     private static String nameLike = 'accountName-%';
@@ -69,7 +69,7 @@ public with sharing class AccountUpdate_Batch_Test {
         List<Order> orderListForTest = Order_TestDataFactory.getOrdersAll();
 
 
-        // Change half of the Orders -> Order.Status to Ordered
+        // Change the Orders -> Order.Status to Ordered
         Order_TestDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
 
         List<Order> orderListBeforeBatch = Order_TestDataFactory.getOrdersStatusOrdered();
@@ -78,8 +78,8 @@ public with sharing class AccountUpdate_Batch_Test {
         Set<Account> accountSet1BisToCompare = Account_TestDataFactory.convertAccountListIntoSet(accountList1BisToCompare);
 
         Test.startTest();
-        //Trigger Batch Here ! 
-        //TODO replace folowing line by a call to batch
+        AccountAllUpdate_Batch accountUpdateAllBatch = new AccountAllUpdate_Batch();
+        Id accountUpdateAllBatchID = Database.executeBatch(accountUpdateAllBatch);
         Test.stopTest();
 
         // Find the list of Accounts linked to the Orders that had their status changed to Ordered

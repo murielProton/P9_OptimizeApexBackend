@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-31-2022
+ * @last modified on  : 11-07-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class AccountUpdate_BatchHelper {
@@ -26,4 +26,24 @@ public with sharing class AccountUpdate_BatchHelper {
         }
         return accountsListToReturn;
     }*/
+    public static List<Order> convertAccountsListIntoOrdersList(List<Account> accountsList){
+        List<Order> ordersListToReturn = new List<Order>();
+        List<Order> ordersList = Order_TestDataFactory.getOrdersAll();
+        Set<Order> ordersSet = Order_TestDataFactory.convertOrderListIntoSet(ordersList);
+        
+        Set<Account> accountsSet = Account_TestDataFactory.convertAccountListIntoSet(accountsList);
+
+        for(Order orderCurent : ordersSet){
+            for(Account accountCurent : accountsSet){
+
+                if(orderCurent.AccountId == accountCurent.Id){
+                    if(!ordersListToReturn.contains(orderCurent)){
+                        ordersListToReturn.add(orderCurent);
+                    }
+                    continue;
+                }
+            }
+        }
+        return ordersListToReturn;
+    }
 }

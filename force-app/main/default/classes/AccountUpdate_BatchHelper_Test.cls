@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-31-2022
+ * @last modified on  : 11-07-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -66,4 +66,16 @@ public with sharing class AccountUpdate_BatchHelper_Test {
         System.assertEquals(accountList.size(), 50, 'AccountUpdate_BatchHelper.convertOrdersListIntoAccountsList should return a list of Account.');
 
     }*/
+    @isTest
+    static void testConvertAccountsListIntoOrdersList(){
+        
+        List<Account> accountListForTest = Account_TestDataFactory.getAccountsAll();
+
+        Test.startTest();
+        List<Order> orderList = AccountUpdate_BatchHelper.convertAccountsListIntoOrdersList(accountListForTest);
+        Test.stopTest();
+
+        System.assertEquals(orderList.size(), 50, 'AccountUpdate_BatchHelper.convertAccountsListIntoOrdersList should return a list of Orders.');
+
+    }
 }

@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-01-2022
+ * @last modified on  : 11-07-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class Order_TestDataFactory {
@@ -32,7 +32,16 @@ public with sharing class Order_TestDataFactory {
                                   WHERE Status ='Ordered'];
         return orderList;
     }
-
+    public static List<Order> getOrdersInAccountsList(List<Id> accontsIdList){
+        List<Order> orderList = [SELECT Id, 
+                                        AccountId, 
+                                        TotalAmount, 
+                                        ShipmentCost__c,
+                                        Status
+                                  FROM Order
+                                  WHERE AccountId IN : accontsIdList];
+        return orderList;
+    }
     // Used in Qeueable Batch
     // PricebookEntry modification date >= today -7 jours
     // find list of Orders Linked to a Pricebook2 that is linked to a PricebookEntry which has been modified during this week.

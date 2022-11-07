@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-01-2022
+ * @last modified on  : 11-07-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 //TODO
@@ -76,10 +76,10 @@ public with sharing class AccountUpdate_Queueable_Test {
                                                 WHERE Name LIKE :nameLike
                                                 ];
         Map<Id,Decimal> accountMapIDAndAccountRevenue2 = Account_TestDataFactory.convertAccountsListIntoMapOfIdsAndRevenues(accountListAfterUpdate);
+
         // compare the two maps
-        System.debug(accountMapIDAndAccountRevenue1);
-        System.debug(accountMapIDAndAccountRevenue2);
         Boolean areTwoMapsIdentical = accountMapIDAndAccountRevenue1.equals(accountMapIDAndAccountRevenue2);
+
         System.assertEquals(areTwoMapsIdentical, false, 'The Batch AccountUpdate_Queueable should return update AccountRevenue because the price of the Product2 were updated.');
 
 

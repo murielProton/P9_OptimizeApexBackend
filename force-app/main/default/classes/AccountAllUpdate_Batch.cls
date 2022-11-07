@@ -1,17 +1,30 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 11-07-2022
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 global class AccountAllUpdate_Batch implements Database.Batchable<sObject>{
     
    global Database.QueryLocator start(Database.BatchableContext info){ 
-       //Requeter seulement les comptes qui ont au moins une commande avec le Status 'Ordered'
-       return Database.getQueryLocator('SELECT Id FROM Account');
-
+       // Querry All new Accounts  
+       /*TODO do not know how to test that
+       return Database.getQueryLocator('SELECT Id, AccountRevenue__c FROM Account WHERE CreatedDate = LAST_WEEK');
+       */
+      return Database.getQueryLocator('SELECT Id, AccountRevenue__c FROM Account');
    }
     
    global void execute(Database.BatchableContext info, List<Account> scope){
-       Set<Id> setAccountIds = (new Map<Id,SObject>(scope)).keySet();
-       //AP01Account.updateChiffreAffaire(setAccountIds);
+    // update Account Revenue
+       Set<Account> accountSet = Account_TestDataFactory.convertAccountListIntoSet(scope);
+       List<Order> ordersList = AccountUpdate_BatchHelper.convertAccountsListIntoOrdersList(scope);
+       Set<Order> ordersSet = Order_TestDataFactory.convertOrderListIntoSet(ordersList);
+       List<Account> accountsListToUpdate = OrderTriggerHelper.getAccountsListToUpdate(ordersSet, accountSet);
+       update accountsListToUpdate;
    }    
     
-   global void finish(Database.BatchableContext info){     
-       
-   } 
+    global void finish(Database.BatchableContext info){     
+            System.debug('@@Post Processsing Batch DONE');
+    } 
 }
