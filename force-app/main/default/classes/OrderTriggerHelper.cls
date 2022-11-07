@@ -79,10 +79,9 @@ public with sharing class OrderTriggerHelper{
 
         update accountsListToUpdate;
     }
-    // methode used in Trigger OrderTrigger before update
+    // methode used in Trigger OrderTrigger before update do not return because used in Before Update Trigger
     public static void updateListOfOrdersNetAmounts(List<Order> orderListNew, List<Order> orderListOld){
         List<Order> ordersListToUpdate = getOrdersListWithUpdatedNetAmounts(orderListNew);
-        update ordersListToUpdate;
     }
     
 }

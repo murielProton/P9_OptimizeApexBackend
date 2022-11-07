@@ -79,13 +79,32 @@ public with sharing class OrderTriggerHelper_Test {
             Order orderForThisTest = Order_TestDataFactory.constructOneOrder(orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
             ordersList.add(orderForThisTest);
         }
-        insert(ordersList);
+        
+        //Added for 100% code coverage
+        Order orderShipmentCostNull = new Order(
+            Name = 'Vivien',
+            AccountId = accountsListAll[0].Id,
+            ContractId = contractsListForThisTest[0].Id,
+            Status = 'Draft',
+            EffectiveDate = Date.today(),
+            ShipmentCost__c = Null,
+            // essential for the creation of OrderItem
+            Pricebook2Id =  pricebookForThisTest.Id
+            //TotalAmount = not writable This is Why Order links to a Product2 with OrderItem
+            ); 
+
+        //Insert the Order List and get them
+        ordersList.add(orderShipmentCostNull);   
+        insert ordersList;
+        List<Order> ordersAllList = Order_TestDataFactory.getOrdersAll();
 
         Test.startTest();
-        List<Order> orderListToTest = OrderTriggerHelper.getOrdersListWithUpdatedNetAmounts(ordersList);
+        List<Order> orderListToTest = OrderTriggerHelper.getOrdersListWithUpdatedNetAmounts(ordersAllList);
         Test.stopTest();
+
+        System.debug('getallOrders '+ Order_TestDataFactory.getOrdersAll());
         
-        System.assertEquals(orderListToTest.size(), 5, 'OrderTriggerHelper.getOrdersListWithUpdatedNetAmounts should return a list of 5.');
+        System.assertEquals(orderListToTest.size(), 6, 'OrderTriggerHelper.getOrdersListWithUpdatedNetAmounts should return a list of 5.');
 
     }
     @isTest

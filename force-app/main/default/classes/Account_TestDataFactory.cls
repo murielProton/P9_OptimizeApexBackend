@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-02-2022
+ * @last modified on  : 11-07-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class Account_TestDataFactory {
@@ -25,10 +25,6 @@ public with sharing class Account_TestDataFactory {
     }
     public static List<Account> getAccountsWhereOrderSatusOrdered(){
         List<Account> accontsList= [SELECT Id, AccountRevenue__c,Name FROM Account WHERE Id IN (SELECT AccountId FROM Order WHERE Status = 'Ordered')];
-        return accontsList;
-    }
-    public static List<Account> getAccountsWhereOrderAccountID(){
-        List<Account> accontsList= [SELECT Id, AccountRevenue__c,Name FROM Account WHERE Id IN (SELECT AccountId FROM Order)];
         return accontsList;
     }
 

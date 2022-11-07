@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-29-2022
+ * @last modified on  : 11-07-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -25,13 +25,17 @@ public with sharing class MyTeamOrdersController_Test {
 
         Order_TestDataFactory.createOrdersList(100, accountForThisTest.Id, contractForThisTest.Id , pricebookForThisTest);
     }
-    /*@isTest
+    @isTest
     static void testSumOders(){
+       
+        AggregateResult groupedResults = [SELECT SUM(TotalAmount) total FROM Order];
         Test.startTest();
-        decimal groupedResults = MyTeamOrdersController.sumOders;
+        MyTeamOrdersController instanceOfMyTemOrdersController = new MyTeamOrdersController();
+        decimal groupedResultsMTOC = instanceOfMyTemOrdersController.sumOrders;
         Test.stopTest();
+
         System.debug('groupedResults - '+groupedResults);
-        System.assertEquals(ordersListToTest.size(), 100, 'MyTeamOrdersController.sumOders should retrun the summ of all the TotalAmount fields on all the Orders records.');
+        System.assertEquals(groupedResultsMTOC, (decimal)groupedResults.get('Total'), 'MyTeamOrdersController.sumOrders should retrun the summ of all the TotalAmount fields on all the Orders records.');
         
-    }*/
+    }
 }

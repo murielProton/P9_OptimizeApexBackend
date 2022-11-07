@@ -10,9 +10,9 @@ public with sharing class AccountUpdateExecute_Queueable_Test {
     @isTest
     static void testRunAccountUpdate(){
         Test.startTest();
-        RunAccountUpdate_Queueable oneWeek = new RunAccountUpdate_Queueable();
+        AccountUpdateExecute_Queueable oneWeek = new AccountUpdateExecute_Queueable();
         //every thursday at one AM
-        String schedule = '0 0 1 ? * THU *';
+        String schedule = '0 0 1 ? * SUN *';
         system.schedule('TestAccountRevenueWeekleUpdate', schedule, oneWeek);
         Test.stopTest();
     }

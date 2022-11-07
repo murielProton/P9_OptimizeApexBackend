@@ -2,13 +2,13 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-02-2022
+ * @last modified on  : 11-07-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class AccountUpdate_Queueable implements Database.Batchable<sObject> {
-    public static void run(){
+    /*public static void run(){
         Database.executeBatch(new AccountUpdate_Queueable());
-    }
+    }*/
     public List<Account> start(Database.BatchableContext bc){
         //Collect the batches of records or objects to be passed to execute
         // If the field UnitPirce has been updated on PricebookEntry
