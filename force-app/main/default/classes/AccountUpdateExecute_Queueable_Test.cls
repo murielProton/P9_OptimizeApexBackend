@@ -2,11 +2,11 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-02-2022
+ * @last modified on  : 11-07-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
-public with sharing class RunAccountUpdate_Queueable_Test {
+public with sharing class AccountUpdateExecute_Queueable_Test {
     @isTest
     static void testRunAccountUpdate(){
         Test.startTest();
