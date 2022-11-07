@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-24-2022
+ * @last modified on  : 11-07-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class OrderTriggerHandler extends TriggerHandler {
@@ -15,5 +15,7 @@ public with sharing class OrderTriggerHandler extends TriggerHandler {
 
     public override void afterUpdate() {
         OrderTriggerHelper.updateListOfAccountsRevenue(orderListNew, orderListOld);
+        OrderTriggerHelper.updateListOfAccountsRevenueWhenOrderStatusOrdered(orderListNew, orderListOld);
     }
+    
 }

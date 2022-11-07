@@ -52,6 +52,26 @@ public with sharing class Order_TestDataFactory {
 
         return ordersListtoReturn;
     }
+    public static List<Order> getOrdersListOfNewOrdered(Set<Order> orderSetNew, Set<Order> orderSetOld){
+        List<Order> orderListToReturn = new List<Order>();
+        for(Order orderCurentNew : orderSetNew){
+            if(orderCurentNew.Status == 'Ordered'){
+                for(Order orderCurentOld : orderSetOld){
+                    if(orderCurentOld.Id == orderCurentNew.Id &&
+                    orderCurentOld.Status != 'Ordered'){
+                        if(orderListToReturn.contains(orderCurentNew)==false){
+                            orderListToReturn.add(orderCurentNew);
+                        }
+                    }else{
+                        continue;
+                    }
+                }
+            }else{
+                continue;
+            }
+        }
+        return orderListToReturn;
+    }
 
     public static Order constructOneOrder(String orderName, Id accountID, Id contractID , PriceBook2 pricebookForThisTest){
         Order orderConstructed = new Order(

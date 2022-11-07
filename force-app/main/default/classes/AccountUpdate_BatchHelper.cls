@@ -6,7 +6,7 @@
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class AccountUpdate_BatchHelper {
-   /* public static List<Account> convertOrdersListIntoAccountsList(List<Order> ordersList){
+    public static List<Account> convertOrdersListIntoAccountsList(List<Order> ordersList){
         List<Account> accountsListToReturn = new List<Account>();
         Set<Order> ordersSet = Order_TestDataFactory.convertOrderListIntoSet(ordersList);
         
@@ -25,7 +25,7 @@ public with sharing class AccountUpdate_BatchHelper {
             }
         }
         return accountsListToReturn;
-    }*/
+    }
     public static List<Order> convertAccountsListIntoOrdersList(List<Account> accountsList){
         List<Order> ordersListToReturn = new List<Order>();
         List<Order> ordersList = Order_TestDataFactory.getOrdersAll();

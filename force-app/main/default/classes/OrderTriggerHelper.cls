@@ -34,6 +34,7 @@ public with sharing class OrderTriggerHelper{
         }
         return accountsListToUpdate;
     }
+
     // Used in Trigger OrderTrigger before Update
     public static List<Order> getOrdersListWithUpdatedNetAmounts(List<Order> orderListNew){
         List<Order> ordersListToUpdate = new List<Order>();
@@ -52,6 +53,7 @@ public with sharing class OrderTriggerHelper{
         }
     return ordersListToUpdate;
     }
+
     // Used in Trigger OrderTrigger after Update
     public static void updateListOfAccountsRevenue(List<Order> orderListNew, List<Order> orderListOld){
         
@@ -59,26 +61,28 @@ public with sharing class OrderTriggerHelper{
         Set<Account> accountsSetAll = Account_TestDataFactory.convertAccountListIntoSet(accountsListAll);
         Set<Order> orderSetNew = Order_TestDataFactory.convertOrderListIntoSet(orderListNew);
         List<Account> accountsListToUpdate = getAccountsListToUpdate(orderSetNew, accountsSetAll);
-        /*System.debug('accountsSetAll ID '+accountsSetAll[0]);*/
 
-        // to iterate throgh a map and get the value for ID for(Id id : orderMapNew.keyset()){
-        //    Order orderNew = orderMapNew.get(id);
-       /* for(Order orderCurrent : orderListNew){
-            Order orderNew = orderCurrent;
-            Account acc = [SELECT Id, AccountRevenue__c FROM Account WHERE Id =:orderNew.AccountId ];
-            System.debug('TRIGGER account debug '+acc);
-            if(acc.AccountRevenue__c == null){
-                acc.AccountRevenue__c = orderNew.TotalAmount;
-            }else{
-                acc.AccountRevenue__c = acc.AccountRevenue__c + orderNew.TotalAmount;
-            }
-            update acc;
-        }*/
         update accountsListToUpdate;
     }
-    // Todo methode used in Trigger OrderTrigger before update
+    // Used in Trigger OrderTrigger after Update
+    public static void updateListOfAccountsRevenueWhenOrderStatusOrdered(List<Order> orderListNew, List<Order> orderListOld){
+        // get the right list to update
+        Set<Order> orderSetNew = Order_TestDataFactory.convertOrderListIntoSet(orderListNew);
+        Set<Order> orderSetOld = Order_TestDataFactory.convertOrderListIntoSet(orderListOld);
+        List<Order> orderList = Order_TestDataFactory.getOrdersListOfNewOrdered(orderSetNew, orderSetOld);
+        List<Account> accountsList = AccountUpdate_BatchHelper.convertOrdersListIntoAccountsList(orderList);
+
+        //update Account Revenue
+        Set<Order> orderSet = Order_TestDataFactory.convertOrderListIntoSet(orderList);
+        Set<Account> accountSet = Account_TestDataFactory.convertAccountListIntoSet(accountsList);
+        List<Account> accountsListToUpdate =  getAccountsListToUpdate(orderSet, accountSet);
+
+        update accountsListToUpdate;
+    }
+    // methode used in Trigger OrderTrigger before update
     public static void updateListOfOrdersNetAmounts(List<Order> orderListNew, List<Order> orderListOld){
         List<Order> ordersListToUpdate = getOrdersListWithUpdatedNetAmounts(orderListNew);
         update ordersListToUpdate;
     }
+    
 }
