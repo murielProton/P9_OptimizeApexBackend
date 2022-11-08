@@ -1,11 +1,12 @@
 ;;;;;;;;;;;
 componant API Name;Type of Componant;sObject;;Type of actions;Realized by;Manual/Batch;Comments;Test;INT;UAT;PROD
 Chiffre_d_affaire__c ? AccountRevenue__c;Custom Field;Account;Prior-deployment;Rename/Creating;Muriel Proton;Manual;;done;;;
-ShipmentCost__c;Custom Field;Order;Prior-deployment;Creating;Muriel Proton;Manual;;done;;;
-NetAmount__c;Custom Field;Order;Prior-deployment;Creating;Muriel Proton;Manual;;done;;;
+ShipmentCost__c;Custom Field;Order;Prior-deployment;Creating;Muriel Proton;Manual;Create custom field ShipmentCost__c;done;;;
+NetAmount__c;Custom Field;Order;Prior-deployment;Creating;Muriel Proton;Manual;Create custom field NetAmount__c;done;;;
 Fasha;Lightning Application;Account, Custumer, Contact, Contract, Order, Product, Price Book;Prior-deployment;Creating;Muriel Proton;Manual;;done;;;
 French Price Book;Record;Pricebook2 ;Prior-deployment;Creating;Muriel Proton;Manual;;done;;;
-Silk;Record;Product;Prior-deployment;Creating;Muriel Proton;Manual;Active = true;done;;;
+Silk;Record;Product;Prior-deployment;Creating;Muriel Proton;Manual;Creating a record on the sObject Product, named Silk and the field Active must be set to true;done;;;
 Silk;Record;Product;Prior-deployment;Updating;Muriel Proton;Manual;Go to  the record Silk Details Page, then click on Related | Price Books | Click on the button�: ''Add to Price Book'' until a price book named Standard appears;done;;;
 Standard Price Book ;Record;Pricebook2 ;Prior-deployment;Updating;Muriel Proton;Manual;Go to the record Standard Price Book Details Page, then click on the button Edit, then check the checkbox active. Active must be set to true.;done;;;
 Status; Field; Order;Prior-deployment;Updating;Muriel Proton;Manual;Go to the field Status on Order, add a choice to the picklist, the new choice API name is Ordered, Status Category Activated, save;done;;;
+;;;Prior-deployment;Scheduling Batch;Muriel Proton;Batch;Select the code in file ScheduleJobs.txt and execute the SFDX command Execute Anonymous Apex with Currently Selected Text;done;;
