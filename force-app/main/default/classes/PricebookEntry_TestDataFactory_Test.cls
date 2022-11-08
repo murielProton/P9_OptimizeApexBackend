@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-01-2022
+ * @last modified on  : 11-08-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -81,34 +81,7 @@ public with sharing class PricebookEntry_TestDataFactory_Test {
         System.assertEquals(pricebookEntryListForThisTest.size(), 2, 'PricebookEntry_TestDataFactory.getPricebookEntryAll should return 2 records of PricebookEntry.');
 
     }
-    @isTest
-    static void testGetPricebookEntryModifiedDdate(){
-        //gest sObjects for the Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
-        Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
-        PricebookEntry priceBookEntryToInsert1 = new PricebookEntry(
-            Pricebook2Id = Test.getStandardPricebookId(),
-            Product2Id = product2ForThisTest.Id,
-            UnitPrice = 100.00,
-            IsActive = true
-        );
-        insert priceBookEntryToInsert1;
-        PricebookEntry priceBookEntryToInsert2 = new PricebookEntry(
-            Pricebook2Id = pricebookForThisTest.Id,
-            Product2Id = product2ForThisTest.Id,
-            UnitPrice = 100.00,
-            IsActive = true,
-            UseStandardPrice = false
-        );
-        insert priceBookEntryToInsert2;
-        Test.startTest();
-        List<PricebookEntry> listOfDateTimes = PricebookEntry_TestDataFactory.getPricebookEntryListLastModifiedDdate();
-        Test.stopTest();
-        Date dateFromPricebookEntry = listOfDateTimes[0].LastModifiedDate.date();
-        Date dateExpected = Date.today();
-        System.assertEquals(dateFromPricebookEntry, dateExpected, 'PricebookEntry_TestDataFactory.getPricebookEntryModifiedDdate should return a list of DateTime, when the PricebookEntry was last modified.');
 
-    }
     @isTest
     static void testCreatePriceBookEntryForPricebookStandard(){
         //gest sObjects for the Test

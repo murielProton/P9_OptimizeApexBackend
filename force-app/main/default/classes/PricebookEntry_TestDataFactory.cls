@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-01-2022
+ * @last modified on  : 11-08-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 
@@ -35,13 +35,7 @@ public with sharing class PricebookEntry_TestDataFactory {
                                                             ];
         return pricebookEntryListToReturn;
     }
-    public static List<PricebookEntry> getPricebookEntryListLastModifiedDdate(){
-        List<PricebookEntry> pricebookEntryListLastModifiedDdate = [SELECT LastModifiedDate, 
-                                                                           UnitPrice,
-                                                                           Pricebook2Id
-                                                                    FROM PricebookEntry];
-        return pricebookEntryListLastModifiedDdate;
-    }
+
     public static void createPriceBookEntryForPricebookStandard(Product2 product2ForThisTest){
         PricebookEntry priceBookEntryToInsert = new PricebookEntry(
             Pricebook2Id = Test.getStandardPricebookId(),

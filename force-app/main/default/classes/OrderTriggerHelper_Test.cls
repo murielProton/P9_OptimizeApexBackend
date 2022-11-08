@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-07-2022
+ * @last modified on  : 11-08-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 
@@ -17,21 +17,11 @@ public with sharing class OrderTriggerHelper_Test {
     static void setupOrderTriggerHelper_Test(){
         Account_TestDataFactory.createAccountsList(5);
     }
-
-    @isTest
-    static void testGetAccountListAll(){
-
-        Test.startTest();
-        List<Account> accountListForTest = OrderTriggerHelper.getAccountListAll();
-        Test.stopTest();
-
-        System.assertEquals(accountListForTest.size(), 5, 'Order_TestDataFactory.getAccountListAll should get 5 reccords.');
-    }
     
     @isTest
     static void testGetAccountsListToUpdate(){
         String pricebook2Name ='accountName-1\'s priceboock';
-        List<Account> accountsListAll = OrderTriggerHelper.getAccountListAll();
+        List<Account> accountsListAll = Account_TestDataFactory.getAccountListAll();
 
 
         //create List of Contracts for all Accounts
@@ -62,7 +52,7 @@ public with sharing class OrderTriggerHelper_Test {
     @isTest
     public static void testGetOrdersListWithUpdatedNetAmounts(){
         String pricebook2Name ='accountName-1\'s priceboock';
-        List<Account> accountsListAll = OrderTriggerHelper.getAccountListAll();
+        List<Account> accountsListAll = Account_TestDataFactory.getAccountListAll();
 
 
         //create List of Contracts for all Accounts
@@ -110,7 +100,7 @@ public with sharing class OrderTriggerHelper_Test {
     @isTest
     public static void testUpdateListOfAccountsRevenue(){
         String pricebook2Name ='accountName-1\'s priceboock';
-        List<Account> accountsListAll = OrderTriggerHelper.getAccountListAll();
+        List<Account> accountsListAll = Account_TestDataFactory.getAccountListAll();
 
         //create List of Contracts for all Accounts
         Contract_TestDataFactory.createContractsList(accountsListAll);
@@ -193,7 +183,7 @@ public with sharing class OrderTriggerHelper_Test {
     @isTest
     public static void testUpdateListOfOrdersNetAmounts(){
         String pricebook2Name ='accountName-1\'s priceboock';
-        List<Account> accountsListAll = OrderTriggerHelper.getAccountListAll();
+        List<Account> accountsListAll = Account_TestDataFactory.getAccountListAll();
 
         //create List of Contracts for all Accounts
         Contract_TestDataFactory.createContractsList(accountsListAll);

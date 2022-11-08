@@ -2,10 +2,19 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-07-2022
+ * @last modified on  : 11-08-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class Account_TestDataFactory {
+
+    public static List<Account> getAccountListAll(){
+        
+        List<Account> accountList = [SELECT Id, 
+                                AccountRevenue__c,
+                                Name
+                        FROM Account];
+        return accountList;
+    }
     public static Account getAccount(String accountName){
         Account accountToReturn = [SELECT Id,
                                           AccountRevenue__c,
@@ -59,22 +68,6 @@ public with sharing class Account_TestDataFactory {
         insert accountsListToInsertForTest;
     }
     
-    // SOQL does not allow you to nest more than one level down in sub-selects = NOT Possible : List<Account> accountsListtoReturn = [SELECT Id FROM Account WHERE Id IN(SELECT Id FROM Order WHERE Pricebook2Id IN (SELECT Pricebook2Id FROM PricebookEntry WHERE LastModifiedDate > :dateTimeLastWeek))];
-    // PricebookEntry modification date >= today -7 jours
-    // update list of Accounts linked to Orders Linked to a Pricebook2 that is linked to a PricebookEntry which has been modified during this week.
-    public static void updateAccountsWhereEntryLastModifiedDateLessThanAWeek(){
-        List<Account> accountListAll = getAccountsAll();
-        List<Order> ordersList = Order_TestDataFactory.getOrdersWheregetPriceBook2ListWherePricebookEntryLastModifiedDate();
-        
-        //Filter duplicated records
-        Set<Order> ordersSet = Order_TestDataFactory.convertOrderListIntoSet(ordersList);
-        Set<Account> accountSet = convertAccountListIntoSet(accountListAll);
-
-        List<Account> accountsListToUpdate = OrderTriggerHelper.getAccountsListToUpdate(ordersSet, accountSet);
-
-        update accountsListToUpdate;
-    }
-
     public static Map<Id,Decimal> convertAccountsListIntoMapOfIdsAndRevenues(List<Account> accountsList){
         Map<Id,Decimal> accountsMapIdAndRevenue = new  Map<Id,Decimal>();
         for(Account accountCurent: accountsList){

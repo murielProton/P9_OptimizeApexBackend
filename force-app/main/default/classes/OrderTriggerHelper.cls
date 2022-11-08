@@ -2,19 +2,11 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-07-2022
+ * @last modified on  : 11-08-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class OrderTriggerHelper{
-    // Todo ??? get this methode forem Account_TestDataFactory
-    public static List<Account> getAccountListAll(){
-        
-        List<Account> accountList = [SELECT Id, 
-                              AccountRevenue__c,
-                              Name
-                       FROM Account];
-        return accountList;
-    }
+
 
     public static List<Account> getAccountsListToUpdate(Set<Order> orderSet, Set<Account> accountSet){
         List<Account> accountsListToUpdate = new List<Account>();
@@ -57,7 +49,7 @@ public with sharing class OrderTriggerHelper{
     // Used in Trigger OrderTrigger after Update
     public static void updateListOfAccountsRevenue(List<Order> orderListNew, List<Order> orderListOld){
         
-        List<Account> accountsListAll = getAccountListAll();
+        List<Account> accountsListAll = Account_TestDataFactory.getAccountListAll();
         Set<Account> accountsSetAll = Account_TestDataFactory.convertAccountListIntoSet(accountsListAll);
         Set<Order> orderSetNew = Order_TestDataFactory.convertOrderListIntoSet(orderListNew);
         List<Account> accountsListToUpdate = getAccountsListToUpdate(orderSetNew, accountsSetAll);
