@@ -2,24 +2,24 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-31-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
-public with sharing class Contract_TestDataFactory_Test {
+public with sharing class ContractDataFactory_Test {
     // init class variables
     private static String accountName = 'Ich bin ein creator';
     @TestSetup
     static void setupForContract_TestDataFactory_Test(){
         //Create an Account
-        Account_TestDataFactory.createAccount(accountName);
-        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        AccountDataFactory.createAccount(accountName);
+        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         //create a Contract for this Account
         Contract_TestDataFactory.createContract(accountForThisTest);
     }
     @isTest
     static void testGetContractWithAccountID(){
-        Account accountToTest = Account_TestDataFactory.getAccount(accountName);
+        Account accountToTest = AccountDataFactory.getAccount(accountName);
         Test.startTest();
         Contract contractToTest = Contract_TestDataFactory.getContract(accountToTest.Id);
         Test.stopTest();
@@ -34,7 +34,7 @@ public with sharing class Contract_TestDataFactory_Test {
     }
     @isTest
     static void testCreateContractWithAccount(){
-        Account accountToTest = Account_TestDataFactory.getAccount(accountName);
+        Account accountToTest = AccountDataFactory.getAccount(accountName);
         Test.startTest();
         Contract_TestDataFactory.createContract(accountToTest);
         Test.stopTest();
@@ -47,7 +47,7 @@ public with sharing class Contract_TestDataFactory_Test {
     }
     @isTest
     static void testUpdateContractsListStatusToActivated(){
-        Account accountToTest = Account_TestDataFactory.getAccount(accountName);
+        Account accountToTest = AccountDataFactory.getAccount(accountName);
         Contract_TestDataFactory.createContract(accountToTest);
         List<Contract> contractsList = Contract_TestDataFactory.getContractsAll();
         Test.startTest();

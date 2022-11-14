@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-07-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 //TODO
@@ -27,9 +27,9 @@ public with sharing class AccountAllUpdate_Batch_Test {
     @isTest
     static void testBatchWhenOrderStatusChangesToOrderedTheAccountRevenueMustBeUpdated(){
         // Create a bunch of Accounts
-        Account_TestDataFactory.createAccountsList(100);
-        List<Account> accountList1ToCompare = Account_TestDataFactory.getAccountsAll();
-        Set<Account> accountSet1ToCompare = Account_TestDataFactory.convertAccountListIntoSet(accountList1ToCompare);
+        AccountDataFactory.createAccountsList(100);
+        List<Account> accountList1ToCompare = AccountDataFactory.getAccountsAll();
+        Set<Account> accountSet1ToCompare = AccountDataFactory.convertAccountListIntoSet(accountList1ToCompare);
         // The Order must have at least one Product, so we can change Order.Status to Ordered
         // Link these accounts to some products = for each accounts create a contract + create pricebook custom + create pricebook standard + create products + create price book entry + create order
         // for each accounts create a contract 
@@ -74,8 +74,8 @@ public with sharing class AccountAllUpdate_Batch_Test {
 
         List<Order> orderListBeforeBatch = Order_TestDataFactory.getOrdersStatusOrdered();
 
-        List<Account> accountList1BisToCompare = Account_TestDataFactory.getAccountsAll();
-        Set<Account> accountSet1BisToCompare = Account_TestDataFactory.convertAccountListIntoSet(accountList1BisToCompare);
+        List<Account> accountList1BisToCompare = AccountDataFactory.getAccountsAll();
+        Set<Account> accountSet1BisToCompare = AccountDataFactory.convertAccountListIntoSet(accountList1BisToCompare);
 
         Test.startTest();
         AccountAllUpdate_Batch accountUpdateAllBatch = new AccountAllUpdate_Batch();
@@ -83,8 +83,8 @@ public with sharing class AccountAllUpdate_Batch_Test {
         Test.stopTest();
 
         // Find the list of Accounts linked to the Orders that had their status changed to Ordered
-        List<Account> accountList2ToCompare = Account_TestDataFactory.getAccountsWhereOrderSatusOrdered();
-        Set<Account> accountSet2ToCompare = Account_TestDataFactory.convertAccountListIntoSet(accountList2ToCompare);
+        List<Account> accountList2ToCompare = AccountDataFactory.getAccountsWhereOrderSatusOrdered();
+        Set<Account> accountSet2ToCompare = AccountDataFactory.convertAccountListIntoSet(accountList2ToCompare);
 
         //Compare two list to see if they were changed by the batch (using set to be sure that the order of the Items are not accountable)
         Boolean isFirstListIdenticalToFirstBis = accountSet1ToCompare.equals(accountSet1BisToCompare);

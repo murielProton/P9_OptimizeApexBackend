@@ -2,14 +2,14 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-08-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 // NB Account.AccountRevenue__c = Account.AccountRevenue__c + Order.TotalAmount
 // NB Order.TotalAmount = PricebookEntry.UnitPrice x OrderItem.Quantity
 
 @isTest
-public with sharing class Account_TestDataFactory_Test {
+public with sharing class AccountDataFactory_Test {
     private static String accountName = 'accountName';
     private static String nameLike = 'accountName-%';
     private static String pricebook2Name = 'pricebookName';
@@ -24,10 +24,10 @@ public with sharing class Account_TestDataFactory_Test {
         insert accountsListToInsertForTest;
 
         Test.startTest();
-        List<Account> accountListForTest = Account_TestDataFactory.getAccountListAll();
+        List<Account> accountListForTest = AccountDataFactory.getAccountListAll();
         Test.stopTest();
 
-        System.assertEquals(accountListForTest.size(), 5, 'Account_TestDataFactory.getAccountListAll should get 5 reccords.');
+        System.assertEquals(accountListForTest.size(), 5, 'AccountDataFactory.getAccountListAll should get 5 reccords.');
     }
     @isTest
     public static void testingGetAccount(){
@@ -38,10 +38,10 @@ public with sharing class Account_TestDataFactory_Test {
         insert accountsListToInsertForTest;
         
         Test.startTest();
-        Account accountToTest = Account_TestDataFactory.getAccount(accountName+3);
+        Account accountToTest = AccountDataFactory.getAccount(accountName+3);
         Test.stopTest();
 
-        System.assertEquals(accountToTest.name, accountName+3, 'getAccount(accountName) from Account_TestDataFactory should return only one Account record by the name of :'+accountName+3+'.');
+        System.assertEquals(accountToTest.name, accountName+3, 'getAccount(accountName) from AccountDataFactory should return only one Account record by the name of :'+accountName+3+'.');
     }
     @isTest
     public static void testGetAccountsAll(){
@@ -52,17 +52,17 @@ public with sharing class Account_TestDataFactory_Test {
         insert accountsListToInsertForTest;
         
         Test.startTest();
-        List<Account> accountsListToTest = Account_TestDataFactory.getAccountsAll();
+        List<Account> accountsListToTest = AccountDataFactory.getAccountsAll();
         Test.stopTest();
 
-        System.assertEquals(accountsListToTest.size(), 5, 'Account_TestDataFactory.getAccountsAll() should return a list of five records.');
+        System.assertEquals(accountsListToTest.size(), 5, 'AccountDataFactory.getAccountsAll() should return a list of five records.');
     }
     @isTest
     public static void testGetAccountsWhereOrderSatusOrdered(){
         // Create a bunch of Accounts
-        Account_TestDataFactory.createAccountsList(100);
-        List<Account> accountList1ToCompare = Account_TestDataFactory.getAccountsAll();
-        Set<Account> accountSet1ToCompare = Account_TestDataFactory.convertAccountListIntoSet(accountList1ToCompare);
+        AccountDataFactory.createAccountsList(100);
+        List<Account> accountList1ToCompare = AccountDataFactory.getAccountsAll();
+        Set<Account> accountSet1ToCompare = AccountDataFactory.convertAccountListIntoSet(accountList1ToCompare);
         // The Order must have at least one Product, so we can change Order.Status to Ordered
         // Link these accounts to some products = for each accounts create a contract + create pricebook custom + create pricebook standard + create products + create price book entry + create order
         // for each accounts create a contract 
@@ -108,17 +108,17 @@ public with sharing class Account_TestDataFactory_Test {
         List<Order> orderListBeforeBatch = Order_TestDataFactory.getOrdersStatusOrdered();
 
         Test.startTest();
-        List<Account> accountsListToTest = Account_TestDataFactory.getAccountsWhereOrderSatusOrdered();
+        List<Account> accountsListToTest = AccountDataFactory.getAccountsWhereOrderSatusOrdered();
         Test.stopTest();
 
-        System.assertEquals(accountsListToTest.size(), 100, 'Account_TestDataFactory.getAccountsWhereOrderSatusOrdered should return a list of one hundred records.');
+        System.assertEquals(accountsListToTest.size(), 100, 'AccountDataFactory.getAccountsWhereOrderSatusOrdered should return a list of one hundred records.');
     }
 
     @isTest
     public static void testGetAccountsListWhereEntryLastModifiedDateLessThanAWeek(){
          // Create a bunch of Accounts
-         Account_TestDataFactory.createAccountsList(100);
-         List<Account> accountList1ToCompare = Account_TestDataFactory.getAccountsAll();
+         AccountDataFactory.createAccountsList(100);
+         List<Account> accountList1ToCompare = AccountDataFactory.getAccountsAll();
          Account accountToCompare1 = [SELECT Id,
                                             AccountRevenue__c,
                                             Name
@@ -126,7 +126,7 @@ public with sharing class Account_TestDataFactory_Test {
                                     WHERE Id = :accountList1ToCompare[0].Id
                                     ];
 
-         Set<Account> accountSet1ToCompare = Account_TestDataFactory.convertAccountListIntoSet(accountList1ToCompare);
+         Set<Account> accountSet1ToCompare = AccountDataFactory.convertAccountListIntoSet(accountList1ToCompare);
          // The Order must have at least one Product, so we can change Order.Status to Ordered
          // Link these accounts to some products = for each accounts create a contract + create pricebook custom + create pricebook standard + create products + create price book entry + create order
          // for each accounts create a contract 
@@ -166,16 +166,16 @@ public with sharing class Account_TestDataFactory_Test {
          List<Order> orderListForTest = Order_TestDataFactory.getOrdersAll();
 
         Test.startTest();
-        List<Account> accountsListToTest = Account_TestDataFactory.getAccountsListWhereEntryLastModifiedDateLessThanAWeek();
+        List<Account> accountsListToTest = AccountDataFactory.getAccountsListWhereEntryLastModifiedDateLessThanAWeek();
         Test.stopTest();
 
-        System.assertEquals(accountsListToTest.size(), 100, 'Account_TestDataFactory.getAccountsListWhereEntryLastModifiedDateLessThanAWeek should return 100 records of Accounts.');
+        System.assertEquals(accountsListToTest.size(), 100, 'AccountDataFactory.getAccountsListWhereEntryLastModifiedDateLessThanAWeek should return 100 records of Accounts.');
     }
 
     @isTest
     public static void testingCreateAccount(){
         Test.startTest();
-        Account_TestDataFactory.createAccount(accountName);
+        AccountDataFactory.createAccount(accountName);
         Test.stopTest();
         List<Account> accountsListToTest = [SELECT Id,
                                                     AccountRevenue__c,
@@ -184,12 +184,12 @@ public with sharing class Account_TestDataFactory_Test {
                                             WHERE Name= :accountName 
                                            ];
 
-        System.assertEquals(accountsListToTest.size(), 1, 'createAccount(accountName) from Account_TestDataFactory should create one record named '+accountName+'.');
+        System.assertEquals(accountsListToTest.size(), 1, 'createAccount(accountName) from AccountDataFactory should create one record named '+accountName+'.');
     }
     @isTest
     public static void testCreateAccountsList(){
         Test.startTest();
-        Account_TestDataFactory.createAccountsList(5);
+        AccountDataFactory.createAccountsList(5);
         Test.stopTest();
         List<Account> accountsListToTest = [SELECT Id,
                                                     AccountRevenue__c,
@@ -197,12 +197,12 @@ public with sharing class Account_TestDataFactory_Test {
                                             FROM Account
                                             WHERE Name LIKE :nameLike
                                            ];
-        System.assertEquals(accountsListToTest.size(), 5, 'Account_TestDataFactory.createAccountsList should create 5 records of Accounts.');
+        System.assertEquals(accountsListToTest.size(), 5, 'AccountDataFactory.createAccountsList should create 5 records of Accounts.');
     }
 
     @isTest
     public static void testConvertAccountsListIntoMapOfIdsAndRevenues(){
-        Account_TestDataFactory.createAccountsList(5);
+        AccountDataFactory.createAccountsList(5);
         List<Account> accountsListToTest = [SELECT Id,
                                                     AccountRevenue__c,
                                                     Name
@@ -210,10 +210,10 @@ public with sharing class Account_TestDataFactory_Test {
                                             WHERE Name LIKE :nameLike
                                            ];
         Test.startTest();
-        Map<Id,Decimal> accountsMapIdAndRevenueForTest = Account_TestDataFactory.convertAccountsListIntoMapOfIdsAndRevenues(accountsListToTest);
+        Map<Id,Decimal> accountsMapIdAndRevenueForTest = AccountDataFactory.convertAccountsListIntoMapOfIdsAndRevenues(accountsListToTest);
         Test.stopTest();
 
-        System.assertEquals(accountsMapIdAndRevenueForTest.size(), 5, 'Account_TestDataFactory.convertAccountsListIntoMapOfIdsAndRevenues should return a Map of Account.Ids and Account.AccountRevenues__c.');
+        System.assertEquals(accountsMapIdAndRevenueForTest.size(), 5, 'AccountDataFactory.convertAccountsListIntoMapOfIdsAndRevenues should return a Map of Account.Ids and Account.AccountRevenues__c.');
     }
     @isTest
     static void testConvertAccountListIntoSet(){
@@ -231,9 +231,9 @@ public with sharing class Account_TestDataFactory_Test {
                                                  WHERE Name LIKE 'accountName%' ];
 
         Test.startTest();
-        Set<Account> accountSetForTest = Account_TestDataFactory.convertAccountListIntoSet(accountsListForThisTest);
+        Set<Account> accountSetForTest = AccountDataFactory.convertAccountListIntoSet(accountsListForThisTest);
         Test.stopTest();
 
-        System.assertEquals(accountSetForTest.size(), 5, 'Account_TestDataFactory.convertAccountListIntoSet should convert a list of 5 into a set of 5.');
+        System.assertEquals(accountSetForTest.size(), 5, 'AccountDataFactory.convertAccountListIntoSet should convert a list of 5 into a set of 5.');
     }
 }

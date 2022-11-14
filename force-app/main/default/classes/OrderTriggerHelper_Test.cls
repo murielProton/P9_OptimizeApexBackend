@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-08-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 
@@ -15,13 +15,13 @@ public with sharing class OrderTriggerHelper_Test {
 
     @TestSetup
     static void setupOrderTriggerHelper_Test(){
-        Account_TestDataFactory.createAccountsList(5);
+        AccountDataFactory.createAccountsList(5);
     }
     
     @isTest
     static void testGetAccountsListToUpdate(){
         String pricebook2Name ='accountName-1\'s priceboock';
-        List<Account> accountsListAll = Account_TestDataFactory.getAccountListAll();
+        List<Account> accountsListAll = AccountDataFactory.getAccountListAll();
 
 
         //create List of Contracts for all Accounts
@@ -41,7 +41,7 @@ public with sharing class OrderTriggerHelper_Test {
         insert(ordersList);
         Set<Order> orderSetNew = Order_TestDataFactory.convertOrderListIntoSet(ordersList);
         
-        Set<Account> accountsSetAll = Account_TestDataFactory.convertAccountListIntoSet(accountsListAll);
+        Set<Account> accountsSetAll = AccountDataFactory.convertAccountListIntoSet(accountsListAll);
 
         Test.startTest();
         List<Account> accountListToTest = OrderTriggerHelper.getAccountsListToUpdate(orderSetNew, accountsSetAll);
@@ -52,7 +52,7 @@ public with sharing class OrderTriggerHelper_Test {
     @isTest
     public static void testGetOrdersListWithUpdatedNetAmounts(){
         String pricebook2Name ='accountName-1\'s priceboock';
-        List<Account> accountsListAll = Account_TestDataFactory.getAccountListAll();
+        List<Account> accountsListAll = AccountDataFactory.getAccountListAll();
 
 
         //create List of Contracts for all Accounts
@@ -100,7 +100,7 @@ public with sharing class OrderTriggerHelper_Test {
     @isTest
     public static void testUpdateListOfAccountsRevenue(){
         String pricebook2Name ='accountName-1\'s priceboock';
-        List<Account> accountsListAll = Account_TestDataFactory.getAccountListAll();
+        List<Account> accountsListAll = AccountDataFactory.getAccountListAll();
 
         //create List of Contracts for all Accounts
         Contract_TestDataFactory.createContractsList(accountsListAll);
@@ -131,7 +131,7 @@ public with sharing class OrderTriggerHelper_Test {
     @isTest
     public static void testUpdateListOfAccountsRevenueWhenOrderStatusOrdered(){
 
-    List<Account> accountsListToTest = Account_TestDataFactory.getAccountsAll();
+    List<Account> accountsListToTest = AccountDataFactory.getAccountsAll();
     // The Order must have at least one Product, so we can change Order.Status to Ordered
     // Link these accounts to some products = for each accounts create a contract + create pricebook custom + create pricebook standard + create products + create price book entry + create order
     // for each accounts create a contract 
@@ -183,7 +183,7 @@ public with sharing class OrderTriggerHelper_Test {
     @isTest
     public static void testUpdateListOfOrdersNetAmounts(){
         String pricebook2Name ='accountName-1\'s priceboock';
-        List<Account> accountsListAll = Account_TestDataFactory.getAccountListAll();
+        List<Account> accountsListAll = AccountDataFactory.getAccountListAll();
 
         //create List of Contracts for all Accounts
         Contract_TestDataFactory.createContractsList(accountsListAll);

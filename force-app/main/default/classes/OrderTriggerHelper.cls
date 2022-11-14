@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-08-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class OrderTriggerHelper{
@@ -49,8 +49,8 @@ public with sharing class OrderTriggerHelper{
     // Used in Trigger OrderTrigger after Update
     public static void updateListOfAccountsRevenue(List<Order> orderListNew, List<Order> orderListOld){
         
-        List<Account> accountsListAll = Account_TestDataFactory.getAccountListAll();
-        Set<Account> accountsSetAll = Account_TestDataFactory.convertAccountListIntoSet(accountsListAll);
+        List<Account> accountsListAll = AccountDataFactory.getAccountListAll();
+        Set<Account> accountsSetAll = AccountDataFactory.convertAccountListIntoSet(accountsListAll);
         Set<Order> orderSetNew = Order_TestDataFactory.convertOrderListIntoSet(orderListNew);
         List<Account> accountsListToUpdate = getAccountsListToUpdate(orderSetNew, accountsSetAll);
 
@@ -66,7 +66,7 @@ public with sharing class OrderTriggerHelper{
 
         //update Account Revenue
         Set<Order> orderSet = Order_TestDataFactory.convertOrderListIntoSet(orderList);
-        Set<Account> accountSet = Account_TestDataFactory.convertAccountListIntoSet(accountsList);
+        Set<Account> accountSet = AccountDataFactory.convertAccountListIntoSet(accountsList);
         List<Account> accountsListToUpdate =  getAccountsListToUpdate(orderSet, accountSet);
 
         update accountsListToUpdate;

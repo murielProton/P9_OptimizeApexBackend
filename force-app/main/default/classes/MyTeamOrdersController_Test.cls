@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-07-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -12,8 +12,8 @@ public with sharing class MyTeamOrdersController_Test {
     @TestSetup
     static void testSetupForMyTeamOrdersController(){
         //Create an Account
-        Account_TestDataFactory.createAccount(accountName);
-        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        AccountDataFactory.createAccount(accountName);
+        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         //create a Contract for this Account
         Contract_TestDataFactory.createContract(accountForThisTest);
         // Make sure the Pricebook2 entry is active and standard

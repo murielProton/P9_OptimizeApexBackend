@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-07-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -16,8 +16,8 @@ public with sharing class Order_TestDataFactory_Test {
     @TestSetup
     static void setupForOrder_TestDataFactory_Test(){
         //Create an Account
-        Account_TestDataFactory.createAccount(accountName);
-        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        AccountDataFactory.createAccount(accountName);
+        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         //create a Contract for this Account
         Contract_TestDataFactory.createContract(accountForThisTest);
         // Make sure the Pricebook2 entry is active and standard
@@ -26,7 +26,7 @@ public with sharing class Order_TestDataFactory_Test {
     @isTest
     static void testGetOrder(){
         // get sObjects for Test
-        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
         Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
 
@@ -52,7 +52,7 @@ public with sharing class Order_TestDataFactory_Test {
     @isTest
     static void testGetOrdersAll(){
         // get sObjects for Test
-        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
         Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
 
@@ -78,7 +78,7 @@ public with sharing class Order_TestDataFactory_Test {
     // TODO getOrdersAllStatusOrdered
     @isTest
     static void testGetOrdersStatusOrdered(){
-        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         List<Account> accountsListToTest = new List<Account>();
         accountsListToTest.add(accountForThisTest);
         // The Order must have at least one Product, so we can change Order.Status to Ordered
@@ -130,7 +130,7 @@ public with sharing class Order_TestDataFactory_Test {
 
 @isTest
 static void testGetOrdersListOfNewOrdered(){
-    Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+    Account accountForThisTest = AccountDataFactory.getAccount(accountName);
     List<Account> accountsListToTest = new List<Account>();
     accountsListToTest.add(accountForThisTest);
     // The Order must have at least one Product, so we can change Order.Status to Ordered
@@ -185,7 +185,7 @@ static void testGetOrdersListOfNewOrdered(){
 }
     @isTest
     static void testGetOrdersWheregetPriceBook2ListWherePricebookEntryLastModifiedDate(){
-        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         List<Account> accountsListToTest = new List<Account>();
         accountsListToTest.add(accountForThisTest);
         // The Order must have at least one Product, so we can change Order.Status to Ordered
@@ -239,7 +239,7 @@ static void testGetOrdersListOfNewOrdered(){
     static void testConstructOneOrder(){
         // get sObjects for Test
         Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
-        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
 
         Test.startTest();
@@ -252,7 +252,7 @@ static void testGetOrdersListOfNewOrdered(){
     static void testCreateOrdersList(){
         // get sObjects for Test
         Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
-        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
 
         Test.startTest();
@@ -266,7 +266,7 @@ static void testGetOrdersListOfNewOrdered(){
     static void testUpdateOrderShipmentCost(){
         // get sObjects for Test
         Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
-        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
 
         //insert an order
@@ -303,7 +303,7 @@ static void testGetOrdersListOfNewOrdered(){
     @isTest
     static void testCreateOrdersListForEachContract(){
         // create some Accounts
-        Account_TestDataFactory.createAccountsList(5);
+        AccountDataFactory.createAccountsList(5);
         List<Account> accountsListToTest = [SELECT Id,
                                                     AccountRevenue__c,
                                                     Name
@@ -332,7 +332,7 @@ static void testGetOrdersListOfNewOrdered(){
     // TODO 
     @isTest
     static void testUpdateOrdersListStatusToOrdered(){
-        Account accountForThisTest = Account_TestDataFactory.getAccount(accountName);
+        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         List<Account> accountsListToTest = new List<Account>();
         accountsListToTest.add(accountForThisTest);
         // The Order must have at least one Product, so we can change Order.Status to Ordered

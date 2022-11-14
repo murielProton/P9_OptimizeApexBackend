@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-07-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class AccountUpdate_Queueable implements Database.Batchable<sObject> {
@@ -16,7 +16,7 @@ public with sharing class AccountUpdate_Queueable implements Database.Batchable<
         // or
         // PricebookEntry -> Pricebook2 <- Order -> Account
         //IMPORTANT ONLY QUERRY HERE !
-        return Account_TestDataFactory.getAccountsListWhereEntryLastModifiedDateLessThanAWeek();
+        return AccountDataFactory.getAccountsListWhereEntryLastModifiedDateLessThanAWeek();
     }
     public void execute(Database.BatchableContext bc, List<Account> accountsRecordsList){
         //process each batch of records

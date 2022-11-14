@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-07-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -13,8 +13,8 @@ public with sharing class AccountUpdate_BatchHelper_Test {
     @TestSetup
     static void setupForAccountUpdate_BatchHelperTest(){
        // Create a bunch of Accounts
-       Account_TestDataFactory.createAccountsList(50);
-       List<Account> accountsListToTest = Account_TestDataFactory.getAccountsAll();
+       AccountDataFactory.createAccountsList(50);
+       List<Account> accountsListToTest = AccountDataFactory.getAccountsAll();
        // The Order must have at least one Product, so we can change Order.Status to Ordered
        // Link these accounts to some products = for each accounts create a contract + create pricebook custom + create pricebook standard + create products + create price book entry + create order
        // for each accounts create a contract 
@@ -52,7 +52,7 @@ public with sharing class AccountUpdate_BatchHelper_Test {
        }
        insert orderItemsList;
        // Create a bunch of Accounts That will have no Orders Linked
-       Account_TestDataFactory.createAccountsList(50);
+       AccountDataFactory.createAccountsList(50);
     }
     @isTest
     static void testConvertOrdersListIntoAccountsList(){
@@ -69,7 +69,7 @@ public with sharing class AccountUpdate_BatchHelper_Test {
     @isTest
     static void testConvertAccountsListIntoOrdersList(){
         
-        List<Account> accountListForTest = Account_TestDataFactory.getAccountsAll();
+        List<Account> accountListForTest = AccountDataFactory.getAccountsAll();
 
         Test.startTest();
         List<Order> orderList = AccountUpdate_BatchHelper.convertAccountsListIntoOrdersList(accountListForTest);
