@@ -18,7 +18,7 @@ global class AccountAllUpdate_Batch implements Database.Batchable<sObject>{
     // update Account Revenue
        Set<Account> accountSet = AccountDataFactory.convertAccountListIntoSet(scope);
        List<Order> ordersList = AccountUpdate_BatchHelper.convertAccountsListIntoOrdersList(scope);
-       Set<Order> ordersSet = Order_TestDataFactory.convertOrderListIntoSet(ordersList);
+       Set<Order> ordersSet = OrderDataFactory.convertOrderListIntoSet(ordersList);
        List<Account> accountsListToUpdate = OrderTriggerHelper.getAccountsListToUpdate(ordersSet, accountSet);
        update accountsListToUpdate;
    }    

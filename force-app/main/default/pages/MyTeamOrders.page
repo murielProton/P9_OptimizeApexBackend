@@ -1,7 +1,14 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 11-14-2022
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
 <apex:page controller="MyTeamOrdersController" >
     <div>
         <h1>
-            Sum of my team orders: <apex:outputText value="{!SumOders}" />
+            Sum of my team orders: <apex:outputText value="{!SumOrders}" />
         </h1>
     </div>
 </apex:page>

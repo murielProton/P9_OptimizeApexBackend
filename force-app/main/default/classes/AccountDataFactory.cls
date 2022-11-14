@@ -44,10 +44,10 @@ public with sharing class AccountDataFactory {
     // find list of Accounts linked to Orders Linked to a Pricebook2 that is linked to a PricebookEntry which has been modified during this week.
     public static List<Account> getAccountsListWhereEntryLastModifiedDateLessThanAWeek(){
         List<Account> accountListAll = getAccountsAll();
-        List<Order> ordersList = Order_TestDataFactory.getOrdersWheregetPriceBook2ListWherePricebookEntryLastModifiedDate();
+        List<Order> ordersList = OrderDataFactory.getOrdersWheregetPriceBook2ListWherePricebookEntryLastModifiedDate();
         
         //Filter duplicated records
-        Set<Order> ordersSet = Order_TestDataFactory.convertOrderListIntoSet(ordersList);
+        Set<Order> ordersSet = OrderDataFactory.convertOrderListIntoSet(ordersList);
         Set<Account> accountSet = convertAccountListIntoSet(accountListAll);
 
         List<Account> accountsListToUpdate = OrderTriggerHelper.getAccountsListToUpdate(ordersSet, accountSet);

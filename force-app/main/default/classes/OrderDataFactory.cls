@@ -2,10 +2,10 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-07-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-public with sharing class Order_TestDataFactory {
+public with sharing class OrderDataFactory {
     public static Order getOrder(Account accountForThisTest, Contract contractForThisTest){
         Order orderToReturn = [SELECT Id, AccountId, TotalAmount, ShipmentCost__c
                                FROM Order

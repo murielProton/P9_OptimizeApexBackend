@@ -51,7 +51,7 @@ public with sharing class OrderTriggerHelper{
         
         List<Account> accountsListAll = AccountDataFactory.getAccountListAll();
         Set<Account> accountsSetAll = AccountDataFactory.convertAccountListIntoSet(accountsListAll);
-        Set<Order> orderSetNew = Order_TestDataFactory.convertOrderListIntoSet(orderListNew);
+        Set<Order> orderSetNew = OrderDataFactory.convertOrderListIntoSet(orderListNew);
         List<Account> accountsListToUpdate = getAccountsListToUpdate(orderSetNew, accountsSetAll);
 
         update accountsListToUpdate;
@@ -59,13 +59,13 @@ public with sharing class OrderTriggerHelper{
     // Used in Trigger OrderTrigger after Update
     public static void updateListOfAccountsRevenueWhenOrderStatusOrdered(List<Order> orderListNew, List<Order> orderListOld){
         // get the right list to update
-        Set<Order> orderSetNew = Order_TestDataFactory.convertOrderListIntoSet(orderListNew);
-        Set<Order> orderSetOld = Order_TestDataFactory.convertOrderListIntoSet(orderListOld);
-        List<Order> orderList = Order_TestDataFactory.getOrdersListOfNewOrdered(orderSetNew, orderSetOld);
+        Set<Order> orderSetNew = OrderDataFactory.convertOrderListIntoSet(orderListNew);
+        Set<Order> orderSetOld = OrderDataFactory.convertOrderListIntoSet(orderListOld);
+        List<Order> orderList = OrderDataFactory.getOrdersListOfNewOrdered(orderSetNew, orderSetOld);
         List<Account> accountsList = AccountUpdate_BatchHelper.convertOrdersListIntoAccountsList(orderList);
 
         //update Account Revenue
-        Set<Order> orderSet = Order_TestDataFactory.convertOrderListIntoSet(orderList);
+        Set<Order> orderSet = OrderDataFactory.convertOrderListIntoSet(orderList);
         Set<Account> accountSet = AccountDataFactory.convertAccountListIntoSet(accountsList);
         List<Account> accountsListToUpdate =  getAccountsListToUpdate(orderSet, accountSet);
 
