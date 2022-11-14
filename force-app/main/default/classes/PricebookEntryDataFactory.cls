@@ -2,12 +2,12 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-08-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 
 // LastModifiedDate field not writeable
-public with sharing class PricebookEntry_TestDataFactory {
+public with sharing class PricebookEntryDataFactory {
     // Product must be active and added to Pricebook first
     public static PricebookEntry getPricebookEntry(PriceBook2 pricebookForThisTest,Product2 product2ForThisTest){
         PricebookEntry pricebookEntryToReturn = [SELECT Id,

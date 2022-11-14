@@ -36,14 +36,14 @@ public with sharing class AccountUpdate_Queueable_Test {
         Pricebook2DataFactory.createPricebook2(pricebook2Name);
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
         // Create Product2
-        Product2_TestDataFactory.createProduct2(productName);
+        Product2DataFactory.createProduct2(productName);
         // Now make sure the Salesforce process doese create a standard Pricebook2
         Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
-        Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
+        Product2 product2ForThisTest = Product2DataFactory.getProduct2(productName);
         // Process needs an entry in th Pricebook2 Standard = true, first ;
-        PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
+        PricebookEntryDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
         // then PricebookEntry for normal Pricebook2 can be inserted.
-        PricebookEntry_TestDataFactory.createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
+        PricebookEntryDataFactory.createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
         // get contracts List we just inserted
         List<Contract> contractsListForTest = ContractDataFactory.getContractsAll();
         //Create Order for eache Contracts
@@ -60,10 +60,10 @@ public with sharing class AccountUpdate_Queueable_Test {
                                                 ];
         // map 1 = get AccountRevenue__c of all the created Accounts
         Map<Id,Decimal> accountMapIDAndAccountRevenue1 = AccountDataFactory.convertAccountsListIntoMapOfIdsAndRevenues(accountListBeforeUpdate);
-        Product2 product2ToUpdate = Product2_TestDataFactory.getProduct2(productName);
-        List<PricebookEntry> priceBookEntryListToUpdate = PricebookEntry_TestDataFactory.getPricebookEntryAll();
+        Product2 product2ToUpdate = Product2DataFactory.getProduct2(productName);
+        List<PricebookEntry> priceBookEntryListToUpdate = PricebookEntryDataFactory.getPricebookEntryAll();
         // Update Price of the product2 price by updating Pricebook2 entries
-        PricebookEntry_TestDataFactory.updadePriceBookEntryList(priceBookEntryListToUpdate);
+        PricebookEntryDataFactory.updadePriceBookEntryList(priceBookEntryListToUpdate);
         Test.startTest();
         AccountUpdate_Queueable accountUpdateQueueableBatch = new AccountUpdate_Queueable();
         Id queueableBatchId = Database.executeBatch(accountUpdateQueueableBatch);
