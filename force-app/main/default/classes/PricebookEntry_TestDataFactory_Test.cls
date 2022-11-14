@@ -18,7 +18,7 @@ public with sharing class PricebookEntry_TestDataFactory_Test {
         AccountDataFactory.createAccount(accountName);
         Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         //create a Contract for this Account
-        Contract_TestDataFactory.createContract(accountForThisTest);
+        ContractDataFactory.createContract(accountForThisTest);
         // Make sure the Pricebook2 entry is active and standard
         Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2

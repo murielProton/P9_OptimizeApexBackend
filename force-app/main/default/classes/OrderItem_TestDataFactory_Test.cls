@@ -18,7 +18,7 @@ public with sharing class OrderItem_TestDataFactory_Test {
         AccountDataFactory.createAccount(accountName);
         Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         //create a Contract for this Account
-        Contract_TestDataFactory.createContract(accountForThisTest);
+        ContractDataFactory.createContract(accountForThisTest);
         // Make sure the Pricebook2 entry is active and standard
         Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
@@ -32,7 +32,7 @@ public with sharing class OrderItem_TestDataFactory_Test {
         // then PricebookEntry for normal Pricebook2 can be inserted.
         PricebookEntry_TestDataFactory.createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
         // get contract
-        Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
+        Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
         Account accountForThisTest1 = AccountDataFactory.getAccount(accountName);
         //Create Order
         Order orderForThisTest = Order_TestDataFactory.constructOneOrder( orderName, accountForThisTest1.Id, contractForThisTest.Id, pricebookForThisTest);
@@ -43,7 +43,7 @@ public with sharing class OrderItem_TestDataFactory_Test {
     static void testConstructOneOrderItem(){
         // get sObjects to run the test
         Account accountForThisTest = AccountDataFactory.getAccount(accountName);
-        Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
+        Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
         Order orderForThisTest = Order_TestDataFactory.getOrder(accountForThisTest, contractForThisTest);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
         Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);

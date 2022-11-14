@@ -15,20 +15,20 @@ public with sharing class ContractDataFactory_Test {
         AccountDataFactory.createAccount(accountName);
         Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         //create a Contract for this Account
-        Contract_TestDataFactory.createContract(accountForThisTest);
+        ContractDataFactory.createContract(accountForThisTest);
     }
     @isTest
     static void testGetContractWithAccountID(){
         Account accountToTest = AccountDataFactory.getAccount(accountName);
         Test.startTest();
-        Contract contractToTest = Contract_TestDataFactory.getContract(accountToTest.Id);
+        Contract contractToTest = ContractDataFactory.getContract(accountToTest.Id);
         Test.stopTest();
         System.assertEquals(contractToTest.AccountId, accountToTest.Id, 'Order_TestDataFactory.getContract(accountToTest.Id) should return a least one Contract.');
     }
     @isTest
     static void testGetContractsAll(){
         Test.startTest();
-        List<Contract> contractList = Contract_TestDataFactory.getContractsAll();
+        List<Contract> contractList = ContractDataFactory.getContractsAll();
         Test.stopTest();
         System.assertEquals(contractList.size(), 1, 'Order_TestDataFactory.getContractsAll should get a least one Contract.');
     }
@@ -36,7 +36,7 @@ public with sharing class ContractDataFactory_Test {
     static void testCreateContractWithAccount(){
         Account accountToTest = AccountDataFactory.getAccount(accountName);
         Test.startTest();
-        Contract_TestDataFactory.createContract(accountToTest);
+        ContractDataFactory.createContract(accountToTest);
         Test.stopTest();
         Contract contractToTest = [SELECT Id,
                                           AccountId
@@ -48,10 +48,10 @@ public with sharing class ContractDataFactory_Test {
     @isTest
     static void testUpdateContractsListStatusToActivated(){
         Account accountToTest = AccountDataFactory.getAccount(accountName);
-        Contract_TestDataFactory.createContract(accountToTest);
-        List<Contract> contractsList = Contract_TestDataFactory.getContractsAll();
+        ContractDataFactory.createContract(accountToTest);
+        List<Contract> contractsList = ContractDataFactory.getContractsAll();
         Test.startTest();
-        Contract_TestDataFactory.updateContractsListStatusToActivated(contractsList);
+        ContractDataFactory.updateContractsListStatusToActivated(contractsList);
         Test.stopTest();
         Contract contractToTest = [SELECT Status
                                    FROM Contract 

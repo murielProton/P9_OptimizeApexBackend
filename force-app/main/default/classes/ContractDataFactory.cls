@@ -2,10 +2,10 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-31-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-public with sharing class Contract_TestDataFactory {
+public with sharing class ContractDataFactory {
     public static Contract getContract(ID accountId){
         Contract contractToReturn = [SELECT Id,
                                             AccountId,

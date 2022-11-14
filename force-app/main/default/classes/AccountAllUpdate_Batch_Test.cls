@@ -33,10 +33,10 @@ public with sharing class AccountAllUpdate_Batch_Test {
         // The Order must have at least one Product, so we can change Order.Status to Ordered
         // Link these accounts to some products = for each accounts create a contract + create pricebook custom + create pricebook standard + create products + create price book entry + create order
         // for each accounts create a contract 
-        Contract_TestDataFactory.createContractsList(accountList1ToCompare);
+        ContractDataFactory.createContractsList(accountList1ToCompare);
         // for the test to succeed the Contract Status should be Activated, but it can't be inserted as such, so we need to update it
-        List<Contract> contractsListToUpdate = Contract_TestDataFactory.getContractsAll();
-        Contract_TestDataFactory.updateContractsListStatusToActivated(contractsListToUpdate);
+        List<Contract> contractsListToUpdate = ContractDataFactory.getContractsAll();
+        ContractDataFactory.updateContractsListStatusToActivated(contractsListToUpdate);
         Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
         // Create Product2
@@ -51,7 +51,7 @@ public with sharing class AccountAllUpdate_Batch_Test {
         
         
         // get contracts List we just inserted
-        List<Contract> contractsListForTest = Contract_TestDataFactory.getContractsAll();
+        List<Contract> contractsListForTest = ContractDataFactory.getContractsAll();
         //Create Order for each Contracts
         Order_TestDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
         // they need to have their Status set to Ordered

@@ -32,7 +32,7 @@ public with sharing class AccountUpdate_Queueable_Test {
                                            ];
         // Link these accounts to some products = for each accounts create a contract + create pricebook custom + create pricebook standard + create products + create price book entry + create order
         // for each accounts create a contract 
-        Contract_TestDataFactory.createContractsList(accountsListToTest);
+        ContractDataFactory.createContractsList(accountsListToTest);
         Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
         // Create Product2
@@ -45,7 +45,7 @@ public with sharing class AccountUpdate_Queueable_Test {
         // then PricebookEntry for normal Pricebook2 can be inserted.
         PricebookEntry_TestDataFactory.createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
         // get contracts List we just inserted
-        List<Contract> contractsListForTest = Contract_TestDataFactory.getContractsAll();
+        List<Contract> contractsListForTest = ContractDataFactory.getContractsAll();
         //Create Order for eache Contracts
         Order_TestDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
        
