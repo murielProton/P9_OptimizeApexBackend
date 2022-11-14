@@ -9,21 +9,50 @@
 public with sharing class MyTeamOrdersController_Test {
     private static String accountName = 'Yukako';
     private static String pricebook2Name = 'Yukako\'s Price Book';
+    private static String productName = 'Kinu';
     @TestSetup
     static void testSetupForMyTeamOrdersController(){
         //Create an Account
         AccountDataFactory.createAccount(accountName);
         Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         //create a Contract for this Account
-        Contract_TestDataFactory.createContract(accountForThisTest);
+        ContractDataFactory.createContract(accountForThisTest);
+        List<Contract> contractsListToUpdate = ContractDataFactory.getContractsAll();
+        ContractDataFactory.updateContractsListStatusToActivated(contractsListToUpdate);
+        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
         // Make sure the Pricebook2 entry is active and standard
         Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
 
-        // get sObjects for Test
-        Contract contractForThisTest = Contract_TestDataFactory.getContract(accountForThisTest.Id);
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+       // Create Product2
+       Product2_TestDataFactory.createProduct2(productName);
+       // Now make sure the Salesforce process doese create a standard Pricebook2
+       Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+       Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
+       // Process needs an entry in th Pricebook2 Standard = true, first ;
+       PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
+       // then PricebookEntry for normal Pricebook2 can be inserted.
+       PricebookEntry_TestDataFactory.createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
+       
+       
+       // get contracts List we just inserted
+       List<Contract> contractsListForTest = ContractDataFactory.getContractsAll();
+       //Create Order for each Contracts
+       Order_TestDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
+       // they need to have their Status set to Ordered
+       List<Order> orderList = Order_TestDataFactory.getOrdersAll();
 
-        Order_TestDataFactory.createOrdersList(100, accountForThisTest.Id, contractForThisTest.Id , pricebookForThisTest);
+       //OrderItem links product to Order 
+       // for each Orders create an OrderItem
+       List<OrderItem> orderItemsList = new List<OrderItem>();
+       PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
+       for(Order orderCurent : orderList){
+           //(Order orderForThisTest, Product2 product2ForThisTest, PricebookEntry pricebookEntryForThisTest)
+           orderItemsList.add(OrderItem_TestDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
+       }
+       insert orderItemsList;
+       
+       List<Order> orderListForTest = Order_TestDataFactory.getOrdersAll();        
+       Order_TestDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
     }
     @isTest
     static void testSumOders(){
