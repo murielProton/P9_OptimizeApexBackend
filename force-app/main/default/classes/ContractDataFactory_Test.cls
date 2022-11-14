@@ -23,14 +23,14 @@ public with sharing class ContractDataFactory_Test {
         Test.startTest();
         Contract contractToTest = ContractDataFactory.getContract(accountToTest.Id);
         Test.stopTest();
-        System.assertEquals(contractToTest.AccountId, accountToTest.Id, 'Order_TestDataFactory.getContract(accountToTest.Id) should return a least one Contract.');
+        System.assertEquals(contractToTest.AccountId, accountToTest.Id, 'OrderDataFactory.getContract(accountToTest.Id) should return a least one Contract.');
     }
     @isTest
     static void testGetContractsAll(){
         Test.startTest();
         List<Contract> contractList = ContractDataFactory.getContractsAll();
         Test.stopTest();
-        System.assertEquals(contractList.size(), 1, 'Order_TestDataFactory.getContractsAll should get a least one Contract.');
+        System.assertEquals(contractList.size(), 1, 'OrderDataFactory.getContractsAll should get a least one Contract.');
     }
     @isTest
     static void testCreateContractWithAccount(){
@@ -43,7 +43,7 @@ public with sharing class ContractDataFactory_Test {
                                    FROM Contract 
                                    WHERE AccountId= :accountToTest.Id 
                                    LIMIT 1];
-        System.assertEquals(contractToTest.AccountId, accountToTest.Id, 'Order_TestDataFactory.createContract(accountToTest) should create one Contract.');
+        System.assertEquals(contractToTest.AccountId, accountToTest.Id, 'OrderDataFactory.createContract(accountToTest) should create one Contract.');
     }
     @isTest
     static void testUpdateContractsListStatusToActivated(){
@@ -57,6 +57,6 @@ public with sharing class ContractDataFactory_Test {
                                    FROM Contract 
                                    WHERE Status = 'Activated'
                                    LIMIT 1];
-        System.assertEquals(contractToTest.Status, 'Activated', 'Order_TestDataFactory.updateContractsListStatusToActivated should create one Contracts with a Status set to Activated.');
+        System.assertEquals(contractToTest.Status, 'Activated', 'OrderDataFactory.updateContractsListStatusToActivated should create one Contracts with a Status set to Activated.');
     }
 }

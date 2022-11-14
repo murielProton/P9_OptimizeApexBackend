@@ -53,9 +53,9 @@ public with sharing class AccountAllUpdate_Batch_Test {
         // get contracts List we just inserted
         List<Contract> contractsListForTest = ContractDataFactory.getContractsAll();
         //Create Order for each Contracts
-        Order_TestDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
+        OrderDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
         // they need to have their Status set to Ordered
-        List<Order> orderList = Order_TestDataFactory.getOrdersAll();
+        List<Order> orderList = OrderDataFactory.getOrdersAll();
 
         //OrderItem links product to Order 
         // for each Orders create an OrderItem
@@ -63,16 +63,16 @@ public with sharing class AccountAllUpdate_Batch_Test {
         PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
         for(Order orderCurent : orderList){
             //(Order orderForThisTest, Product2 product2ForThisTest, PricebookEntry pricebookEntryForThisTest)
-            orderItemsList.add(OrderItem_TestDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
+            orderItemsList.add(OrderItemDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
         }
         insert orderItemsList;
-        List<Order> orderListForTest = Order_TestDataFactory.getOrdersAll();
+        List<Order> orderListForTest = OrderDataFactory.getOrdersAll();
 
 
         // Change the Orders -> Order.Status to Ordered
-        Order_TestDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
+        OrderDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
 
-        List<Order> orderListBeforeBatch = Order_TestDataFactory.getOrdersStatusOrdered();
+        List<Order> orderListBeforeBatch = OrderDataFactory.getOrdersStatusOrdered();
 
         List<Account> accountList1BisToCompare = AccountDataFactory.getAccountsAll();
         Set<Account> accountSet1BisToCompare = AccountDataFactory.convertAccountListIntoSet(accountList1BisToCompare);

@@ -37,9 +37,9 @@ public with sharing class MyTeamOrdersController_Test {
        // get contracts List we just inserted
        List<Contract> contractsListForTest = ContractDataFactory.getContractsAll();
        //Create Order for each Contracts
-       Order_TestDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
+       OrderDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
        // they need to have their Status set to Ordered
-       List<Order> orderList = Order_TestDataFactory.getOrdersAll();
+       List<Order> orderList = OrderDataFactory.getOrdersAll();
 
        //OrderItem links product to Order 
        // for each Orders create an OrderItem
@@ -47,12 +47,12 @@ public with sharing class MyTeamOrdersController_Test {
        PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
        for(Order orderCurent : orderList){
            //(Order orderForThisTest, Product2 product2ForThisTest, PricebookEntry pricebookEntryForThisTest)
-           orderItemsList.add(OrderItem_TestDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
+           orderItemsList.add(OrderItemDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
        }
        insert orderItemsList;
        
-       List<Order> orderListForTest = Order_TestDataFactory.getOrdersAll();        
-       Order_TestDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
+       List<Order> orderListForTest = OrderDataFactory.getOrdersAll();        
+       OrderDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
     }
     @isTest
     static void testSumOders(){

@@ -52,11 +52,11 @@ public with sharing class OrderTrigger_Test {
         Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
         Account accountForThisTest1 = AccountDataFactory.getAccount(accountName);
         //Create Order
-        Order orderForThisTest = Order_TestDataFactory.constructOneOrder(orderName, accountForThisTest1.Id, contractForThisTest.Id, pricebookForThisTest);
+        Order orderForThisTest = OrderDataFactory.constructOneOrder(orderName, accountForThisTest1.Id, contractForThisTest.Id, pricebookForThisTest);
         insert orderForThisTest;
         // Create OrderItem
         PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
-        OrderItem constructedOrderItem = OrderItem_TestDataFactory.constructOneOrderItem(orderForThisTest, product2ForThisTest, pricebookEntryForThisTest);
+        OrderItem constructedOrderItem = OrderItemDataFactory.constructOneOrderItem(orderForThisTest, product2ForThisTest, pricebookEntryForThisTest);
         insert constructedOrderItem;
         
     }
@@ -69,11 +69,11 @@ public with sharing class OrderTrigger_Test {
         Decimal accountRevenueBeforeUpdate = accountForThisTest.AccountRevenue__c;
 
         //get the order for the test
-        Order orderForTheTest = Order_TestDataFactory.getOrder(accountForThisTest, contractForThisTest);
+        Order orderForTheTest = OrderDataFactory.getOrder(accountForThisTest, contractForThisTest);
 
         // Update Order
         Test.startTest();
-        Order_TestDataFactory.updateOrderShipmentCost(orderForTheTest);
+        OrderDataFactory.updateOrderShipmentCost(orderForTheTest);
         Test.stopTest();
 
         // get the field to test aftier update
@@ -89,12 +89,12 @@ public with sharing class OrderTrigger_Test {
         Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
         //get the Order's ShipmentCost__c beforre test
-        Order orderForTheTest = Order_TestDataFactory.getOrder(accountForThisTest, contractForThisTest);
+        Order orderForTheTest = OrderDataFactory.getOrder(accountForThisTest, contractForThisTest);
         Decimal orderShipmentCostBeforeUpdate = orderForTheTest.ShipmentCost__c;
 
         // Update Order
         Test.startTest();
-        Order_TestDataFactory.updateOrderShipmentCost(orderForTheTest);
+        OrderDataFactory.updateOrderShipmentCost(orderForTheTest);
         Test.stopTest();
 
         //get the Order's ShipmentCost__c after test
@@ -155,9 +155,9 @@ public with sharing class AccountUpdate_Batch_Test {
         // get contracts List we just inserted
         List<Contract> contractsListForTest = ContractDataFactory.getContractsAll();
         //Create Order for each Contracts
-        Order_TestDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
+        OrderDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
         // they need to have their Status set to Ordered
-        List<Order> orderList = Order_TestDataFactory.getOrdersAll();
+        List<Order> orderList = OrderDataFactory.getOrdersAll();
 
         //OrderItem links product to Order 
         // for each Orders create an OrderItem
@@ -165,16 +165,16 @@ public with sharing class AccountUpdate_Batch_Test {
         PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
         for(Order orderCurent : orderList){
             //(Order orderForThisTest, Product2 product2ForThisTest, PricebookEntry pricebookEntryForThisTest)
-            orderItemsList.add(OrderItem_TestDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
+            orderItemsList.add(OrderItemDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
         }
         insert orderItemsList;
-        List<Order> orderListForTest = Order_TestDataFactory.getOrdersAll();
+        List<Order> orderListForTest = OrderDataFactory.getOrdersAll();
 
 
         // Change half of the Orders -> Order.Status to Ordered
-        Order_TestDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
+        OrderDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
 
-        List<Order> orderListBeforeBatch = Order_TestDataFactory.getOrdersStatusOrdered();
+        List<Order> orderListBeforeBatch = OrderDataFactory.getOrdersStatusOrdered();
 
         List<Account> accountList1BisToCompare = AccountDataFactory.getAccountsAll();
         Set<Account> accountSet1BisToCompare = AccountDataFactory.convertAccountListIntoSet(accountList1BisToCompare);

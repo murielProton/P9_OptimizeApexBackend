@@ -47,7 +47,7 @@ public with sharing class AccountUpdate_Queueable_Test {
         // get contracts List we just inserted
         List<Contract> contractsListForTest = ContractDataFactory.getContractsAll();
         //Create Order for eache Contracts
-        Order_TestDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
+        OrderDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
        
     }
     @isTest

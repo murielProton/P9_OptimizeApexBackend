@@ -35,11 +35,11 @@ public with sharing class OrderTriggerHelper_Test {
         //Create Orders
         List<Order> ordersList = new List<Order>();
         for(Contract contractCurrent : contractsListForThisTest){
-            Order orderForThisTest = Order_TestDataFactory.constructOneOrder( orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
+            Order orderForThisTest = OrderDataFactory.constructOneOrder( orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
             ordersList.add(orderForThisTest);
         }
         insert(ordersList);
-        Set<Order> orderSetNew = Order_TestDataFactory.convertOrderListIntoSet(ordersList);
+        Set<Order> orderSetNew = OrderDataFactory.convertOrderListIntoSet(ordersList);
         
         Set<Account> accountsSetAll = AccountDataFactory.convertAccountListIntoSet(accountsListAll);
 
@@ -66,7 +66,7 @@ public with sharing class OrderTriggerHelper_Test {
         //Create Orders
         List<Order> ordersList = new List<Order>();
         for(Contract contractCurrent : contractsListForThisTest){
-            Order orderForThisTest = Order_TestDataFactory.constructOneOrder(orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
+            Order orderForThisTest = OrderDataFactory.constructOneOrder(orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
             ordersList.add(orderForThisTest);
         }
         
@@ -86,13 +86,13 @@ public with sharing class OrderTriggerHelper_Test {
         //Insert the Order List and get them
         ordersList.add(orderShipmentCostNull);   
         insert ordersList;
-        List<Order> ordersAllList = Order_TestDataFactory.getOrdersAll();
+        List<Order> ordersAllList = OrderDataFactory.getOrdersAll();
 
         Test.startTest();
         List<Order> orderListToTest = OrderTriggerHelper.getOrdersListWithUpdatedNetAmounts(ordersAllList);
         Test.stopTest();
 
-        System.debug('getallOrders '+ Order_TestDataFactory.getOrdersAll());
+        System.debug('getallOrders '+ OrderDataFactory.getOrdersAll());
         
         System.assertEquals(orderListToTest.size(), 6, 'OrderTriggerHelper.getOrdersListWithUpdatedNetAmounts should return a list of 5.');
 
@@ -114,7 +114,7 @@ public with sharing class OrderTriggerHelper_Test {
         //Create Orders
         List<Order> orderListOld = new List<Order>();
         for(Contract contractCurrent : contractsListForThisTest){
-            Order orderForThisTest = Order_TestDataFactory.constructOneOrder(orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
+            Order orderForThisTest = OrderDataFactory.constructOneOrder(orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
             orderListOld.add(orderForThisTest);
         }
         insert(orderListOld);
@@ -124,7 +124,7 @@ public with sharing class OrderTriggerHelper_Test {
         OrderTriggerHelper.updateListOfAccountsRevenue(orderListNew, orderListOld);
         Test.stopTest();
 
-        List<Order> orderListToTest = Order_TestDataFactory.getOrdersAll();
+        List<Order> orderListToTest = OrderDataFactory.getOrdersAll();
 
         System.assertNotEquals(orderListToTest[0].TotalAmount, Null, 'OrderTriggerHelper.updateListOfAccountsRevenue should update a list of Orders.');
     }
@@ -155,9 +155,9 @@ public with sharing class OrderTriggerHelper_Test {
     // get contracts List we just inserted
     List<Contract> contractsListForTest = ContractDataFactory.getContractsAll();
     //Create Order for each Contracts
-    Order_TestDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
+    OrderDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
     // they need to have their Status set to Ordered
-    List<Order> orderList = Order_TestDataFactory.getOrdersAll();
+    List<Order> orderList = OrderDataFactory.getOrdersAll();
 
     //OrderItem links product to Order 
     // for each Orders create an OrderItem
@@ -165,18 +165,18 @@ public with sharing class OrderTriggerHelper_Test {
     PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
     for(Order orderCurent : orderList){
         //(Order orderForThisTest, Product2 product2ForThisTest, PricebookEntry pricebookEntryForThisTest)
-        orderItemsList.add(OrderItem_TestDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
+        orderItemsList.add(OrderItemDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
     }
     insert orderItemsList;
     
-    List<Order> orderListForTest = Order_TestDataFactory.getOrdersAll();        
-    Order_TestDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
+    List<Order> orderListForTest = OrderDataFactory.getOrdersAll();        
+    OrderDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
 
         Test.startTest();
-        OrderTriggerHelper.updateListOfAccountsRevenueWhenOrderStatusOrdered(Order_TestDataFactory.getOrdersAll(), orderList);
+        OrderTriggerHelper.updateListOfAccountsRevenueWhenOrderStatusOrdered(OrderDataFactory.getOrdersAll(), orderList);
         Test.stopTest();
 
-        List<Order> orderListToTest = Order_TestDataFactory.getOrdersAll();
+        List<Order> orderListToTest = OrderDataFactory.getOrdersAll();
 
         System.assertNotEquals(orderListToTest.size(), 1, 'OrderTriggerHelper.updateListOfAccountsRevenueWhenOrderStatusOrdered should update a list of Orders.');
     }
@@ -197,7 +197,7 @@ public with sharing class OrderTriggerHelper_Test {
         //Create Orders
         List<Order> orderListOld = new List<Order>();
         for(Contract contractCurrent : contractsListForThisTest){
-            Order orderForThisTest = Order_TestDataFactory.constructOneOrder(orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
+            Order orderForThisTest = OrderDataFactory.constructOneOrder(orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
             orderListOld.add(orderForThisTest);
         }
         insert(orderListOld);
@@ -207,7 +207,7 @@ public with sharing class OrderTriggerHelper_Test {
         OrderTriggerHelper.updateListOfOrdersNetAmounts(orderListNew, orderListOld);
         Test.stopTest();
 
-        List<Order> orderListToTest = Order_TestDataFactory.getOrdersAll();
+        List<Order> orderListToTest = OrderDataFactory.getOrdersAll();
 
         System.assertNotEquals(orderListToTest[0].ShipmentCost__c, 20, 'OrderTriggerHelper.getOrdersListWithUpdatedNetAmounts should update a list of Orders.');
     }

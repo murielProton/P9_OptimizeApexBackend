@@ -38,9 +38,9 @@ public with sharing class AccountUpdate_BatchHelper_Test {
        // get contracts List we just inserted
        List<Contract> contractsListForTest = ContractDataFactory.getContractsAll();
        //Create Order for each Contracts
-       Order_TestDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
+       OrderDataFactory.createOrdersListForEachContract(contractsListForTest, pricebookForThisTest);
        // they need to have their Status set to Ordered
-       List<Order> orderList = Order_TestDataFactory.getOrdersAll();
+       List<Order> orderList = OrderDataFactory.getOrdersAll();
 
        //OrderItem links product to Order 
        // for each Orders create an OrderItem
@@ -48,7 +48,7 @@ public with sharing class AccountUpdate_BatchHelper_Test {
        PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
        for(Order orderCurent : orderList){
            //(Order orderForThisTest, Product2 product2ForThisTest, PricebookEntry pricebookEntryForThisTest)
-           orderItemsList.add(OrderItem_TestDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
+           orderItemsList.add(OrderItemDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
        }
        insert orderItemsList;
        // Create a bunch of Accounts That will have no Orders Linked
@@ -57,7 +57,7 @@ public with sharing class AccountUpdate_BatchHelper_Test {
     @isTest
     static void testConvertOrdersListIntoAccountsList(){
         
-        List<Order> orderListForTest = Order_TestDataFactory.getOrdersAll();
+        List<Order> orderListForTest = OrderDataFactory.getOrdersAll();
 
         Test.startTest();
         List<Account> accountList = AccountUpdate_BatchHelper.convertOrdersListIntoAccountsList(orderListForTest);
