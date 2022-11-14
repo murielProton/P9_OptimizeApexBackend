@@ -20,12 +20,12 @@ public with sharing class OrderItemDataFactory_Test {
         //create a Contract for this Account
         ContractDataFactory.createContract(accountForThisTest);
         // Make sure the Pricebook2 entry is active and standard
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
         // Create Product2
         Product2_TestDataFactory.createProduct2(productName);
         // Now make sure the Salesforce process doese create a standard Pricebook2
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
         // Process needs an entry in th Pricebook2 Standard = true, first ;
         PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
@@ -46,7 +46,7 @@ public with sharing class OrderItemDataFactory_Test {
         Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
         Order orderForThisTest = OrderDataFactory.getOrder(accountForThisTest, contractForThisTest);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
 
         Test.startTest();

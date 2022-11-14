@@ -21,14 +21,14 @@ public with sharing class OrderDataFactory_Test {
         //create a Contract for this Account
         ContractDataFactory.createContract(accountForThisTest);
         // Make sure the Pricebook2 entry is active and standard
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
     }
     @isTest
     static void testGetOrder(){
         // get sObjects for Test
         Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
 
         Order orderConstructed = new Order(
             Name = orderName,
@@ -54,7 +54,7 @@ public with sharing class OrderDataFactory_Test {
         // get sObjects for Test
         Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
 
         Order orderConstructed = new Order(
             Name = orderName,
@@ -88,12 +88,12 @@ public with sharing class OrderDataFactory_Test {
         // for the test to succeed the Contract Status should be Activated, but it can't be inserted as such, so we need to update it
         List<Contract> contractsListToUpdate = ContractDataFactory.getContractsAll();
         ContractDataFactory.updateContractsListStatusToActivated(contractsListToUpdate);
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
         // Create Product2
         Product2_TestDataFactory.createProduct2(productName);
         // Now make sure the Salesforce process doese create a standard Pricebook2
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
         // Process needs an entry in th Pricebook2 Standard = true, first ;
         PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
@@ -140,12 +140,12 @@ static void testGetOrdersListOfNewOrdered(){
     // for the test to succeed the Contract Status should be Activated, but it can't be inserted as such, so we need to update it
     List<Contract> contractsListToUpdate = ContractDataFactory.getContractsAll();
     ContractDataFactory.updateContractsListStatusToActivated(contractsListToUpdate);
-    Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+    Pricebook2DataFactory.createPricebook2(pricebook2Name);
     // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
     // Create Product2
     Product2_TestDataFactory.createProduct2(productName);
     // Now make sure the Salesforce process doese create a standard Pricebook2
-    Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+    Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
     Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
     // Process needs an entry in th Pricebook2 Standard = true, first ;
     PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
@@ -195,12 +195,12 @@ static void testGetOrdersListOfNewOrdered(){
         // for the test to succeed the Contract Status should be Activated, but it can't be inserted as such, so we need to update it
         List<Contract> contractsListToUpdate = ContractDataFactory.getContractsAll();
         ContractDataFactory.updateContractsListStatusToActivated(contractsListToUpdate);
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
         // Create Product2
         Product2_TestDataFactory.createProduct2(productName);
         // Now make sure the Salesforce process doese create a standard Pricebook2
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
         // Process needs an entry in th Pricebook2 Standard = true, first ;
         PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
@@ -238,7 +238,7 @@ static void testGetOrdersListOfNewOrdered(){
     @isTest
     static void testConstructOneOrder(){
         // get sObjects for Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
 
@@ -251,7 +251,7 @@ static void testGetOrdersListOfNewOrdered(){
     @isTest
     static void testCreateOrdersList(){
         // get sObjects for Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
 
@@ -265,7 +265,7 @@ static void testGetOrdersListOfNewOrdered(){
     @isTest
     static void testUpdateOrderShipmentCost(){
         // get sObjects for Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Account accountForThisTest = AccountDataFactory.getAccount(accountName);
         Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
 
@@ -315,7 +315,7 @@ static void testGetOrdersListOfNewOrdered(){
         // Create Product2
         Product2_TestDataFactory.createProduct2(productName);
         // Now make sure the Salesforce process doese create a standard Pricebook2
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
         // Process needs an entry in th Pricebook2 Standard = true, first ;
         PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
@@ -342,12 +342,12 @@ static void testGetOrdersListOfNewOrdered(){
         // for the test to succeed the Contract Status should be Activated, but it can't be inserted as such, so we need to update it
         List<Contract> contractsListToUpdate = ContractDataFactory.getContractsAll();
         ContractDataFactory.updateContractsListStatusToActivated(contractsListToUpdate);
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
         // Create Product2
         Product2_TestDataFactory.createProduct2(productName);
         // Now make sure the Salesforce process doese create a standard Pricebook2
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
         // Process needs an entry in th Pricebook2 Standard = true, first ;
         PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
@@ -392,10 +392,10 @@ static void testGetOrdersListOfNewOrdered(){
         //create a Contract for this Account
         ContractDataFactory.createContract(accountForThisTest);
         // Make sure the Pricebook2 entry is active and standard
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
 
         // get sObjects for Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
         //Create Orders
         List<Order> ordersList = new List<Order>();

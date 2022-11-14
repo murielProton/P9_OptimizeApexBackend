@@ -27,10 +27,10 @@ public with sharing class OrderTriggerHelper_Test {
         //create List of Contracts for all Accounts
         ContractDataFactory.createContractsList(accountsListAll);
         // Make sure the Pricebook2 entry is active and standard
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
 
         // get sObjects for Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         List<Contract> contractsListForThisTest = ContractDataFactory.getContractsALL();
         //Create Orders
         List<Order> ordersList = new List<Order>();
@@ -58,10 +58,10 @@ public with sharing class OrderTriggerHelper_Test {
         //create List of Contracts for all Accounts
         ContractDataFactory.createContractsList(accountsListAll);
         // Make sure the Pricebook2 entry is active and standard
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
 
         // get sObjects for Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         List<Contract> contractsListForThisTest = ContractDataFactory.getContractsALL();
         //Create Orders
         List<Order> ordersList = new List<Order>();
@@ -105,10 +105,10 @@ public with sharing class OrderTriggerHelper_Test {
         //create List of Contracts for all Accounts
         ContractDataFactory.createContractsList(accountsListAll);
         // Make sure the Pricebook2 entry is active and standard
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
 
         // get sObjects for Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         List<Contract> contractsListForThisTest = ContractDataFactory.getContractsALL();
 
         //Create Orders
@@ -139,12 +139,12 @@ public with sharing class OrderTriggerHelper_Test {
     // for the test to succeed the Contract Status should be Activated, but it can't be inserted as such, so we need to update it
     List<Contract> contractsListToUpdate = ContractDataFactory.getContractsAll();
     ContractDataFactory.updateContractsListStatusToActivated(contractsListToUpdate);
-    Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+    Pricebook2DataFactory.createPricebook2(pricebook2Name);
     // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
     // Create Product2
     Product2_TestDataFactory.createProduct2(productName);
     // Now make sure the Salesforce process doese create a standard Pricebook2
-    Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+    Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
     Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
     // Process needs an entry in th Pricebook2 Standard = true, first ;
     PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
@@ -188,10 +188,10 @@ public with sharing class OrderTriggerHelper_Test {
         //create List of Contracts for all Accounts
         ContractDataFactory.createContractsList(accountsListAll);
         // Make sure the Pricebook2 entry is active and standard
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
 
         // get sObjects for Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         List<Contract> contractsListForThisTest = ContractDataFactory.getContractsALL();
 
         //Create Orders

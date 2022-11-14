@@ -19,14 +19,14 @@ public with sharing class MyTeamOrdersController_Test {
         ContractDataFactory.createContract(accountForThisTest);
         List<Contract> contractsListToUpdate = ContractDataFactory.getContractsAll();
         ContractDataFactory.updateContractsListStatusToActivated(contractsListToUpdate);
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
         // Make sure the Pricebook2 entry is active and standard
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
 
        // Create Product2
        Product2_TestDataFactory.createProduct2(productName);
        // Now make sure the Salesforce process doese create a standard Pricebook2
-       Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+       Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
        Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
        // Process needs an entry in th Pricebook2 Standard = true, first ;
        PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);

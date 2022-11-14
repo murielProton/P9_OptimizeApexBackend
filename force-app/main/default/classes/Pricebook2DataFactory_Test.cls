@@ -2,11 +2,11 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-08-2022
+ * @last modified on  : 11-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
-public with sharing class Pricebook2_TestDataFactory_Test {
+public with sharing class Pricebook2DataFactory_Test {
     private static String pricebook2Name = 'Yukako\'s Price Book';
     @isTest
     static void testGetPriceBook2ByName(){
@@ -18,17 +18,17 @@ public with sharing class Pricebook2_TestDataFactory_Test {
         insert pricebook2ToInsertForTest;
 
         Test.startTest();
-        PriceBook2 pricebook2ToTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        PriceBook2 pricebook2ToTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Test.stopTest();
 
-        System.assertEquals(pricebook2ToTest.IsActive, true, 'Pricebook2_TestDataFactory.getPriceBook2ByName should return one PriceBook2.');
+        System.assertEquals(pricebook2ToTest.IsActive, true, 'Pricebook2DataFactory.getPriceBook2ByName should return one PriceBook2.');
     }
 
 
     @isTest
     static void testCreatePricebook2(){
         Test.startTest();
-        Pricebook2_TestDataFactory.CreatePricebook2(pricebook2Name); 
+        Pricebook2DataFactory.CreatePricebook2(pricebook2Name); 
         Test.stopTest();
 
         Pricebook2 pricebook2ToTest = [SELECT Id,
@@ -39,7 +39,7 @@ public with sharing class Pricebook2_TestDataFactory_Test {
                                 WHERE Name = :pricebook2Name
                                 LIMIT 1];
 
-        System.assertEquals(pricebook2ToTest.IsActive, true, 'Pricebook2_TestDataFactory.CreatePricebook2 should create one PriceBook2.');
+        System.assertEquals(pricebook2ToTest.IsActive, true, 'Pricebook2DataFactory.CreatePricebook2 should create one PriceBook2.');
 
     }
 }

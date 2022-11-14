@@ -33,12 +33,12 @@ public with sharing class AccountUpdate_Queueable_Test {
         // Link these accounts to some products = for each accounts create a contract + create pricebook custom + create pricebook standard + create products + create price book entry + create order
         // for each accounts create a contract 
         ContractDataFactory.createContractsList(accountsListToTest);
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
         // Create Product2
         Product2_TestDataFactory.createProduct2(productName);
         // Now make sure the Salesforce process doese create a standard Pricebook2
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
         // Process needs an entry in th Pricebook2 Standard = true, first ;
         PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);

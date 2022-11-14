@@ -20,19 +20,19 @@ public with sharing class PricebookEntry_TestDataFactory_Test {
         //create a Contract for this Account
         ContractDataFactory.createContract(accountForThisTest);
         // Make sure the Pricebook2 entry is active and standard
-        Pricebook2_TestDataFactory.createPricebook2(pricebook2Name);
+        Pricebook2DataFactory.createPricebook2(pricebook2Name);
         // to create a Pricebook2 field Standard = true the price book needs to be linked to a Product2
         // Create Product2
         Product2_TestDataFactory.createProduct2(productName);
         // Now make sure the Salesforce process doese create a standard Pricebook2
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
         
     }
     @isTest
     static void testGetPricebookEntry(){
         //gest sObjects for the Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
         PricebookEntry priceBookEntryToInsert1 = new PricebookEntry(
             Pricebook2Id = Test.getStandardPricebookId(),
@@ -58,7 +58,7 @@ public with sharing class PricebookEntry_TestDataFactory_Test {
     @isTest
     static void testGetPricebookEntryAll(){
         //gest sObjects for the Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
         PricebookEntry priceBookEntryToInsert1 = new PricebookEntry(
             Pricebook2Id = Test.getStandardPricebookId(),
@@ -85,7 +85,7 @@ public with sharing class PricebookEntry_TestDataFactory_Test {
     @isTest
     static void testCreatePriceBookEntryForPricebookStandard(){
         //gest sObjects for the Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
 
         Test.startTest();
@@ -109,7 +109,7 @@ public with sharing class PricebookEntry_TestDataFactory_Test {
     @isTest
     static void testCreatePricebookEntry(){
         //gest sObjects for the Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
 
         //before inserting a custom Pricebook Entry, we need a Sandard Pricebook Entry
@@ -143,7 +143,7 @@ public with sharing class PricebookEntry_TestDataFactory_Test {
     @isTest
     static void testUpdatePriceBookEntryList(){
         //gest sObjects for the Test
-        Pricebook2 pricebookForThisTest = Pricebook2_TestDataFactory.getPriceBook2ByName(pricebook2Name);
+        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
         Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
         PricebookEntry priceBookEntryToInsert1 = new PricebookEntry(
             Pricebook2Id = Test.getStandardPricebookId(),
