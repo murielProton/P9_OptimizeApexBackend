@@ -2,12 +2,12 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-14-2022
+ * @last modified on  : 11-21-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class OrderDataFactory {
     public static Order getOrder(Account accountForThisTest, Contract contractForThisTest){
-        Order orderToReturn = [SELECT Id, AccountId, TotalAmount, ShipmentCost__c
+        Order orderToReturn = [SELECT Id, AccountId, TotalAmount, ShipmentCost__c, NetAmount__c
                                FROM Order
                                WHERE AccountId = :accountForThisTest.Id AND ContractId = :contractForThisTest.Id
                                LIMIT 1];
@@ -18,6 +18,7 @@ public with sharing class OrderDataFactory {
                                         AccountId, 
                                         TotalAmount, 
                                         ShipmentCost__c,
+                                        NetAmount__c,
                                         Status
                                   FROM Order];
         return orderList;
@@ -27,6 +28,7 @@ public with sharing class OrderDataFactory {
                                         AccountId, 
                                         TotalAmount, 
                                         ShipmentCost__c,
+                                        NetAmount__c,
                                         Status
                                   FROM Order
                                   WHERE Status ='Ordered'];
@@ -39,7 +41,7 @@ public with sharing class OrderDataFactory {
     public static List<Order> getOrdersWheregetPriceBook2ListWherePricebookEntryLastModifiedDate(){
         DateTime dateTimeLastWeek = DateTime.now().addDays(-7);
 
-        List<Order> ordersListtoReturn=[SELECT Id, Pricebook2Id, AccountId, TotalAmount FROM Order WHERE Pricebook2Id IN (SELECT Pricebook2Id FROM PricebookEntry WHERE LastModifiedDate > :dateTimeLastWeek)];
+        List<Order> ordersListtoReturn=[SELECT Id, Pricebook2Id, AccountId, NetAmount__c, TotalAmount FROM Order WHERE Pricebook2Id IN (SELECT Pricebook2Id FROM PricebookEntry WHERE LastModifiedDate > :dateTimeLastWeek)];
 
         return ordersListtoReturn;
     }
@@ -113,5 +115,37 @@ public with sharing class OrderDataFactory {
                 ordersSet.add(orderCurrent);    
             }
         return ordersSet;
+    }
+
+    // filter Sets
+    public static Set<Order> filterOrderSetForStatusOrdered(Set<Order> orderSetNew){
+        Set<Order> orderSetToReturn = new Set<Order>();
+        for(Order orderCurentNew : orderSetNew){
+            if(orderCurentNew.Status == 'Ordered'){
+                orderSetToReturn.add(orderCurentNew);
+            }
+            continue;
+        }
+        return orderSetToReturn;
+    }
+    public static Set<Order> filterOrderSetForStatusNotOrdered(Set<Order> orderSetOld){
+        Set<Order> orderSetToReturn = new Set<Order>();
+        for(Order orderCurentOld : orderSetOld){
+            if(orderCurentOld.Status != 'Ordered'){
+                orderSetToReturn.add(orderCurentOld);
+            }
+            continue;
+        }
+        return orderSetToReturn;
+    }
+    public static List<Order> filterOrderSetForStatusJustChanged(Set<Order> orderSetOld, Set<Order> orderSetNew){
+        List<Order> orderSetToReturn = new List<Order>();
+        for(Order orderCurentNew : orderSetNew){
+            if(orderSetOld.contains(orderCurentNew) && !orderSetToReturn.contains(orderCurentNew)){
+                orderSetToReturn.add(orderCurentNew);
+            }
+            continue;
+        }
+        return orderSetToReturn;
     }
 }

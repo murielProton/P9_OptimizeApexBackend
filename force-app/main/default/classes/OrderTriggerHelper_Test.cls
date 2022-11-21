@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-14-2022
+ * @last modified on  : 11-21-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 
@@ -52,6 +52,7 @@ public with sharing class OrderTriggerHelper_Test {
     @isTest
     public static void testGetOrdersListWithUpdatedNetAmounts(){
         String pricebook2Name ='accountName-1\'s priceboock';
+        String productName = 'Tape mesurer';
         List<Account> accountsListAll = AccountDataFactory.getAccountListAll();
 
 
@@ -59,10 +60,18 @@ public with sharing class OrderTriggerHelper_Test {
         ContractDataFactory.createContractsList(accountsListAll);
         // Make sure the Pricebook2 entry is active and standard
         Pricebook2DataFactory.createPricebook2(pricebook2Name);
+        // Create Product2
+        Product2_TestDataFactory.createProduct2(productName);
 
         // get sObjects for Test
         Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
+        Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
+        // Process needs an entry in th Pricebook2 Standard = true, first ;
+        PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
+        // then PricebookEntry for normal Pricebook2 can be inserted.
+        PricebookEntry_TestDataFactory.createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
         List<Contract> contractsListForThisTest = ContractDataFactory.getContractsALL();
+        ContractDataFactory.updateContractsListStatusToActivated(contractsListForThisTest);
         //Create Orders
         List<Order> ordersList = new List<Order>();
         for(Contract contractCurrent : contractsListForThisTest){
@@ -86,8 +95,23 @@ public with sharing class OrderTriggerHelper_Test {
         //Insert the Order List and get them
         ordersList.add(orderShipmentCostNull);   
         insert ordersList;
-        List<Order> ordersAllList = OrderDataFactory.getOrdersAll();
+        List<Order> ordersAllListToUpdate = OrderDataFactory.getOrdersAll();
 
+        //OrderItem links product to Order 
+        // for each Orders create an OrderItem
+        List<OrderItem> orderItemsList = new List<OrderItem>();
+        PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
+        for(Order orderCurent : ordersAllListToUpdate){
+            //(Order orderForThisTest, Product2 product2ForThisTest, PricebookEntry pricebookEntryForThisTest)
+            orderItemsList.add(OrderItem_TestDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
+        }
+        insert orderItemsList;
+
+        List<Order> orderListForTest = OrderDataFactory.getOrdersAll();
+
+        // Change the Orders -> Order.Status to Ordered
+        OrderDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
+        List<Order> ordersAllList = OrderDataFactory.getOrdersAll();
         Test.startTest();
         List<Order> orderListToTest = OrderTriggerHelper.getOrdersListWithUpdatedNetAmounts(ordersAllList);
         Test.stopTest();
@@ -204,7 +228,7 @@ public with sharing class OrderTriggerHelper_Test {
         List<Order> orderListNew = OrderTriggerHelper.getOrdersListWithUpdatedNetAmounts(orderListOld);
 
         Test.startTest();
-        OrderTriggerHelper.updateListOfOrdersNetAmounts(orderListNew, orderListOld);
+        OrderTriggerHelper.changeListOfOrdersNetAmountsForTrigger(orderListNew, orderListOld);
         Test.stopTest();
 
         List<Order> orderListToTest = OrderDataFactory.getOrdersAll();

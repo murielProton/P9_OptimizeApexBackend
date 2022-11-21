@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-14-2022
+ * @last modified on  : 11-21-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class OrderTriggerHelper{
@@ -31,17 +31,20 @@ public with sharing class OrderTriggerHelper{
     public static List<Order> getOrdersListWithUpdatedNetAmounts(List<Order> orderListNew){
         List<Order> ordersListToUpdate = new List<Order>();
         for(Order orderCurrent : orderListNew){
-            if(orderCurrent.ShipmentCost__c == Null){
-                orderCurrent.ShipmentCost__c = 0;
-            }
-            if(orderCurrent.TotalAmount == Null){
-                // field NetAmount__c not wrightable
-                orderCurrent.NetAmount__c = 0 - orderCurrent.ShipmentCost__c;
+            if(orderCurrent.Status == 'Ordered'){
+                if(orderCurrent.ShipmentCost__c == Null){
+                    orderCurrent.ShipmentCost__c = 0;
+                }
+                if(orderCurrent.TotalAmount == Null){
+                    // field NetAmount__c not wrightable
+                    orderCurrent.NetAmount__c = 0 - orderCurrent.ShipmentCost__c;
+                    ordersListToUpdate.add(orderCurrent);
+                    continue;
+                }
+                orderCurrent.NetAmount__c = orderCurrent.TotalAmount - orderCurrent.ShipmentCost__c;
                 ordersListToUpdate.add(orderCurrent);
-                continue;
             }
-            orderCurrent.NetAmount__c = orderCurrent.TotalAmount - orderCurrent.ShipmentCost__c;
-            ordersListToUpdate.add(orderCurrent);
+            continue;
         }
     return ordersListToUpdate;
     }
@@ -59,9 +62,12 @@ public with sharing class OrderTriggerHelper{
     // Used in Trigger OrderTrigger after Update
     public static void updateListOfAccountsRevenueWhenOrderStatusOrdered(List<Order> orderListNew, List<Order> orderListOld){
         // get the right list to update
-        Set<Order> orderSetNew = OrderDataFactory.convertOrderListIntoSet(orderListNew);
-        Set<Order> orderSetOld = OrderDataFactory.convertOrderListIntoSet(orderListOld);
-        List<Order> orderList = OrderDataFactory.getOrdersListOfNewOrdered(orderSetNew, orderSetOld);
+        Set<Order> orderSetNewToFilter = OrderDataFactory.convertOrderListIntoSet(orderListNew);
+        Set<Order> orderSetOldToFilter = OrderDataFactory.convertOrderListIntoSet(orderListOld);
+        Set<Order> orderSetNew = OrderDataFactory.filterOrderSetForStatusOrdered(orderSetNewToFilter);
+        Set<Order> orderSetOld = OrderDataFactory.filterOrderSetForStatusNotOrdered(orderSetOldToFilter);
+        List<Order> orderList = OrderDataFactory.filterOrderSetForStatusJustChanged(orderSetOld, orderSetNew);
+        // LIMIT EXECEPTION CPU TIME LIMIT EXEEDED List<Order> orderList = OrderDataFactory.getOrdersListOfNewOrdered(orderSetNew, orderSetOld);
         List<Account> accountsList = AccountUpdate_BatchHelper.convertOrdersListIntoAccountsList(orderList);
 
         //update Account Revenue
@@ -72,7 +78,7 @@ public with sharing class OrderTriggerHelper{
         update accountsListToUpdate;
     }
     // methode used in Trigger OrderTrigger before update do not return because used in Before Update Trigger
-    public static void updateListOfOrdersNetAmounts(List<Order> orderListNew, List<Order> orderListOld){
+    public static void changeListOfOrdersNetAmountsForTrigger(List<Order> orderListNew, List<Order> orderListOld){
         List<Order> ordersListToUpdate = getOrdersListWithUpdatedNetAmounts(orderListNew);
     }
     
