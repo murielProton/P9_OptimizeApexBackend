@@ -7,7 +7,6 @@
 **/
 public with sharing class OrderTriggerHelper{
 
-
     public static List<Account> getAccountsListToUpdate(Set<Order> orderSet, Set<Account> accountSet){
         List<Account> accountsListToUpdate = new List<Account>();
         //No other way than to put a for loop within a for loop

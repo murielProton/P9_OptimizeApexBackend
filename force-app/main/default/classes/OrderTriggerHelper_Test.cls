@@ -21,8 +21,11 @@ public with sharing class OrderTriggerHelper_Test {
     @isTest
     static void testGetAccountsListToUpdate(){
         String pricebook2Name ='accountName-1\'s priceboock';
-        List<Account> accountsListAll = AccountDataFactory.getAccountListAll();
+        
+        //To cover each line of Code
+        AccountDataFactory.createAccount('Not linked with an order.');
 
+        List<Account> accountsListAll = AccountDataFactory.getAccountListAll();
 
         //create List of Contracts for all Accounts
         ContractDataFactory.createContractsList(accountsListAll);
@@ -47,7 +50,7 @@ public with sharing class OrderTriggerHelper_Test {
         List<Account> accountListToTest = OrderTriggerHelper.getAccountsListToUpdate(orderSetNew, accountsSetAll);
         Test.stopTest();
 
-        System.assertEquals(accountListToTest.size(), 5, 'OrderTriggerHelper.getAccountsListToUpdate should return a list of 5.');
+        System.assertEquals(accountListToTest.size(), 6, 'OrderTriggerHelper.getAccountsListToUpdate should return a list of 6.');
     }
     @isTest
     public static void testGetOrdersListWithUpdatedNetAmounts(){
@@ -61,15 +64,15 @@ public with sharing class OrderTriggerHelper_Test {
         // Make sure the Pricebook2 entry is active and standard
         Pricebook2DataFactory.createPricebook2(pricebook2Name);
         // Create Product2
-        Product2_TestDataFactory.createProduct2(productName);
+        Product2DataFactory.createProduct2(productName);
 
         // get sObjects for Test
         Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
-        Product2 product2ForThisTest = Product2_TestDataFactory.getProduct2(productName);
+        Product2 product2ForThisTest = Product2DataFactory.getProduct2(productName);
         // Process needs an entry in th Pricebook2 Standard = true, first ;
-        PricebookEntry_TestDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
+        PricebookEntryDataFactory.createPriceBookEntryForPricebookStandard(product2ForThisTest);
         // then PricebookEntry for normal Pricebook2 can be inserted.
-        PricebookEntry_TestDataFactory.createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
+        PricebookEntryDataFactory.createPriceBookEntry(pricebookForThisTest, product2ForThisTest);
         List<Contract> contractsListForThisTest = ContractDataFactory.getContractsALL();
         ContractDataFactory.updateContractsListStatusToActivated(contractsListForThisTest);
         //Create Orders
@@ -100,10 +103,10 @@ public with sharing class OrderTriggerHelper_Test {
         //OrderItem links product to Order 
         // for each Orders create an OrderItem
         List<OrderItem> orderItemsList = new List<OrderItem>();
-        PricebookEntry pricebookEntryForThisTest = PricebookEntry_TestDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
+        PricebookEntry pricebookEntryForThisTest = PricebookEntryDataFactory.getPricebookEntry(pricebookForThisTest, product2ForThisTest);
         for(Order orderCurent : ordersAllListToUpdate){
             //(Order orderForThisTest, Product2 product2ForThisTest, PricebookEntry pricebookEntryForThisTest)
-            orderItemsList.add(OrderItem_TestDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
+            orderItemsList.add(OrderItemDataFactory.constructOneOrderItem(orderCurent, product2ForThisTest, pricebookEntryForThisTest));
         }
         insert orderItemsList;
 

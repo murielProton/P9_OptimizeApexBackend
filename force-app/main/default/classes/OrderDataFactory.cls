@@ -132,12 +132,15 @@ public with sharing class OrderDataFactory {
         return orderSetToReturn;
     }
     public static List<Order> filterOrderSetForStatusJustChanged(Set<Order> orderSetOld, Set<Order> orderSetNew){
+        Set<String> idOrderSet =new Set<String>();
+        for(Order curent : orderSetOld) {
+            idOrderSet.add(curent.ID);
+        }
         List<Order> orderSetToReturn = new List<Order>();
         for(Order orderCurentNew : orderSetNew){
-            if(orderSetOld.contains(orderCurentNew) && !orderSetToReturn.contains(orderCurentNew)){
+            if(idOrderSet.contains(orderCurentNew.ID) && !orderSetToReturn.contains(orderCurentNew)){
                 orderSetToReturn.add(orderCurentNew);
             }
-            continue;
         }
         return orderSetToReturn;
     }
