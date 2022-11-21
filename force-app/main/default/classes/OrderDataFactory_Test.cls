@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-14-2022
+ * @last modified on  : 11-21-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @isTest
@@ -248,20 +248,7 @@ static void testGetOrdersListOfNewOrdered(){
 
         System.assertEquals(orderForThisTest.Status, 'Draft', 'OrderDataFactory.constructOneOrder should create one order.');
     }
-    @isTest
-    static void testCreateOrdersList(){
-        // get sObjects for Test
-        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
-        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
-        Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
 
-        Test.startTest();
-        OrderDataFactory.createOrdersList(100, accountForThisTest.Id, contractForThisTest.Id , pricebookForThisTest);
-        Test.stopTest();
-
-        List<Order> ordersListToTest = OrderDataFactory.getOrdersAll();
-        System.assertEquals(ordersListToTest.size(), 100, 'OrderDataFactory.createOrdersList should create 100 records of Orders.');
-    }
     @isTest
     static void testUpdateOrderShipmentCost(){
         // get sObjects for Test

@@ -121,37 +121,7 @@ public with sharing class OrderTriggerHelper_Test {
         System.assertEquals(orderListToTest.size(), 6, 'OrderTriggerHelper.getOrdersListWithUpdatedNetAmounts should return a list of 5.');
 
     }
-    @isTest
-    public static void testUpdateListOfAccountsRevenue(){
-        String pricebook2Name ='accountName-1\'s priceboock';
-        List<Account> accountsListAll = AccountDataFactory.getAccountListAll();
-
-        //create List of Contracts for all Accounts
-        ContractDataFactory.createContractsList(accountsListAll);
-        // Make sure the Pricebook2 entry is active and standard
-        Pricebook2DataFactory.createPricebook2(pricebook2Name);
-
-        // get sObjects for Test
-        Pricebook2 pricebookForThisTest = Pricebook2DataFactory.getPriceBook2ByName(pricebook2Name);
-        List<Contract> contractsListForThisTest = ContractDataFactory.getContractsALL();
-
-        //Create Orders
-        List<Order> orderListOld = new List<Order>();
-        for(Contract contractCurrent : contractsListForThisTest){
-            Order orderForThisTest = OrderDataFactory.constructOneOrder(orderName, contractCurrent.AccountId, contractCurrent.Id, pricebookForThisTest);
-            orderListOld.add(orderForThisTest);
-        }
-        insert(orderListOld);
-        List<Order> orderListNew = OrderTriggerHelper.getOrdersListWithUpdatedNetAmounts(orderListOld);
-
-        Test.startTest();
-        OrderTriggerHelper.updateListOfAccountsRevenue(orderListNew, orderListOld);
-        Test.stopTest();
-
-        List<Order> orderListToTest = OrderDataFactory.getOrdersAll();
-
-        System.assertNotEquals(orderListToTest[0].TotalAmount, Null, 'OrderTriggerHelper.updateListOfAccountsRevenue should update a list of Orders.');
-    }
+    
     @isTest
     public static void testUpdateListOfAccountsRevenueWhenOrderStatusOrdered(){
 

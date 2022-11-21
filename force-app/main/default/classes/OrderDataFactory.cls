@@ -80,14 +80,7 @@ public with sharing class OrderDataFactory {
         );
         return orderConstructed;
     }
-    public static void createOrdersList(Integer numberOfOrdersToCreate, Id accountID, Id contractID , PriceBook2 pricebookForThisTest){
-        List<Order> ordersList = new List<Order>();
-        String orderName = 'Order-';
-        for(Integer i=0 ; i<numberOfOrdersToCreate ; i++){
-            ordersList.add(constructOneOrder(orderName+i, accountID, contractID , pricebookForThisTest));
-        }
-        insert ordersList;
-    } 
+
     public static void createOrdersListForEachContract(List<Contract> contractListToCreateOrders, PriceBook2 pricebookForThisTest){
         List<Order> ordersList = new List<Order>();
         String orderName = 'Order-';

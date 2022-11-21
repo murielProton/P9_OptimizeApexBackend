@@ -50,16 +50,6 @@ public with sharing class OrderTriggerHelper{
     }
 
     // Used in Trigger OrderTrigger after Update
-    public static void updateListOfAccountsRevenue(List<Order> orderListNew, List<Order> orderListOld){
-        
-        List<Account> accountsListAll = AccountDataFactory.getAccountListAll();
-        Set<Account> accountsSetAll = AccountDataFactory.convertAccountListIntoSet(accountsListAll);
-        Set<Order> orderSetNew = OrderDataFactory.convertOrderListIntoSet(orderListNew);
-        List<Account> accountsListToUpdate = getAccountsListToUpdate(orderSetNew, accountsSetAll);
-
-        update accountsListToUpdate;
-    }
-    // Used in Trigger OrderTrigger after Update
     public static void updateListOfAccountsRevenueWhenOrderStatusOrdered(List<Order> orderListNew, List<Order> orderListOld){
         // get the right list to update
         Set<Order> orderSetNewToFilter = OrderDataFactory.convertOrderListIntoSet(orderListNew);
