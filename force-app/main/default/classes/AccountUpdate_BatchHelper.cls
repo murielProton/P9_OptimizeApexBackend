@@ -2,10 +2,11 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-14-2022
+ * @last modified on  : 11-21-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class AccountUpdate_BatchHelper {
+    /*
     public static List<Account> convertOrdersListIntoAccountsList(List<Order> ordersList){
         List<Account> accountsListToReturn = new List<Account>();
         Set<Order> ordersSet = OrderDataFactory.convertOrderListIntoSet(ordersList);
@@ -22,6 +23,29 @@ public with sharing class AccountUpdate_BatchHelper {
                     }
                     continue;
                 }
+            }
+        }
+        return accountsListToReturn;
+    }*/
+    public static List<Account> convertOrdersListIntoAccountsList(List<Order> ordersList){
+        List<Account> accountsListToReturn = new List<Account>();
+        Set<Order> ordersSet = OrderDataFactory.convertOrderListIntoSet(ordersList);
+        
+        List<Account> accountsListToFilter = AccountDataFactory.getAccountsAll();
+        Set<Account> accountsSet = AccountDataFactory.convertAccountListIntoSet(accountsListToFilter);
+
+        //convert Order Set into Account ID Set
+        Set<String> accountIDSetContainedInOrderSet = new Set<String>();
+        for(Order orderCurent : ordersSet){
+            accountIDSetContainedInOrderSet.add(orderCurent.AccountId);
+        }
+
+        for(Account accountCurent : accountsSet){
+            if(accountIDSetContainedInOrderSet.contains(accountCurent.Id)){
+                if(!accountsListToReturn.contains(accountCurent)){
+                    accountsListToReturn.add(accountCurent);
+                }
+                continue;
             }
         }
         return accountsListToReturn;

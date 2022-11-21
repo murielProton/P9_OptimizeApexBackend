@@ -34,14 +34,12 @@ public with sharing class OrderTriggerHelper{
                 if(orderCurrent.ShipmentCost__c == Null){
                     orderCurrent.ShipmentCost__c = 0;
                 }
-                if(orderCurrent.TotalAmount == Null){
-                    // field NetAmount__c not wrightable
-                    orderCurrent.NetAmount__c = 0 - orderCurrent.ShipmentCost__c;
+                try{
+                    orderCurrent.NetAmount__c = orderCurrent.TotalAmount - orderCurrent.ShipmentCost__c;
                     ordersListToUpdate.add(orderCurrent);
-                    continue;
+                }catch (Exception orderTotalAmount){
+                    System.debug('Order.TotalAmount should not be Null.');
                 }
-                orderCurrent.NetAmount__c = orderCurrent.TotalAmount - orderCurrent.ShipmentCost__c;
-                ordersListToUpdate.add(orderCurrent);
             }
             continue;
         }

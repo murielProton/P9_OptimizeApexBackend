@@ -127,7 +127,7 @@ public with sharing class OrderTrigger_Test {
     @isTest
     static void testUpdateTrigger(){
         //init Test
-        Account accountForThisTest = AccountDataFactory.getAccount(accountName);
+        Account accountForThisTest = AccountDataFactory.getAccount('accountName-0');
         Contract contractForThisTest = ContractDataFactory.getContract(accountForThisTest.Id);
         //get the Order's ShipmentCost__c beforre test
         Order orderForTheTest = OrderDataFactory.getOrder(accountForThisTest, contractForThisTest);

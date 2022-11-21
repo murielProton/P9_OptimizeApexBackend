@@ -173,6 +173,9 @@ static void testGetOrdersListOfNewOrdered(){
     List<Order> orderListForTest = OrderDataFactory.getOrdersAll();        
     OrderDataFactory.updateOrdersListStatusToOrdered(orderListForTest);
 
+    // To pass through each line
+    Order orderNotOrdered = OrderDataFactory.constructOneOrder('NOT ordered', accountForThisTest.Id, contractsListForTest[0].Id , pricebookForThisTest);
+    insert orderNotOrdered;
     // setup for test
     Set<Order> orderSetOld = OrderDataFactory.convertOrderListIntoSet(orderList);
     Set<Order> orderSetNew = OrderDataFactory.convertOrderListIntoSet(OrderDataFactory.getOrdersAll());
