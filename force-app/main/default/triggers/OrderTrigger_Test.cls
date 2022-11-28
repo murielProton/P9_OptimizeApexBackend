@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Muriel Proton
  * @group             : 
- * @last modified on  : 11-21-2022
+ * @last modified on  : 11-28-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 /* Some informations on the correct way to juggle between Product2, Pricebook2 and PricebookEntry
@@ -60,6 +60,7 @@ public with sharing class OrderTrigger_Test {
         Contract contractForTest = ContractDataFactory.getContract(accountForTest.Id);
         //Create Orders
         List<Order> listOfOrdersToInsert = new List<Order>();
+        // if you change the numbers below you must change all the sytem asserts
         for(Integer i = 0 ; i < 201 ; i++){
             Order orderToAdd = OrderDataFactory.constructOneOrder('String orderName', accountForTest.Id, contractForTest.Id , pricebookForThisTest);
             listOfOrdersToInsert.add(orderToAdd);
@@ -100,7 +101,24 @@ public with sharing class OrderTrigger_Test {
         // get Order for the test
         Order orderForTest = [SELECT Id, NetAmount__c, TotalAmount, Name, ShipmentCost__c FROM ORDER WHERE Name = 'forTest'];
  
-        System.assertEquals(orderForTest.NetAmount__c, 5751.00, 'before updating Order, the field NetAmount__c on one of the records of Order should Change equal 5750.00.');
+        System.assertEquals(orderForTest.NetAmount__c, 5751.00, 'before updating Order, the field NetAmount__c on one of the records of Order should  equal 5750.00.');
+    }
+    @isTest
+    static void testUpdateTriggerAccountRevenue(){
+        List<Order> orderListBeforeTrigger = OrderDataFactory.getOrdersStatusOrdered();
+
+        // get order to update to trigger the TRIGGER
+        Order orderToUpdate = orderListBeforeTrigger[0];
+        orderToUpdate.Name = 'forTest';
+        orderToUpdate.ShipmentCost__c = 9;
+
+        Test.startTest();
+        update orderToUpdate;
+        Test.stopTest();
+        // get Account for the test
+        Account accoutForTest = [SELECT Id, AccountRevenue__c, Name FROM Account WHERE Name = 'accountName-0'];
+ 
+        System.assertEquals(accoutForTest.AccountRevenue__c, 1157760.00, 'After updating Order, the field AccountRevenue__c on one of the records of Account should equal 1157760.00.');
     }
 
     @isTest
